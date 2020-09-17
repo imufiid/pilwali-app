@@ -1,6 +1,10 @@
 # PILWALI
 
 <p align="center">
+  <img src="https://jepara.go.id/wp-content/uploads/2019/04/tps.jpeg"/>
+</p>
+
+<p align="center">
   <a href="LICENSE"><img alt="License" src="https://img.shields.io/badge/License-Apache%202.0-blue.svg"></a>
 <!--   <a href="https://www.linkedin.com/in/imam-mufiid-2870141b2/"><img alt="LinkedIn"></a> -->
   <a href="https://github.com/imufiid"><img alt="Github" src="https://img.shields.io/github/followers/imufiid?label=follow&style=social"></a>
