@@ -1,4 +1,4 @@
-# pilwali
+# PILWALI
 Aplikasi PILWALI Kota Blitar 2020
 
 ---
