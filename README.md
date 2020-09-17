@@ -1,7 +1,7 @@
 # PILWALI
 
 <p align="center">
-  <img src="https://jepara.go.id/wp-content/uploads/2019/04/tps.jpeg"/>
+  <img src="https://media.suara.com/pictures/653x366/2020/06/19/72258-ilustrasi-pilkada-2020.jpg"/>
 </p>
 
 <p align="center">
