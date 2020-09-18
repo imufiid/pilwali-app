@@ -5,17 +5,14 @@ import android.content.Intent
 import android.util.Log
 
 const val PARENT_PACKAGE = "com.mufiid"
-const val PACKAGE_LOGIN = "$PARENT_PACKAGE.login"
-const val PACKAGE_REGISTER = "$PARENT_PACKAGE.register"
+const val PACKAGE_BERANDA = "$PARENT_PACKAGE.beranda"
 const val BUNDLE_KEY = "bundlekey"
 
-fun openLoginActivity(context: Context, text: String) {
+fun openBerandaActivity(context: Context) {
     try {
         // create intent
         val intent =
-            Intent(context, Class.forName("$PACKAGE_LOGIN.LoginActivity"))
-        // add data to activity
-        intent.putExtra(BUNDLE_KEY, text)
+            Intent(context, Class.forName("$PACKAGE_BERANDA.BerandaActivity"))
         context.startActivity(intent)
     } catch (e: Exception) {
         Log.d("navigation", "Activity not Found!")
