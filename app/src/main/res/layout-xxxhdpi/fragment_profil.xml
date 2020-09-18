@@ -7,20 +7,21 @@
     android:orientation="vertical"
     tools:context=".fragments.ProfilFragment">
 
+    <!-- TODO: Update blank fragment layout -->
     <LinearLayout
         android:id="@+id/profile"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_marginHorizontal="20dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginHorizontal="24dp"
+        android:layout_marginTop="12dp"
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true">
 
         <ImageView
-            android:layout_width="100dp"
-            android:layout_height="100dp"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
             android:src="@drawable/ic_account"/>
 
         <LinearLayout
@@ -35,11 +36,12 @@
                 android:text="Nama Lengkap"
                 android:textStyle="bold"
                 android:textColor="@color/colorPrimaryTextIcon"
-                android:textSize="24sp"/>
+                android:textSize="18sp"/>
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginTop="4dp"
+                android:textSize="14sp"
                 android:text="TPS 1 - Kel. Sukorejo" />
 
         </LinearLayout>
@@ -69,7 +71,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="Edit Akun"
-                android:textSize="16sp"
+                android:textSize="18sp"
                 android:layout_gravity="center_vertical"
                 android:layout_marginStart="18dp"
                 android:textColor="@color/colorPrimaryTextIcon"/>
@@ -100,7 +102,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="Keluar"
-                android:textSize="16sp"
+                android:textSize="18sp"
                 android:layout_gravity="center_vertical"
                 android:layout_marginStart="18dp"
                 android:textColor="@color/colorPrimaryTextIcon"/>
@@ -112,6 +114,14 @@
             android:background="@color/colorDivider"/>
 
     </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="App Version 1.0"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="8dp"
+        android:gravity="center_horizontal"/>
 
 
 </RelativeLayout>
