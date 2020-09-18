@@ -21,7 +21,6 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentStart="true"
         android:background="?android:windowBackground"
-        android:elevation="10dp"
         app:labelVisibilityMode="labeled"
         android:clickable="true"
         app:menu="@menu/menu_bottom_navigation"
