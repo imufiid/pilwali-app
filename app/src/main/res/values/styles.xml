@@ -12,5 +12,13 @@
         <item name="android:textStyle">bold</item>
         <item name="android:textColor">@color/colorPrimary</item>
     </style>
+    <style name="BottomNavigation.InActiveItemTextAppearance" parent="TextAppearance.AppCompat">
+        <item name="android:textSize">14sp</item>
+    </style>
+    <style name="BottomNavigation.ActiveItemTextAppearance.hdpi" parent="TextAppearance.AppCompat">
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">@color/colorPrimary</item>
+    </style>
 
 </resources>
