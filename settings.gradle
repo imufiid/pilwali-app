@@ -1,3 +1,2 @@
-include ':beranda'
 include ':app'
 rootProject.name = "pilwali2020"
