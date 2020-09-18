@@ -34,7 +34,7 @@
                 <androidx.cardview.widget.CardView
                     android:id="@+id/card_header"
                     android:layout_width="match_parent"
-                    android:layout_height="200dp"
+                    android:layout_height="150dp"
                     app:cardCornerRadius="10dp"
                     android:layout_marginHorizontal="16dp">
                     <ImageView
@@ -115,8 +115,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Update Jumlah Pemilih"
-                        android:textColor="@color/colorPrimaryDark"
-                        android:textSize="20sp"
+                        android:textColor="@color/colorPrimaryTextIcon"
+                        android:textSize="16sp"
                         android:textStyle="bold" />
                     <TextView
                         android:id="@+id/subTitle"
@@ -158,8 +158,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Menu Utama"
-                    android:textColor="@color/colorPrimaryDark"
-                    android:textSize="20sp"
+                    android:textColor="@color/colorPrimaryTextIcon"
+                    android:textSize="16sp"
                     android:textStyle="bold" />
 
                 <LinearLayout
