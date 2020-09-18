@@ -16,7 +16,8 @@ class LoginActivity : AppCompatActivity() {
 
         btn_login.setOnClickListener {
 //            openBerandaActivity(this)
-            startActivity(Intent(this, BerandaActivity::class.java).also { finish() })
+            startActivity(Intent(this, BerandaActivity::class.java))
+            finish()
         }
     }
 }
