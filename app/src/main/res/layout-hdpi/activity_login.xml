@@ -12,13 +12,13 @@
     <ImageView
         android:id="@+id/rect_header"
         android:layout_width="match_parent"
-        android:layout_height="180dp"
+        android:layout_height="150dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:src="@drawable/rectangle_header"/>
     <ImageView
-        android:layout_width="190dp"
-        android:layout_height="90dp"
+        android:layout_width="150dp"
+        android:layout_height="70dp"
         android:src="@drawable/logo"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
@@ -40,7 +40,7 @@
             android:layout_height="wrap_content"
             android:text="Selamat Datang!"
             android:textStyle="bold"
-            android:textSize="24sp"
+            android:textSize="20sp"
             android:textColor="@color/colorPrimaryTextIcon"
             />
 
@@ -50,7 +50,7 @@
             android:layout_height="wrap_content"
             android:text="Masuk untuk melanjutkan"
             android:textStyle="bold"
-            android:textSize="14sp"
+            android:textSize="12sp"
             android:layout_marginTop="4dp"
             />
 
@@ -72,6 +72,7 @@
                     android:id="@+id/et_username"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:maxLines="1"
                     android:hint="Username"/>
             </com.google.android.material.textfield.TextInputLayout>
             <com.google.android.material.textfield.TextInputLayout
@@ -95,7 +96,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
                 android:backgroundTint="@color/colorAccent"
-                android:padding="18dp"
+                android:padding="14dp"
                 android:text="masuk"
                 style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                 android:textColor="@color/colorWhite" />
