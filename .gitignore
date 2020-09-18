@@ -12,3 +12,9 @@
 /captures
 .externalNativeBuild
 .cxx
+/app/build/generated/*
+/app/build/intermediates/*
+/app/build/kotlin/*
+/app/build/tmp/*
+/app/build/outputs/logs/*
+/app/build/outputs/apk/debug/output-metadata.json
