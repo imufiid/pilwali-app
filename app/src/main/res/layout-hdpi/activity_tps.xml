@@ -144,16 +144,18 @@
             android:layout_height="wrap_content"
             android:text="Refresh"
             android:background="@drawable/button_custom_stroke"
-            android:textColor="@color/colorPrimaryTextIcon"/>
+            android:textColor="@color/colorPrimaryTextIcon"
+            android:foreground="?android:attr/selectableItemBackground"/>
 
         <Button
             android:id="@+id/btn_simpan"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Simpan"
-            android:background="@drawable/button_custom"
+            android:background="@color/colorPrimaryDark"
             android:layout_marginTop="8dp"
-            android:textColor="@color/colorTextIcon"/>
+            android:textColor="@color/colorTextIcon"
+            android:foreground="?android:attr/selectableItemBackground"/>
 
     </LinearLayout>
 
