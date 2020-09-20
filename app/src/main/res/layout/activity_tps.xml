@@ -103,6 +103,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@null"
+                android:enabled="false"
+                android:textColor="@drawable/edittext_text_color"
                 android:hint="0,00000" />
         </LinearLayout>
 
@@ -131,6 +133,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@null"
+                android:enabled="false"
+                android:textColor="@drawable/edittext_text_color"
                 android:hint="0,00000" />
         </LinearLayout>
 
