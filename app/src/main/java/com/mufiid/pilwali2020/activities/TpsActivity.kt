@@ -23,6 +23,11 @@ class TpsActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when(item.itemId) {
+
+            // override action bar back button
+            R.id.home -> {
+                onBackPressed()
+            }
             R.id.refresh -> {
                 Toast.makeText(this, "Refresh", Toast.LENGTH_SHORT).show()
             }
