@@ -10,6 +10,9 @@ import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.Toast
 import com.mufiid.pilwali2020.R
+import com.mufiid.pilwali2020.activities.MonitoringActivity
+import com.mufiid.pilwali2020.activities.PilwaliActivity
+import com.mufiid.pilwali2020.activities.TpsActivity
 
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 private const val ARG_PARAM1 = "param1"
@@ -44,13 +47,13 @@ class BerandaFragment : Fragment() {
         val btn_blangko = root.findViewById<ImageButton>(R.id.btn_blangko) as ImageButton
 
         btn_pilwali.setOnClickListener {
-            Toast.makeText(context, "Pilwali", Toast.LENGTH_SHORT).show()
+            startActivity(Intent(context, PilwaliActivity::class.java))
         }
         btn_tps.setOnClickListener {
-            Toast.makeText(context, "TPS", Toast.LENGTH_SHORT).show()
+            startActivity(Intent(context, TpsActivity::class.java))
         }
         btn_monitoring.setOnClickListener {
-            Toast.makeText(context, "Monitoring", Toast.LENGTH_SHORT).show()
+            startActivity(Intent(context, MonitoringActivity::class.java))
         }
         btn_blangko.setOnClickListener {
             Toast.makeText(context, "Blangko", Toast.LENGTH_SHORT).show()

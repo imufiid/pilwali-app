@@ -1,14 +1,16 @@
 package com.mufiid.pilwali2020.fragments
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
+import android.widget.Toast
 import com.mufiid.pilwali2020.R
+import com.mufiid.pilwali2020.activities.EditProfileActivity
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
 
@@ -35,7 +37,21 @@ class ProfilFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_profil, container, false)
+        val root = inflater.inflate(R.layout.fragment_profil, container, false)
+
+        val editProfile = root.findViewById<LinearLayout>(R.id.editProfile) as LinearLayout
+        val logout = root.findViewById<LinearLayout>(R.id.logout) as LinearLayout
+
+        editProfile.setOnClickListener {
+            startActivity(Intent(context, EditProfileActivity::class.java))
+        }
+
+        logout.setOnClickListener {
+            Toast.makeText(context, "Logout", Toast.LENGTH_SHORT).show()
+        }
+
+
+        return root
     }
 
     companion object {
@@ -47,7 +63,6 @@ class ProfilFragment : Fragment() {
          * @param param2 Parameter 2.
          * @return A new instance of fragment ProfilFragment.
          */
-        // TODO: Rename and change types and number of parameters
         @JvmStatic
         fun newInstance(param1: String, param2: String) =
             ProfilFragment().apply {
