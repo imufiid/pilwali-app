@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activities.PilwaliActivity">
+
+    <LinearLayout
+        android:id="@+id/layout_daftar_pemilih"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="16dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Rincian Daftar Pemilih"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:textColor="@color/colorPrimaryTextIcon"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="14dp">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Jumlah DPT"
+                android:textSize="18sp"
+                android:textColor="@color/colorAccent"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/jumlah_dpt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="000"
+                android:maxLines="1"
+                android:inputType="number"
+                android:textSize="20sp" />
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Jumlah DPTb"
+                android:textSize="18sp"
+                android:textColor="@color/colorAccent"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/jumlah_dptb"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="000"
+                android:maxLines="1"
+                android:inputType="number"
+                android:textSize="20sp" />
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Jumlah DPK"
+                android:textSize="18sp"
+                android:textColor="@color/colorAccent"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/jumlah_dpk"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="000"
+                android:maxLines="1"
+                android:inputType="number"
+                android:textSize="20sp" />
+
+        </LinearLayout>
+        <Button
+            android:id="@+id/btn_simpan"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Simpan"
+            android:background="@color/colorPrimaryDark"
+            android:layout_marginTop="24dp"
+            android:textColor="@color/colorTextIcon"
+            android:foreground="?android:attr/selectableItemBackground"/>
+
+
+    </LinearLayout>
+
+    <View
+        android:id="@+id/divider"
+        android:layout_width="match_parent"
+        android:layout_height="8dp"
+        android:layout_marginVertical="20dp"
+        android:background="@color/colorWhite"
+        android:layout_below="@id/layout_daftar_pemilih"/>
+    <androidx.cardview.widget.CardView
+        android:id="@+id/card_status"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/divider"
+        android:layout_marginHorizontal="20dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_margin="18dp">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="20sp"
+                android:text="STATUS"
+                android:textStyle="bold"
+                android:textColor="@color/colorPrimaryTextIcon"/>
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:layout_marginTop="8dp"
+                android:src="@drawable/ic_unverification"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                android:layout_marginTop="8dp"
+                android:text="Belum Diverifikasi!"
+                android:gravity="center_horizontal"
+                android:textColor="@color/colorAccent"/>
+        </LinearLayout>
+
+
+
+    </androidx.cardview.widget.CardView>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/btn_add"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:backgroundTint="@color/colorPrimaryDark"
+        android:src="@drawable/ic_add"/>
+
+</RelativeLayout>

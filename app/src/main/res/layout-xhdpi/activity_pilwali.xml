@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activities.PilwaliActivity">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:id="@+id/layout_daftar_pemilih"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="16dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Rincian Daftar Pemilih"
+                android:textColor="@color/colorPrimaryTextIcon"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="14dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Jumlah DPT"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/jumlah_dpt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:hint="000"
+                    android:inputType="number"
+                    android:maxLines="1"
+                    android:textSize="20sp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Jumlah DPTb"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/jumlah_dptb"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:hint="000"
+                    android:inputType="number"
+                    android:maxLines="1"
+                    android:textSize="20sp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Jumlah DPK"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/jumlah_dpk"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:hint="000"
+                    android:inputType="number"
+                    android:maxLines="1"
+                    android:textSize="20sp" />
+
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/btn_simpan"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:background="@color/colorPrimaryDark"
+                android:foreground="?android:attr/selectableItemBackground"
+                android:text="Simpan"
+                android:textColor="@color/colorTextIcon" />
+
+
+        </LinearLayout>
+
+        <View
+            android:id="@+id/divider"
+            android:layout_width="match_parent"
+            android:layout_height="8dp"
+            android:layout_below="@id/layout_daftar_pemilih"
+            android:layout_marginVertical="20dp"
+            android:background="@color/colorWhite" />
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/card_status"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/divider"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginBottom="60dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="18dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="STATUS"
+                    android:textColor="@color/colorPrimaryTextIcon"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="80dp"
+                    android:layout_marginTop="8dp"
+                    android:src="@drawable/ic_unverification" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:gravity="center_horizontal"
+                    android:text="Belum Diverifikasi!"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="14sp" />
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        </RelativeLayout>
+    </ScrollView>
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/btn_add"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:backgroundTint="@color/colorPrimaryDark"
+        android:src="@drawable/ic_add" />
+</RelativeLayout>
