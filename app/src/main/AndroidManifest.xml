@@ -19,7 +19,8 @@
         android:supportsRtl="true"
         android:usesCleartextTraffic="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activities.AddVoteActivity"></activity>
+        <activity android:name=".activities.AddVoteActivity"
+            android:parentActivityName=".activities.PilwaliActivity"/>
         <activity
             android:name=".activities.MonitoringActivity"
             android:parentActivityName=".activities.BerandaActivity"

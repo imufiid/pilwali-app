@@ -165,6 +165,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/divider"
+            android:nestedScrollingEnabled="true"
             tools:listitem="@layout/item_paslon" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
