@@ -233,7 +233,7 @@
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="8dp"
                     android:layout_marginBottom="8dp"
-                    android:text="@string/suara_difabel"
+                    android:text="@string/jumlah_difabel"
                     android:textSize="12sp" />
 
             </LinearLayout>
