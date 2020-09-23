@@ -30,7 +30,7 @@ import java.util.*
 class TpsActivity : AppCompatActivity(), MySimpleLocation.MySimpleLocationCallback {
     private val REQUEST_IMAGE_CAPTURE = 1
     private var alamat_tps = String
-    private var loading : ProgressDialog? = null
+    private var loading: ProgressDialog? = null
 
     // pertama
     lateinit var mySimpleLocation: MySimpleLocation
@@ -43,7 +43,7 @@ class TpsActivity : AppCompatActivity(), MySimpleLocation.MySimpleLocationCallba
         // init progressbar
         loading = ProgressDialog(this)
 
-        btn_camera.setOnClickListener {
+        open_camera.setOnClickListener {
             captureTPS()
         }
 
@@ -172,6 +172,7 @@ class TpsActivity : AppCompatActivity(), MySimpleLocation.MySimpleLocationCallba
 //            }
 //        }
     }
+
 
 
 }

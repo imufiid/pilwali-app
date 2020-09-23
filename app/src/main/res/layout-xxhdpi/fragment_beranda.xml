@@ -38,12 +38,13 @@
                     app:cardCornerRadius="10dp">
 
                     <ImageView
+                        android:id="@+id/image_header"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:contentDescription="TODO"
                         android:cropToPadding="false"
                         android:scaleType="fitXY"
-                        app:srcCompat="@drawable/ic_launcher_background" />
+                        app:srcCompat="@drawable/ic_img_placeholder" />
                 </androidx.cardview.widget.CardView>
 
                 <!-- Lokasi TPS -->
@@ -116,7 +117,7 @@
                         android:layout_height="wrap_content"
                         android:text="@string/jumlah_pemilih"
                         android:textColor="@color/colorPrimaryTextIcon"
-                        android:textSize="18sp"
+                        android:textSize="20sp"
                         android:textStyle="bold" />
 
                     <TextView
@@ -160,7 +161,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/menu_utama"
                     android:textColor="@color/colorPrimaryTextIcon"
-                    android:textSize="18sp"
+                    android:textSize="20sp"
                     android:textStyle="bold" />
 
                 <LinearLayout

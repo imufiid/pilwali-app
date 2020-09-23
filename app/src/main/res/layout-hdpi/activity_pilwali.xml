@@ -37,7 +37,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="12dp"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:theme="@style/Theme.MaterialComponents.Light"
+                    android:layout_marginHorizontal="20dp">
 
                     <TextView
                         android:layout_width="match_parent"
@@ -48,22 +50,31 @@
                         android:textSize="14sp"
                         android:textStyle="bold" />
 
-                    <EditText
-                        android:id="@+id/jumlah_dpt"
-                        android:layout_width="wrap_content"
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/in_jumlah_dpt"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="000"
-                        android:inputType="number"
-                        android:textAlignment="center"
-                        android:maxLines="1"
-                        android:textSize="16sp" />
+                        android:layout_weight="1"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/jumlah_dpt"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textAlignment="center"
+                            android:maxLines="1"
+                            android:inputType="number"
+                            android:textSize="20sp" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
 
                 </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:theme="@style/Theme.MaterialComponents.Light"
+                    android:layout_marginHorizontal="20dp">
 
                     <TextView
                         android:layout_width="match_parent"
@@ -74,22 +85,31 @@
                         android:textSize="14sp"
                         android:textStyle="bold" />
 
-                    <EditText
-                        android:id="@+id/jumlah_dptb"
-                        android:layout_width="wrap_content"
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/in_jumlah_dptb"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="000"
-                        android:inputType="number"
-                        android:textAlignment="center"
-                        android:maxLines="1"
-                        android:textSize="16sp" />
+                        android:layout_weight="1"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/jumlah_dptb"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textAlignment="center"
+                            android:maxLines="1"
+                            android:inputType="number"
+                            android:textSize="20sp" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
 
                 </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:theme="@style/Theme.MaterialComponents.Light"
+                    android:layout_marginHorizontal="20dp">
 
                     <TextView
                         android:layout_width="match_parent"
@@ -100,21 +120,31 @@
                         android:textSize="14sp"
                         android:textStyle="bold" />
 
-                    <EditText
-                        android:id="@+id/jumlah_dpk"
-                        android:layout_width="wrap_content"
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/in_jumlah_dpk"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="000"
-                        android:inputType="number"
-                        android:textAlignment="center"
-                        android:maxLines="1"
-                        android:textSize="16sp" />
+                        android:layout_weight="1"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/jumlah_dpk"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textAlignment="center"
+                            android:maxLines="1"
+                            android:inputType="number"
+                            android:textSize="20sp" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
 
                 </LinearLayout>
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:theme="@style/Theme.MaterialComponents.Light"
+                    android:layout_marginHorizontal="20dp">
 
                     <TextView
                         android:layout_width="match_parent"
@@ -125,21 +155,31 @@
                         android:textSize="14sp"
                         android:textStyle="bold" />
 
-                    <EditText
-                        android:id="@+id/jumlah_dpktb"
-                        android:layout_width="wrap_content"
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/in_jumlah_dpktb"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="000"
-                        android:textAlignment="center"
-                        android:inputType="number"
-                        android:maxLines="1"
-                        android:textSize="16sp" />
+                        android:layout_weight="1"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/jumlah_dpktb"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textAlignment="center"
+                            android:maxLines="1"
+                            android:inputType="number"
+                            android:textSize="20sp" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
 
                 </LinearLayout>
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:theme="@style/Theme.MaterialComponents.Light"
+                    android:layout_marginHorizontal="20dp">
 
                     <TextView
                         android:layout_width="match_parent"
@@ -150,15 +190,22 @@
                         android:textSize="14sp"
                         android:textStyle="bold" />
 
-                    <EditText
-                        android:id="@+id/jumlah_difabel"
-                        android:layout_width="wrap_content"
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/in_jumlah_difabel"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="000"
-                        android:textAlignment="center"
-                        android:inputType="number"
-                        android:maxLines="1"
-                        android:textSize="16sp" />
+                        android:layout_weight="1"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/jumlah_difabel"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textAlignment="center"
+                            android:maxLines="1"
+                            android:inputType="number"
+                            android:textSize="20sp" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
 
                 </LinearLayout>
                 <Button

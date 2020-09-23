@@ -2,13 +2,16 @@ package com.mufiid.pilwali2020.fragments
 
 import android.app.Activity
 import android.content.Intent
+import android.media.Image
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
+import android.widget.ImageView
 import android.widget.Toast
+import com.bumptech.glide.Glide
 import com.mufiid.pilwali2020.R
 import com.mufiid.pilwali2020.activities.MonitoringActivity
 import com.mufiid.pilwali2020.activities.PilwaliActivity
@@ -45,6 +48,11 @@ class BerandaFragment : Fragment() {
         val btn_tps = root.findViewById<ImageButton>(R.id.btn_tps) as ImageButton
         val btn_monitoring = root.findViewById<ImageButton>(R.id.btn_monitor) as ImageButton
         val btn_blangko = root.findViewById<ImageButton>(R.id.btn_blangko) as ImageButton
+        val image_header = root.findViewById<ImageView>(R.id.image_header) as ImageView
+
+        Glide.with(this)
+            .load("https://cdn2.tstatic.net/wartakota/foto/bank/images/pilkada-serentak-2020a.jpg")
+            .into(image_header)
 
         btn_pilwali.setOnClickListener {
             startActivity(Intent(context, PilwaliActivity::class.java))
