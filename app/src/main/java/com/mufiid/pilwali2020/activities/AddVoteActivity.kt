@@ -10,6 +10,7 @@ class AddVoteActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_vote)
 
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
         //rv_paslon.isNestedScrollingEnabled = false
     }
 }
