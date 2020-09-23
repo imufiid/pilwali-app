@@ -10,6 +10,6 @@ class AddVoteActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_vote)
 
-        rv_paslon.isNestedScrollingEnabled = false
+        //rv_paslon.isNestedScrollingEnabled = false
     }
 }

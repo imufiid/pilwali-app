@@ -10,4 +10,11 @@
     <string name="monitoring">Monitoring</string>
     <string name="blangko">Blangko</string>
     <string name="refresh">Refresh</string>
+    <string name="jumlah_dpt">Jumlah DPT</string>
+    <string name="jumlah_dptb">Jumlah DPTb</string>
+    <string name="jumlah_dpk">Jumlah DPK</string>
+    <string name="jumlah_dpktb">Jumlah DPKTb</string>
+    <string name="jumlah_difabel">Jumlah Difabel</string>
+    <string name="jumlah_pemilih">Jumlah Pemilih</string>
+    <string name="menu_utama">Menu Utama</string>
 </resources>

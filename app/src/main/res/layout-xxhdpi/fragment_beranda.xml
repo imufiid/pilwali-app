@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/colorWhite"
     tools:context=".fragments.BerandaFragment">
 
@@ -15,28 +15,28 @@
             android:id="@+id/section1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:background="#FFF">
+            android:background="#FFF"
+            android:orientation="vertical">
 
             <!-- SECTION FIRST -->
             <RelativeLayout
                 android:id="@+id/section_first"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_alignParentTop="true"
                 android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
                 android:layout_alignParentEnd="true"
+                android:orientation="vertical"
                 android:paddingTop="16dp"
-                android:paddingBottom="24dp"
-                >
+                android:paddingBottom="24dp">
 
                 <androidx.cardview.widget.CardView
                     android:id="@+id/card_header"
                     android:layout_width="match_parent"
-                    android:layout_height="200dp"
-                    app:cardCornerRadius="10dp"
-                    android:layout_marginHorizontal="16dp">
+                    android:layout_height="170dp"
+                    android:layout_marginHorizontal="16dp"
+                    app:cardCornerRadius="10dp">
+
                     <ImageView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
@@ -105,35 +105,36 @@
                     android:id="@+id/layout_title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:paddingHorizontal="16dp"
+                    android:layout_below="@id/card_header"
                     android:layout_marginTop="24dp"
-                    android:layout_below="@id/card_header">
+                    android:orientation="vertical"
+                    android:paddingHorizontal="16dp">
 
                     <TextView
                         android:id="@+id/title"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Update Jumlah Pemilih"
+                        android:text="@string/jumlah_pemilih"
                         android:textColor="@color/colorPrimaryTextIcon"
-                        android:textSize="20sp"
+                        android:textSize="18sp"
                         android:textStyle="bold" />
+
                     <TextView
                         android:id="@+id/subTitle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
                         android:text="TPS 01 - Sukorejo"
                         android:textSize="14sp"
-                        android:layout_marginTop="8dp"
                         android:textStyle="bold" />
                 </LinearLayout>
 
                 <include
-                    android:layout_below="@id/layout_title"
-                    android:layout_height="wrap_content"
+                    layout="@layout/jumlah_pemilih"
                     android:layout_width="match_parent"
-                    android:layout_marginTop="16dp"
-                    layout="@layout/jumlah_pemilih"/>
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/layout_title"
+                    android:layout_marginTop="16dp" />
 
             </RelativeLayout>
         </RelativeLayout>
@@ -141,11 +142,11 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#FFF"
             android:layout_below="@id/section1"
-            android:layout_marginTop="4dp"
-            android:paddingBottom="180dp"
-            android:paddingTop="10dp">
+            android:layout_marginTop="8dp"
+            android:background="#FFF"
+            android:paddingTop="10dp"
+            android:paddingBottom="180dp">
 
             <!-- MENU UTAMA -->
             <RelativeLayout
@@ -157,118 +158,124 @@
                     android:id="@+id/title_menu"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Menu Utama"
+                    android:text="@string/menu_utama"
                     android:textColor="@color/colorPrimaryTextIcon"
-                    android:textSize="20sp"
+                    android:textSize="18sp"
                     android:textStyle="bold" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
                     android:layout_below="@id/title_menu"
-                    android:layout_marginTop="12dp">
+                    android:layout_marginTop="12dp"
+                    android:orientation="horizontal">
 
                     <LinearLayout
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:layout_weight="1">
+                        android:layout_weight="1"
+                        android:orientation="vertical">
 
                         <ImageButton
                             android:id="@+id/btn_pilwali"
                             android:layout_width="80dp"
                             android:layout_height="80dp"
-                            android:padding="20dp"
-                            android:background="@drawable/button_stroke"
-                            android:scaleType="fitCenter"
-                            android:src="@drawable/ic_vote"
                             android:layout_gravity="center_horizontal"
-                            android:foreground="?android:attr/selectableItemBackground"/>
+                            android:background="@drawable/button_stroke"
+                            android:foreground="?android:attr/selectableItemBackground"
+                            android:padding="20dp"
+                            android:scaleType="fitCenter"
+                            android:src="@drawable/ic_vote" />
+
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="@string/pilwali"
                             android:layout_marginTop="8dp"
-                            android:textSize="16sp"
+                            android:gravity="center_horizontal"
+                            android:text="@string/pilwali"
                             android:textColor="@color/colorPrimaryTextIcon"
-                            android:gravity="center_horizontal"/>
+                            android:textSize="16sp" />
                     </LinearLayout>
 
                     <LinearLayout
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:layout_weight="1">
+                        android:layout_weight="1"
+                        android:orientation="vertical">
 
                         <ImageButton
                             android:id="@+id/btn_tps"
                             android:layout_width="80dp"
                             android:layout_height="80dp"
-                            android:padding="15dp"
-                            android:background="@drawable/button_stroke"
-                            android:scaleType="fitCenter"
-                            android:src="@drawable/ic_tps"
                             android:layout_gravity="center_horizontal"
-                            android:foreground="?android:attr/selectableItemBackground"/>
+                            android:background="@drawable/button_stroke"
+                            android:foreground="?android:attr/selectableItemBackground"
+                            android:padding="15dp"
+                            android:scaleType="fitCenter"
+                            android:src="@drawable/ic_tps" />
+
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="@string/tps"
                             android:layout_marginTop="8dp"
-                            android:textSize="16sp"
+                            android:gravity="center_horizontal"
+                            android:text="@string/tps"
                             android:textColor="@color/colorPrimaryTextIcon"
-                            android:gravity="center_horizontal"/>
+                            android:textSize="16sp" />
                     </LinearLayout>
+
                     <LinearLayout
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:layout_weight="1">
+                        android:layout_weight="1"
+                        android:orientation="vertical">
 
                         <ImageButton
                             android:id="@+id/btn_monitor"
                             android:layout_width="80dp"
                             android:layout_height="80dp"
-                            android:padding="20dp"
-                            android:background="@drawable/button_stroke"
-                            android:scaleType="fitCenter"
-                            android:src="@drawable/ic_monitoring"
                             android:layout_gravity="center_horizontal"
-                            android:foreground="?android:attr/selectableItemBackground"/>
+                            android:background="@drawable/button_stroke"
+                            android:foreground="?android:attr/selectableItemBackground"
+                            android:padding="20dp"
+                            android:scaleType="fitCenter"
+                            android:src="@drawable/ic_monitoring" />
+
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="@string/monitoring"
                             android:layout_marginTop="8dp"
-                            android:textSize="16sp"
+                            android:gravity="center_horizontal"
+                            android:text="@string/monitoring"
                             android:textColor="@color/colorPrimaryTextIcon"
-                            android:gravity="center_horizontal"/>
+                            android:textSize="16sp" />
                     </LinearLayout>
+
                     <LinearLayout
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:layout_weight="1">
+                        android:layout_weight="1"
+                        android:orientation="vertical">
 
                         <ImageButton
                             android:id="@+id/btn_blangko"
                             android:layout_width="80dp"
                             android:layout_height="80dp"
-                            android:padding="20dp"
-                            android:background="@drawable/button_stroke"
-                            android:scaleType="fitCenter"
-                            android:src="@drawable/ic_file"
                             android:layout_gravity="center_horizontal"
-                            android:foreground="?android:attr/selectableItemBackground"/>
+                            android:background="@drawable/button_stroke"
+                            android:foreground="?android:attr/selectableItemBackground"
+                            android:padding="20dp"
+                            android:scaleType="fitCenter"
+                            android:src="@drawable/ic_file" />
+
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="@string/blangko"
                             android:layout_marginTop="8dp"
-                            android:textSize="16sp"
+                            android:gravity="center_horizontal"
+                            android:text="@string/blangko"
                             android:textColor="@color/colorPrimaryTextIcon"
-                            android:gravity="center_horizontal"/>
+                            android:textSize="16sp" />
                     </LinearLayout>
                 </LinearLayout>
             </RelativeLayout>
@@ -276,7 +283,6 @@
         </RelativeLayout>
 
     </RelativeLayout>
-
 
 
 </ScrollView>
