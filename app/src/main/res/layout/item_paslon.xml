@@ -29,14 +29,14 @@
                 android:layout_height="wrap_content"
                 android:text="1. Nama Paslon"
                 android:textColor="@color/colorPrimaryTextIcon"
-                android:textSize="20sp"/>
+                android:textSize="18sp"/>
             <EditText
                 android:id="@+id/et_suara_paslon"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginTop="4dp"
                 android:hint="000"
-                android:textSize="60sp"
+                android:textSize="48sp"
                 android:textColor="@color/colorPrimaryTextIcon"
                 android:textAlignment="center"
                 android:background="@drawable/button_custom_stroke"/>
