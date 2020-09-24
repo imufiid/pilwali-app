@@ -4,8 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:shimmer="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    tools:context=".activities.TpsActivity">
+    tools:context=".activities.TpsActivity"
+    tools:ignore="NamespaceTypo">
 
 
     <RelativeLayout
@@ -143,7 +145,26 @@
                     android:textColor="@drawable/edittext_text_color"
                     android:hint="0,00000" />
             </LinearLayout>
+
+            <com.facebook.shimmer.ShimmerFrameLayout
+                android:id="@+id/mShimmerViewContainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_below="@id/layout_latlong"
+                shimmer:duration="800"
+                android:visibility="gone">
+
+                <include
+                    android:id="@+id/shimmer_latlong"
+                    layout="@layout/shimmer_latlong"/>
+
+            </com.facebook.shimmer.ShimmerFrameLayout>
         </LinearLayout>
+
+
+
+
 
 
 

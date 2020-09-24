@@ -107,8 +107,12 @@ class TpsActivity : AppCompatActivity(), MySimpleLocation.MySimpleLocationCallba
             } else {
                 mySimpleLocation = MySimpleLocation(this, this)
                 mySimpleLocation.checkLocationSetting(this)
-                loading?.setMessage("Mencari lokasi...")
-                loading?.show()
+
+                // show shimmer
+                mShimmerViewContainer.startShimmer()
+                mShimmerViewContainer.visibility = View.VISIBLE
+                layout_latitude.visibility = View.GONE
+                layout_longitude.visibility = View.GONE
             }
         }
     }
@@ -134,10 +138,16 @@ class TpsActivity : AppCompatActivity(), MySimpleLocation.MySimpleLocationCallba
             launch(Dispatchers.Main) {
                 try {
                     Log.d("ADDRESS", address)
+
+                    // stop shimmer
+                    mShimmerViewContainer.stopShimmer()
+                    mShimmerViewContainer.visibility = View.GONE
+                    layout_latitude.visibility = View.VISIBLE
+                    layout_longitude.visibility = View.VISIBLE
+
                     et_alamat_tps.setText(address)
                     latitude.setText(lati)
                     longitude.setText(longi)
-                    loading?.dismiss()
 
                     //If you want to stop get your location on first result
                     mySimpleLocation.stopGetLocation()
