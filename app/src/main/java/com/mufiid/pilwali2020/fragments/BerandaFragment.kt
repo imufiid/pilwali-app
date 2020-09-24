@@ -52,6 +52,7 @@ class BerandaFragment : Fragment() {
 
         Glide.with(this)
             .load("https://cdn2.tstatic.net/wartakota/foto/bank/images/pilkada-serentak-2020a.jpg")
+            .placeholder(R.drawable.ic_img_placeholder)
             .into(image_header)
 
         btn_pilwali.setOnClickListener {
