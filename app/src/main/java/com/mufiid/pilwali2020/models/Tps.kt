@@ -3,6 +3,12 @@ package com.mufiid.pilwali2020.models
 import com.google.gson.annotations.SerializedName
 
 data class Tps(
+    @field:SerializedName("kecamatan")
+    val kecamatan: String,
+
+    @field:SerializedName("kelurahan")
+    val kelurahan: String,
+
     @field:SerializedName("dpk_1")
     val dpk1: Any? = null,
 
