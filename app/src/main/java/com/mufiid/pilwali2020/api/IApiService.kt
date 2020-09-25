@@ -33,14 +33,14 @@ interface IApiService {
     ): Flowable<WrappedResponse<Tps>>
 
     // GET Data Paslon
-    @GET("")
+    @GET("paslon")
     fun getPaslon(): Flowable<WrappedListResponses<Paslon>>
 
     // GWT Data Tps
-    @GET("")
+    @GET("tps")
     fun getDataTps(
-        @Field("id_tps") id_tps: String?
-    )
+        @Query("id") id_tps: String?
+    ): Flowable<WrappedResponse<Tps>>
 
 
 }
