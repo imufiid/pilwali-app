@@ -4,8 +4,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:shimmer="http://schemas.android.com/apk/res-auto"
     android:background="@color/colorWhite"
-    tools:context=".fragments.BerandaFragment">
+    tools:context=".fragments.BerandaFragment"
+    tools:ignore="NamespaceTypo">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -130,11 +132,27 @@
                 </LinearLayout>
 
                 <include
+                    android:id="@+id/jumlah_pemilih"
                     android:layout_below="@id/layout_title"
                     android:layout_height="wrap_content"
                     android:layout_width="match_parent"
                     android:layout_marginTop="16dp"
                     layout="@layout/jumlah_pemilih"/>
+                <com.facebook.shimmer.ShimmerFrameLayout
+                    android:id="@+id/mShimmerViewContainer"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginTop="16dp"
+                    android:layout_below="@id/layout_title"
+                    shimmer:duration="800"
+                    android:visibility="gone">
+
+                    <include
+                        android:id="@+id/shimmer_latlong"
+                        layout="@layout/shimmer_jumlah_pemilih"/>
+
+                </com.facebook.shimmer.ShimmerFrameLayout>
 
             </RelativeLayout>
         </RelativeLayout>
