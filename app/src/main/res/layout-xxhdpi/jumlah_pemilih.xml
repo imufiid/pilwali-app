@@ -33,6 +33,7 @@
                     android:src="@drawable/ic_person_pin" />
 
                 <TextView
+                    android:id="@+id/dpt"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
@@ -77,6 +78,7 @@
                     android:src="@drawable/ic_person_pin" />
 
                 <TextView
+                    android:id="@+id/dptb"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
@@ -121,6 +123,7 @@
                     android:src="@drawable/ic_person_pin" />
 
                 <TextView
+                    android:id="@+id/dpk"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
@@ -173,6 +176,7 @@
                     android:src="@drawable/ic_person_pin" />
 
                 <TextView
+                    android:id="@+id/dpktb"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
@@ -218,6 +222,7 @@
                     android:src="@drawable/ic_person_pin" />
 
                 <TextView
+                    android:id="@+id/difabel"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
