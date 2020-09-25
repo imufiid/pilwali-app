@@ -114,6 +114,15 @@ class TpsActivity : AppCompatActivity(), MySimpleLocation.MySimpleLocationCallba
                 layout_latitude.visibility = View.GONE
                 layout_longitude.visibility = View.GONE
             }
+        } else {
+            mySimpleLocation = MySimpleLocation(this, this)
+            mySimpleLocation.checkLocationSetting(this)
+
+            // show shimmer
+            mShimmerViewContainer.startShimmer()
+            mShimmerViewContainer.visibility = View.VISIBLE
+            layout_latitude.visibility = View.GONE
+            layout_longitude.visibility = View.GONE
         }
     }
 
