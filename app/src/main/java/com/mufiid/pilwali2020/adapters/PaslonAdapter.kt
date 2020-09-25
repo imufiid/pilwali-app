@@ -4,11 +4,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.mufiid.pilwali2020.R
 import com.mufiid.pilwali2020.models.Paslon
 import kotlinx.android.synthetic.main.item_paslon.view.*
 
-class PaslonAdapter(private val data: List<Paslon>?): RecyclerView.Adapter<PaslonAdapter.Holder>() {
+class PaslonAdapter(private val data: List<Paslon>): RecyclerView.Adapter<PaslonAdapter.Holder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_paslon, parent, false)
         return Holder(view)
@@ -22,6 +23,10 @@ class PaslonAdapter(private val data: List<Paslon>?): RecyclerView.Adapter<Paslo
 
     class Holder(itemView: View): RecyclerView.ViewHolder(itemView) {
         fun onBind(get: Paslon?) {
+            itemView.nama_paslon.text = "${get?.noPeserta} ${get?.nmPeserta}"
+            Glide.with(itemView)
+                .load(get?.foto)
+                .into(itemView.img_paslon)
         }
 
     }
