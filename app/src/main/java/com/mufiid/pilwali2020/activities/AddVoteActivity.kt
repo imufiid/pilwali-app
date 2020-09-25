@@ -8,20 +8,34 @@ import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
+import android.util.Log
+import android.widget.Toast
 import androidx.core.app.ActivityCompat
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.mufiid.pilwali2020.R
+import com.mufiid.pilwali2020.adapters.PaslonAdapter
+import com.mufiid.pilwali2020.models.Paslon
+import com.mufiid.pilwali2020.models.Tps
+import com.mufiid.pilwali2020.presenters.AddVotePresenter
+import com.mufiid.pilwali2020.views.ILoadingView
+import com.mufiid.pilwali2020.views.IPaslonView
 import kotlinx.android.synthetic.main.activity_add_vote.*
 import kotlinx.android.synthetic.main.activity_add_vote.open_camera
 import kotlinx.android.synthetic.main.activity_tps.*
 
-class AddVoteActivity : AppCompatActivity() {
+class AddVoteActivity : AppCompatActivity(), ILoadingView, IPaslonView {
     private val REQUEST_IMAGE_CAPTURE = 1
+    private lateinit var viewManager: RecyclerView.LayoutManager
+    private var presenter: AddVotePresenter? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_vote)
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        viewManager = LinearLayoutManager(this)
+        presenter = AddVotePresenter(this, this)
 
 
         open_camera.setOnClickListener {
@@ -29,6 +43,11 @@ class AddVoteActivity : AppCompatActivity() {
         }
 
         getPermission()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        presenter?.getPaslon()
     }
 
     private fun captureBlangko() {
@@ -71,5 +90,26 @@ class AddVoteActivity : AppCompatActivity() {
                 )
             }
         }
+    }
+
+    override fun isLoading() {
+        Log.i("LOADING", "Loading...")
+    }
+
+    override fun hideLoading() {
+        Log.i("LOADING", "Selesai...")
+    }
+
+    override fun getDataPaslon(message: String?, data: List<Paslon>?) {
+        rv_paslon.apply {
+            setHasFixedSize(true)
+            layoutManager = viewManager
+            adapter = PaslonAdapter(data!!)
+
+        }
+    }
+
+    override fun failedGetDataPaslon(message: String?) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
 }
