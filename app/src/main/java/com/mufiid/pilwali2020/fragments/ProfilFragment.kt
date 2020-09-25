@@ -1,5 +1,6 @@
 package com.mufiid.pilwali2020.fragments
 
+import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -10,6 +11,8 @@ import android.widget.LinearLayout
 import android.widget.Toast
 import com.mufiid.pilwali2020.R
 import com.mufiid.pilwali2020.activities.EditProfileActivity
+import com.mufiid.pilwali2020.activities.LoginActivity
+import com.mufiid.pilwali2020.utils.Constants
 
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
@@ -47,7 +50,22 @@ class ProfilFragment : Fragment() {
         }
 
         logout.setOnClickListener {
-            Toast.makeText(context, "Logout", Toast.LENGTH_SHORT).show()
+            
+            AlertDialog.Builder(context).apply { 
+                setTitle("Konfirmasi keluar")
+                setMessage("Anda yakin keluar?")
+                    .setPositiveButton("Iya") { dialogInterface, i ->
+                        Constants.clear(context!!)
+                        startActivity(Intent(context, LoginActivity::class.java))
+                        activity?.finish()
+                    }
+                    .setNegativeButton("Tidak") { dialogInterface, i ->  
+                        dialogInterface.dismiss()
+                    }
+            }.show()
+
+
+            
         }
 
 

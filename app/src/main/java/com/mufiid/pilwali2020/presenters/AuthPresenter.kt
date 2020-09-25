@@ -14,12 +14,18 @@ class AuthPresenter(private val authView: IAuthView, private val loading: ILoadi
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
-                if(it.status == 200) {
-                    // code...
-                    authView.successLogin(it.message, it.data!!)
-                } else {
-                    // code ...
-                    authView.failedLogin(it.message)
+                when (it.status) {
+                    200 -> {
+                        authView.successLogin(it.message, it.data!!)
+                    }
+                    400 -> {
+                        val msg = "Password anda salah!"
+                        authView.failedLogin(msg)
+                    }
+                    else -> {
+                        val msg = "Username anda tidak ditemukan!"
+                        authView.failedLogin(msg)
+                    }
                 }
                 loading.hideLoading()
             },{

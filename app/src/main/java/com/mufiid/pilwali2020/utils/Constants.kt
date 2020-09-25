@@ -4,7 +4,7 @@ import android.content.Context
 
 class Constants {
     companion object {
-        const val API_ENDPOINT = ""
+        const val API_ENDPOINT = "http://192.168.1.2/pilwali-2020/index.php/api/"
 
         fun getUsername(context: Context) : String {
             val pref = context.getSharedPreferences("USER", Context.MODE_PRIVATE)
@@ -22,6 +22,19 @@ class Constants {
         fun getIDUser(context: Context) : String {
             val pref = context.getSharedPreferences("USER", Context.MODE_PRIVATE)
             return pref.getString("ID_USER", "undefined")!!
+        }
+
+        fun setIDTps(context: Context, username: String) {
+            val pref = context.getSharedPreferences("USER", Context.MODE_PRIVATE)
+            pref.edit().apply {
+                putString("ID_TPS", username)
+                apply()
+            }
+        }
+
+        fun getIDTps(context: Context) : String {
+            val pref = context.getSharedPreferences("USER", Context.MODE_PRIVATE)
+            return pref.getString("ID_TPS", "undefined")!!
         }
 
         fun setIDUser(context: Context, username: String) {

@@ -8,15 +8,13 @@ import com.mufiid.pilwali2020.responses.WrappedListResponses
 import com.mufiid.pilwali2020.responses.WrappedResponse
 import io.reactivex.rxjava3.core.Flowable
 import io.reactivex.rxjava3.core.Observable
-import retrofit2.http.Field
-import retrofit2.http.GET
-import retrofit2.http.POST
-import retrofit2.http.Path
+import retrofit2.http.*
 
 interface IApiService {
 
     // LOGIN
-    @POST("")
+    @FormUrlEncoded
+    @POST("user")
     fun login(
         @Field("username") username: String,
         @Field("password") password: String

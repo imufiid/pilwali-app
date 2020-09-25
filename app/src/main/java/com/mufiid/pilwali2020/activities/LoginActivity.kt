@@ -5,6 +5,9 @@ import android.content.Intent
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Handler
+import android.util.Log
+import android.view.Gravity
 import android.widget.TextView
 import android.widget.Toast
 import com.google.android.material.snackbar.Snackbar
@@ -34,35 +37,33 @@ class LoginActivity : AppCompatActivity(), IAuthView, ILoadingView {
         btn_login.setOnClickListener {
             val username = et_username.text.toString()
             val password = et_password.text.toString()
-            if(username == "" || password == "") {
-                var snackBar = Snackbar.make(
-                    it, "Username dan Password tidak boleh kosong!",
-                    Snackbar.LENGTH_LONG
-                )
-                    .setAction("Action", null)
-                    .setActionTextColor(Color.BLUE)
-                val snackBarView = snackBar.view
-                snackBarView.setBackgroundColor(Color.CYAN)
-                val textView = snackBarView.findViewById(com.google.android.material.R.id.snackbar_text) as TextView
-                textView.setTextColor(Color.BLUE)
-                snackBar.show()
+            if (username == "" || password == "") {
+                showToast("Username dan Password harus diisi!")
             } else {
-                // presenter?.login(username, password)
+                presenter?.login(username, password)
             }
 
         }
     }
 
     override fun successLogin(message: String?, user: User) {
+        Log.d("USER", user.toString())
+
         Constants.setIDUser(this, user.id.toString())
         Constants.setUsername(this, user.username.toString())
+        Constants.setIDTps(this, user.idTps.toString())
         Constants.setISLOGGEDIN(this, true)
-        startActivity(Intent(this, BerandaActivity::class.java))
-        finish()
+
+        showToast("Anda Berhasil Login")
+
+        Handler().postDelayed({
+            startActivity(Intent(this, BerandaActivity::class.java))
+            finish()
+        }, 1000)
     }
 
     override fun failedLogin(message: String?) {
-        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+        showToast(message!!)
     }
 
     override fun isLoading() {
@@ -75,9 +76,16 @@ class LoginActivity : AppCompatActivity(), IAuthView, ILoadingView {
     }
 
     private fun checkLogin() {
-        if(Constants.ISLOGGEDIN(this)) {
+        if (Constants.ISLOGGEDIN(this)) {
             startActivity(Intent(this, BerandaActivity::class.java))
             finish()
         }
+    }
+
+    private fun showToast(message: String) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).apply {
+            setGravity(Gravity.CENTER, 0, 0)
+        }.show()
+
     }
 }
