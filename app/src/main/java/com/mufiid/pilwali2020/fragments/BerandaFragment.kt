@@ -34,7 +34,7 @@ private const val ARG_PARAM2 = "param2"
  * create an instance of this fragment.
  */
 @Suppress("DEPRECATION")
-class BerandaFragment : Fragment(), ITpsView, ILoadingView {
+class BerandaFragment : Fragment(), ITpsView{
     private var param1: String? = null
     private var param2: String? = null
     private var shimmer : ShimmerFrameLayout? = null
@@ -80,7 +80,7 @@ class BerandaFragment : Fragment(), ITpsView, ILoadingView {
         tps = root.findViewById(R.id.subTitle) as TextView
 
         // init presenter
-        presenter = TpsPresenter(this, this)
+        presenter = TpsPresenter(this)
 
 
         // event listener
@@ -146,14 +146,14 @@ class BerandaFragment : Fragment(), ITpsView, ILoadingView {
         Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
     }
 
-    override fun isLoading() {
+    override fun isLoadingTps() {
         shimmer?.startShimmer()
         shimmer?.visibility = View.VISIBLE
         jumlah_pemilih.visibility = View.GONE
         layout_title.visibility = View.GONE
     }
 
-    override fun hideLoading() {
+    override fun hideLoadingTps() {
         shimmer?.stopShimmer()
         shimmer?.visibility = View.GONE
         jumlah_pemilih.visibility = View.VISIBLE
