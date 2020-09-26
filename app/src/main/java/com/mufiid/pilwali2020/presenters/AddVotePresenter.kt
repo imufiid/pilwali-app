@@ -7,9 +7,9 @@ import com.mufiid.pilwali2020.views.IPaslonView
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.schedulers.Schedulers
 
-class AddVotePresenter(private val paslonView: IPaslonView, private val loading: ILoadingView) {
+class AddVotePresenter(private val paslonView: IPaslonView) {
     fun getPaslon() {
-        loading.isLoading()
+        paslonView.isLoadingPaslon()
         ApiClient.instance().getPaslon()
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
@@ -27,11 +27,11 @@ class AddVotePresenter(private val paslonView: IPaslonView, private val loading:
                         paslonView.failedGetDataPaslon(it.message)
                     }
                 }
-                loading.hideLoading()
+                paslonView.hideLoadingPaslon()
             },{
                 // code ...
                 Log.d("AUTH ERROR", it.message!!)
-                loading.hideLoading()
+                paslonView.hideLoadingPaslon()
             })
     }
 }

@@ -6,9 +6,9 @@ import com.mufiid.pilwali2020.views.ITpsView
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.schedulers.Schedulers
 
-class TpsPresenter(private val loading: ILoadingView, private val tpsView: ITpsView) {
+class TpsPresenter(private val tpsView: ITpsView) {
     fun getDataTps(id_tps: String) {
-        loading.isLoading()
+        tpsView.isLoadingTps()
         ApiClient.instance().getDataTps(id_tps)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
@@ -20,10 +20,10 @@ class TpsPresenter(private val loading: ILoadingView, private val tpsView: ITpsV
                         tpsView.failedGetDataTps(it.message)
                     }
                 }
-                loading.hideLoading()
+                tpsView.hideLoadingTps()
             }, {
                 tpsView.failedGetDataTps(it.message)
-                loading.hideLoading()
+                tpsView.hideLoadingTps()
             })
     }
 }
