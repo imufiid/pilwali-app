@@ -252,6 +252,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/divider"
+                android:layout_marginBottom="20dp"
                 android:layout_marginHorizontal="20dp">
 
                 <LinearLayout
@@ -300,6 +301,6 @@
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
         android:backgroundTint="@color/colorPrimaryDark"
-        android:src="@drawable/ic_add" />
+        android:src="@drawable/ic_arrow_next" />
 
 </RelativeLayout>

@@ -299,5 +299,5 @@
         android:layout_marginBottom="16dp"
         android:backgroundTint="@color/colorPrimaryDark"
         android:clickable="true"
-        android:src="@drawable/ic_add" />
+        android:src="@drawable/ic_arrow_next" />
 </RelativeLayout>

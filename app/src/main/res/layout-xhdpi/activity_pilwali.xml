@@ -300,5 +300,5 @@
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
         android:backgroundTint="@color/colorPrimaryDark"
-        android:src="@drawable/ic_add" />
+        android:src="@drawable/ic_arrow_next" />
 </RelativeLayout>
