@@ -14,7 +14,7 @@ import com.mufiid.pilwali2020.views.ILoadingView
 import com.mufiid.pilwali2020.views.ITpsView
 import kotlinx.android.synthetic.main.activity_pilwali.*
 
-class PilwaliActivity : AppCompatActivity(), ILoadingView, ITpsView {
+class PilwaliActivity : AppCompatActivity(), ITpsView {
     private var presenter: TpsPresenter? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -22,7 +22,7 @@ class PilwaliActivity : AppCompatActivity(), ILoadingView, ITpsView {
 
         supportActionBar?.title = "Pilwali"
 
-        presenter = TpsPresenter(this, this)
+        presenter = TpsPresenter(this)
 
         btn_add.setOnClickListener {
             startActivity(Intent(this, AddVoteActivity::class.java))
@@ -34,7 +34,7 @@ class PilwaliActivity : AppCompatActivity(), ILoadingView, ITpsView {
         presenter?.getDataTps(Constants.getIDTps(this))
     }
 
-    override fun isLoading() {
+    override fun isLoadingTps() {
         mShimmerViewContainer.startShimmer()
         mShimmerViewContainer.visibility = View.VISIBLE
         layout_daftar_pemilih.visibility = View.GONE
@@ -43,7 +43,7 @@ class PilwaliActivity : AppCompatActivity(), ILoadingView, ITpsView {
 
     }
 
-    override fun hideLoading() {
+    override fun hideLoadingTps() {
         mShimmerViewContainer.stopShimmer()
         mShimmerViewContainer.visibility = View.GONE
         layout_daftar_pemilih.visibility = View.VISIBLE
