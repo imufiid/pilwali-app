@@ -35,8 +35,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginTop="4dp"
-                android:hint="000"
+                android:hint="0"
                 android:textSize="48sp"
+                android:inputType="number"
+                android:maxLines="1"
                 android:textColor="@color/colorPrimaryTextIcon"
                 android:textAlignment="center"
                 android:background="@drawable/button_custom_stroke"/>
