@@ -27,10 +27,10 @@ interface IApiService {
     ): Flowable<WrappedResponse<Tps>>
 
     // GET User By Id
-    @GET("")
+    @GET("user")
     fun getUserById(
-        @Path("id_user") id_user: String?
-    ): Flowable<WrappedResponse<Tps>>
+        @Query("id") id_user: String?
+    ): Flowable<WrappedResponse<User>>
 
     // GET Data Paslon
     @GET("paslon")
