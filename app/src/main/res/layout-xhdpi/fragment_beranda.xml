@@ -125,7 +125,7 @@
                         android:id="@+id/subTitle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="TPS 01 - Sukorejo"
+                        android:text="TPS 0 - Kel. - Kec. -"
                         android:textSize="14sp"
                         android:layout_marginTop="8dp"
                         android:textStyle="bold" />
