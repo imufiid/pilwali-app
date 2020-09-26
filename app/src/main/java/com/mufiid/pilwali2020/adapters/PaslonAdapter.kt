@@ -1,5 +1,6 @@
 package com.mufiid.pilwali2020.adapters
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -23,7 +24,9 @@ class PaslonAdapter(private val data: List<Paslon>): RecyclerView.Adapter<Paslon
 
     class Holder(itemView: View): RecyclerView.ViewHolder(itemView) {
         fun onBind(get: Paslon?) {
-            itemView.nama_paslon.text = "${get?.noPeserta} ${get?.nmPeserta}"
+            Log.d("GET", get.toString())
+            itemView.nama_paslon.text = "${get?.noPeserta}. ${get?.nmPeserta}"
+            itemView.et_suara_paslon.setText(get?.jumlah_suara.toString())
             Glide.with(itemView)
                 .load(get?.foto)
                 .into(itemView.img_paslon)
