@@ -15,10 +15,10 @@
 
 ### Feature List
 - [ ] Input Jumlah Suara (DPT, Suara sah, Suara tidak sah)
-- [ ] Survey TPS, input Lokasi/alamat TPS dengan GPS
+- [x] Survey TPS, input Lokasi/alamat TPS dengan GPS
 - [ ] Monitoring
 - [ ] Profil
-- [ ] Login
+- [x] Login
 
 ---
 
