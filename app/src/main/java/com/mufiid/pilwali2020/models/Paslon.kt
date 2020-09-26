@@ -14,5 +14,8 @@ data class Paslon(
 	val id: String? = null,
 
 	@field:SerializedName("no_peserta")
-	val noPeserta: String? = null
+	val noPeserta: String? = null,
+
+	@field:SerializedName("jumlah_suara")
+	val jumlah_suara: Int? = null
 )
