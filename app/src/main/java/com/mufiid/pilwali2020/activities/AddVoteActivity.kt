@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
+import android.view.View
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -18,24 +19,30 @@ import com.mufiid.pilwali2020.adapters.PaslonAdapter
 import com.mufiid.pilwali2020.models.Paslon
 import com.mufiid.pilwali2020.models.Tps
 import com.mufiid.pilwali2020.presenters.AddVotePresenter
+import com.mufiid.pilwali2020.presenters.TpsPresenter
+import com.mufiid.pilwali2020.utils.Constants
 import com.mufiid.pilwali2020.views.ILoadingView
 import com.mufiid.pilwali2020.views.IPaslonView
+import com.mufiid.pilwali2020.views.ITpsView
 import kotlinx.android.synthetic.main.activity_add_vote.*
 import kotlinx.android.synthetic.main.activity_add_vote.open_camera
 import kotlinx.android.synthetic.main.activity_tps.*
 
-class AddVoteActivity : AppCompatActivity(), ILoadingView, IPaslonView {
+class AddVoteActivity : AppCompatActivity(), IPaslonView, ITpsView {
     private val REQUEST_IMAGE_CAPTURE = 1
     private lateinit var viewManager: RecyclerView.LayoutManager
     private var presenter: AddVotePresenter? = null
+    private var tpsPresenter: TpsPresenter? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_vote)
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.title = "Perolehan Suara"
         viewManager = LinearLayoutManager(this)
-        presenter = AddVotePresenter(this, this)
+        presenter = AddVotePresenter(this)
+        tpsPresenter = TpsPresenter(this)
 
 
         open_camera.setOnClickListener {
@@ -48,6 +55,7 @@ class AddVoteActivity : AppCompatActivity(), ILoadingView, IPaslonView {
     override fun onResume() {
         super.onResume()
         presenter?.getPaslon()
+        tpsPresenter?.getDataTps(Constants.getIDTps(this))
     }
 
     private fun captureBlangko() {
@@ -92,12 +100,22 @@ class AddVoteActivity : AppCompatActivity(), ILoadingView, IPaslonView {
         }
     }
 
-    override fun isLoading() {
-        Log.i("LOADING", "Loading...")
+    override fun isLoadingPaslon() {
+        shimmer_container.visibility = View.VISIBLE
+        shimmer_container.startShimmer()
+        title_upload_blangko.visibility = View.GONE
+        div2.visibility = View.GONE
+        layout_img.visibility = View.GONE
+        btn_save.visibility = View.GONE
     }
 
-    override fun hideLoading() {
-        Log.i("LOADING", "Selesai...")
+    override fun hideLoadingPaslon() {
+        shimmer_container.visibility = View.GONE
+        shimmer_container.stopShimmer()
+        title_upload_blangko.visibility = View.VISIBLE
+        div2.visibility = View.VISIBLE
+        layout_img.visibility = View.VISIBLE
+        btn_save.visibility = View.VISIBLE
     }
 
     override fun getDataPaslon(message: String?, data: List<Paslon>?) {
@@ -110,6 +128,30 @@ class AddVoteActivity : AppCompatActivity(), ILoadingView, IPaslonView {
     }
 
     override fun failedGetDataPaslon(message: String?) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+    }
+
+    override fun isLoadingTps() {
+        shimmer_container_daftar_pemilih.visibility = View.VISIBLE
+        shimmer_container_daftar_pemilih.startShimmer()
+        layout_daftar_pemilih.visibility = View.GONE
+    }
+
+    override fun hideLoadingTps() {
+        shimmer_container_daftar_pemilih.visibility = View.GONE
+        shimmer_container_daftar_pemilih.startShimmer()
+        layout_daftar_pemilih.visibility = View.VISIBLE
+    }
+
+    override fun getDataTps(message: String?, data: Tps) {
+        jumlah_dpt.text = data.dpt2
+        jumlah_dptb.text = data.dptb2
+        jumlah_dpk.text = data.dpk2
+        jumlah_dpktb.text = data.dpktb2
+        jumlah_difabel.text = data.difabel2
+    }
+
+    override fun failedGetDataTps(message: String?) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
 }
