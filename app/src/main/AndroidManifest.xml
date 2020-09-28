@@ -21,32 +21,32 @@
         android:supportsRtl="true"
         android:usesCleartextTraffic="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activities.AddVoteActivity"
-            android:parentActivityName=".activities.PilwaliActivity"/>
+        <activity android:name="com.mufiid.pilwali2020.ui.activities.AddVoteActivity"
+            android:parentActivityName="com.mufiid.pilwali2020.ui.activities.PilwaliActivity"/>
         <activity
-            android:name=".activities.MonitoringActivity"
-            android:parentActivityName=".activities.BerandaActivity"
+            android:name="com.mufiid.pilwali2020.ui.activities.MonitoringActivity"
+            android:parentActivityName="com.mufiid.pilwali2020.ui.activities.BerandaActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activities.EditProfileActivity"
-            android:parentActivityName=".activities.BerandaActivity"
+            android:name="com.mufiid.pilwali2020.ui.activities.EditProfileActivity"
+            android:parentActivityName="com.mufiid.pilwali2020.ui.activities.BerandaActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activities.TpsActivity"
-            android:parentActivityName=".activities.BerandaActivity"
+            android:name="com.mufiid.pilwali2020.ui.activities.TpsActivity"
+            android:parentActivityName="com.mufiid.pilwali2020.ui.activities.BerandaActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activities.PilwaliActivity"
-            android:parentActivityName=".activities.BerandaActivity"
+            android:name="com.mufiid.pilwali2020.ui.activities.PilwaliActivity"
+            android:parentActivityName="com.mufiid.pilwali2020.ui.activities.BerandaActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activities.BerandaActivity"
+            android:name="com.mufiid.pilwali2020.ui.activities.BerandaActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activities.LoginActivity"
+            android:name="com.mufiid.pilwali2020.ui.activities.LoginActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activities.MainActivity"
+            android:name="com.mufiid.pilwali2020.ui.activities.MainActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -1,4 +1,4 @@
-package com.mufiid.pilwali2020.activities
+package com.mufiid.pilwali2020.ui.activities
 
 import android.Manifest
 import android.content.Intent
@@ -14,8 +14,8 @@ import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.mufiid.pilwali2020.R
-import com.mufiid.pilwali2020.fragments.BerandaFragment
-import com.mufiid.pilwali2020.fragments.ProfilFragment
+import com.mufiid.pilwali2020.ui.fragments.BerandaFragment
+import com.mufiid.pilwali2020.ui.fragments.ProfilFragment
 import com.mufiid.pilwali2020.utils.Constants
 import kotlinx.android.synthetic.main.activity_beranda.*
 

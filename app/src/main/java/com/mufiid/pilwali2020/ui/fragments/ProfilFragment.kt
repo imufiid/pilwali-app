@@ -1,4 +1,4 @@
-package com.mufiid.pilwali2020.fragments
+package com.mufiid.pilwali2020.ui.fragments
 
 import android.app.AlertDialog
 import android.content.Intent
@@ -8,10 +8,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
-import android.widget.Toast
 import com.mufiid.pilwali2020.R
-import com.mufiid.pilwali2020.activities.EditProfileActivity
-import com.mufiid.pilwali2020.activities.LoginActivity
+import com.mufiid.pilwali2020.ui.activities.EditProfileActivity
+import com.mufiid.pilwali2020.ui.activities.LoginActivity
 import com.mufiid.pilwali2020.utils.Constants
 
 private const val ARG_PARAM1 = "param1"

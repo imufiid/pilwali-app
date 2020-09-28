@@ -1,4 +1,4 @@
-package com.mufiid.pilwali2020.activities
+package com.mufiid.pilwali2020.ui.activities
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -10,7 +10,6 @@ import com.mufiid.pilwali2020.R
 import com.mufiid.pilwali2020.models.Tps
 import com.mufiid.pilwali2020.presenters.TpsPresenter
 import com.mufiid.pilwali2020.utils.Constants
-import com.mufiid.pilwali2020.views.ILoadingView
 import com.mufiid.pilwali2020.views.ITpsView
 import kotlinx.android.synthetic.main.activity_pilwali.*
 

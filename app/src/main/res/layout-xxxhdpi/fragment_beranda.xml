@@ -6,7 +6,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:shimmer="http://schemas.android.com/apk/res-auto"
     android:background="@color/colorWhite"
-    tools:context=".fragments.BerandaFragment"
+    tools:context=".ui.fragments.BerandaFragment"
     tools:ignore="NamespaceTypo">
 
     <RelativeLayout

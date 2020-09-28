@@ -1,19 +1,15 @@
-package com.mufiid.pilwali2020.activities
+package com.mufiid.pilwali2020.ui.activities
 
 import android.app.ProgressDialog
 import android.content.Intent
-import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.util.Log
 import android.view.Gravity
-import android.widget.TextView
 import android.widget.Toast
-import com.google.android.material.snackbar.Snackbar
 import com.mufiid.pilwali2020.R
 import com.mufiid.pilwali2020.models.User
-import com.mufiid.pilwali2020.openBerandaActivity
 import com.mufiid.pilwali2020.presenters.AuthPresenter
 import com.mufiid.pilwali2020.utils.Constants
 import com.mufiid.pilwali2020.views.IAuthView

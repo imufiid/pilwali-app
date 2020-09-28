@@ -8,7 +8,7 @@
     android:orientation="vertical"
     android:padding="20dp"
     android:theme="@style/Theme.MaterialComponents.Light"
-    tools:context=".activities.EditProfileActivity">
+    tools:context=".ui.activities.EditProfileActivity">
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/in_username"

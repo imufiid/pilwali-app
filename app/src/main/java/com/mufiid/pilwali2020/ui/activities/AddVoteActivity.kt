@@ -1,4 +1,4 @@
-package com.mufiid.pilwali2020.activities
+package com.mufiid.pilwali2020.ui.activities
 
 import android.Manifest
 import android.content.Intent
@@ -8,7 +8,6 @@ import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
-import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
@@ -21,12 +20,10 @@ import com.mufiid.pilwali2020.models.Tps
 import com.mufiid.pilwali2020.presenters.AddVotePresenter
 import com.mufiid.pilwali2020.presenters.TpsPresenter
 import com.mufiid.pilwali2020.utils.Constants
-import com.mufiid.pilwali2020.views.ILoadingView
 import com.mufiid.pilwali2020.views.IPaslonView
 import com.mufiid.pilwali2020.views.ITpsView
 import kotlinx.android.synthetic.main.activity_add_vote.*
 import kotlinx.android.synthetic.main.activity_add_vote.open_camera
-import kotlinx.android.synthetic.main.activity_tps.*
 
 class AddVoteActivity : AppCompatActivity(), IPaslonView, ITpsView {
     private val REQUEST_IMAGE_CAPTURE = 1

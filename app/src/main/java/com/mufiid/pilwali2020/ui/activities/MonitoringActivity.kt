@@ -1,4 +1,4 @@
-package com.mufiid.pilwali2020.activities
+package com.mufiid.pilwali2020.ui.activities
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle

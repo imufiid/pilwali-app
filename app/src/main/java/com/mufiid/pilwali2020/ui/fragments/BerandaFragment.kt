@@ -1,13 +1,9 @@
-package com.mufiid.pilwali2020.fragments
+package com.mufiid.pilwali2020.ui.fragments
 
-import android.app.Activity
 import android.content.Intent
 import android.content.IntentFilter
-import android.media.Image
 import android.net.ConnectivityManager
 import android.os.Bundle
-import android.os.Handler
-import android.provider.SyncStateContract
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -16,14 +12,13 @@ import android.widget.*
 import com.bumptech.glide.Glide
 import com.facebook.shimmer.ShimmerFrameLayout
 import com.mufiid.pilwali2020.R
-import com.mufiid.pilwali2020.activities.MonitoringActivity
-import com.mufiid.pilwali2020.activities.PilwaliActivity
-import com.mufiid.pilwali2020.activities.TpsActivity
+import com.mufiid.pilwali2020.ui.activities.MonitoringActivity
+import com.mufiid.pilwali2020.ui.activities.PilwaliActivity
+import com.mufiid.pilwali2020.ui.activities.TpsActivity
 import com.mufiid.pilwali2020.models.Tps
 import com.mufiid.pilwali2020.presenters.TpsPresenter
 import com.mufiid.pilwali2020.utils.Constants
 import com.mufiid.pilwali2020.utils.helpers.ConnectivityReceiver
-import com.mufiid.pilwali2020.views.ILoadingView
 import com.mufiid.pilwali2020.views.ITpsView
 import kotlinx.android.synthetic.main.fragment_beranda.*
 

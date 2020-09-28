@@ -1,4 +1,4 @@
-package com.mufiid.pilwali2020.activities
+package com.mufiid.pilwali2020.ui.activities
 
 import android.Manifest
 import android.app.ProgressDialog
@@ -7,7 +7,6 @@ import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.location.Geocoder
 import android.location.Location
-import android.os.AsyncTask
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -16,7 +15,6 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import com.example.locationbasedservice.MySimpleLocation
 import com.mufiid.pilwali2020.R
