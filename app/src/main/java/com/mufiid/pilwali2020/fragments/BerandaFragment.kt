@@ -2,7 +2,9 @@ package com.mufiid.pilwali2020.fragments
 
 import android.app.Activity
 import android.content.Intent
+import android.content.IntentFilter
 import android.media.Image
+import android.net.ConnectivityManager
 import android.os.Bundle
 import android.os.Handler
 import android.provider.SyncStateContract
@@ -20,6 +22,7 @@ import com.mufiid.pilwali2020.activities.TpsActivity
 import com.mufiid.pilwali2020.models.Tps
 import com.mufiid.pilwali2020.presenters.TpsPresenter
 import com.mufiid.pilwali2020.utils.Constants
+import com.mufiid.pilwali2020.utils.helpers.ConnectivityReceiver
 import com.mufiid.pilwali2020.views.ILoadingView
 import com.mufiid.pilwali2020.views.ITpsView
 import kotlinx.android.synthetic.main.fragment_beranda.*
@@ -34,7 +37,7 @@ private const val ARG_PARAM2 = "param2"
  * create an instance of this fragment.
  */
 @Suppress("DEPRECATION")
-class BerandaFragment : Fragment(), ITpsView{
+class BerandaFragment : Fragment(), ITpsView, ConnectivityReceiver.ConnectivityReceiverListener {
     private var param1: String? = null
     private var param2: String? = null
     private var shimmer : ShimmerFrameLayout? = null
@@ -102,7 +105,12 @@ class BerandaFragment : Fragment(), ITpsView{
             Toast.makeText(context, "Blangko", Toast.LENGTH_SHORT).show()
         }
 
-
+        /**
+         * register receiver untuk check internet
+         *
+         * @author imam mufiid
+         */
+        requireActivity().registerReceiver(ConnectivityReceiver(), IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION))
 
         return root
     }
@@ -117,7 +125,6 @@ class BerandaFragment : Fragment(), ITpsView{
          * @param param2 Parameter 2.
          * @return A new instance of fragment BerandaFragment.
          */
-        // TODO: Rename and change types and number of parameters
         @JvmStatic
         fun newInstance(param1: String, param2: String) =
             BerandaFragment().apply {
@@ -131,8 +138,17 @@ class BerandaFragment : Fragment(), ITpsView{
     override fun onResume() {
         super.onResume()
         presenter?.getDataTps(Constants.getIDTps(context!!))
+
+        ConnectivityReceiver.connectivityReceiverListener = this
     }
 
+    /**
+     * bind to UI from API
+     *
+     * @author imam mufiid
+     * @param message => message from response (success or fail)
+     * @param data => data from response API
+     * */
     override fun getDataTps(message: String?, data: Tps) {
         tps?.text = "TPS ${data.noTps} - Kel. ${data.kelurahan} Kec. ${data.kecamatan}"
         dpt?.text = data.dpt2
@@ -142,10 +158,21 @@ class BerandaFragment : Fragment(), ITpsView{
         difabel?.text = data.difabel2
     }
 
+    /**
+    * failed to request data from API
+    *
+    * @author imam mufiid
+    * @param message => message failed
+    * */
     override fun failedGetDataTps(message: String?) {
         Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
     }
 
+    /**
+     * process loading when get data TPS
+     *
+     * @author imam mufiid
+     * */
     override fun isLoadingTps() {
         shimmer?.startShimmer()
         shimmer?.visibility = View.VISIBLE
@@ -153,10 +180,38 @@ class BerandaFragment : Fragment(), ITpsView{
         layout_title.visibility = View.GONE
     }
 
+    /**
+     * end process loading when get data TPS
+     *
+     * @author imam mufiid
+     * */
     override fun hideLoadingTps() {
         shimmer?.stopShimmer()
         shimmer?.visibility = View.GONE
         jumlah_pemilih.visibility = View.VISIBLE
         layout_title.visibility = View.VISIBLE
+    }
+
+    /**
+     * check ketika koneksi internet berubah
+     *
+     * @author imam mufiid
+     * */
+    override fun onNetworkConnectionChanged(isConnected: Boolean) {
+        showNetworkMessage(isConnected)
+    }
+
+    /**
+     * bind ke UI ketika koneksi internet berubah
+     *
+     * @author imam mufiid
+     * */
+    private fun showNetworkMessage(isConnected: Boolean) {
+        if (!isConnected) {
+            Toast.makeText(context, "You're offline", Toast.LENGTH_SHORT).show()
+        } else {
+            // code ..
+            // Toast.makeText(context, "You're online", Toast.LENGTH_SHORT).show()
+        }
     }
 }
