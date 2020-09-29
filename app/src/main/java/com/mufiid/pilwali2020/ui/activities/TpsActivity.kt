@@ -5,30 +5,49 @@ import android.app.ProgressDialog
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.location.Geocoder
 import android.location.Location
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Environment
 import android.provider.MediaStore
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import com.example.locationbasedservice.MySimpleLocation
 import com.mufiid.pilwali2020.R
+import com.mufiid.pilwali2020.models.Tps
+import com.mufiid.pilwali2020.presenters.TpsPresenter
+import com.mufiid.pilwali2020.utils.Constants
+import com.mufiid.pilwali2020.views.ITpsView
 import kotlinx.android.synthetic.main.activity_tps.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import okhttp3.MediaType
+import okhttp3.MediaType.Companion.parse
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
+import okhttp3.RequestBody.Companion.toRequestBody
+import java.io.ByteArrayOutputStream
+import java.io.File
+import java.io.FileOutputStream
+import java.io.IOException
 import java.util.*
 
 @Suppress("DEPRECATION")
-class TpsActivity : AppCompatActivity(), MySimpleLocation.MySimpleLocationCallback {
+class TpsActivity : AppCompatActivity(), MySimpleLocation.MySimpleLocationCallback, ITpsView {
     private val REQUEST_IMAGE_CAPTURE = 1
     private var alamat_tps = String
     private var loading: ProgressDialog? = null
+    private var tpsPresenter: TpsPresenter? = null
+    private var fotoTPS: Bitmap? = null
 
     // pertama
     lateinit var mySimpleLocation: MySimpleLocation
@@ -41,11 +60,61 @@ class TpsActivity : AppCompatActivity(), MySimpleLocation.MySimpleLocationCallba
         // init progressbar
         loading = ProgressDialog(this)
 
+         tpsPresenter = TpsPresenter(this)
+
         open_camera.setOnClickListener {
             captureTPS()
         }
 
+        btn_simpan.setOnClickListener {
+            doSimpan()
+        }
+
         getPermission()
+    }
+
+    private fun doSimpan() {
+        val pictFromBitmap = createFile(fotoTPS)
+        val reqFile: RequestBody = RequestBody.create("image/*".toMediaTypeOrNull(), pictFromBitmap!!)
+        val part = MultipartBody.Part.createFormData("foto", pictFromBitmap.name, reqFile)
+
+        val lat = RequestBody.create("text/plain".toMediaTypeOrNull(), latitude.text.toString())
+        val long = RequestBody.create("text/plain".toMediaTypeOrNull(), longitude.text.toString())
+        val username = RequestBody.create("text/plain".toMediaTypeOrNull(),  Constants.getUsername(this))
+        val id_tps = RequestBody.create("text/plain".toMediaTypeOrNull(), Constants.getIDTps(this))
+        val form_page = RequestBody.create("text/plain".toMediaTypeOrNull(), "2")
+
+
+        tpsPresenter?.postData(id_tps, form_page, part, lat, long, username)
+    }
+
+    /**
+    * function to create file
+     * @author imam mufiid
+     * @param bitmap => foto TPS
+     *
+    * */
+    private fun createFile(bitmap: Bitmap?): File? {
+        val file = File(
+            getExternalFilesDir(Environment.DIRECTORY_PICTURES)
+            , System.currentTimeMillis().toString() + "_image.jpg"
+        )
+
+        val bos = ByteArrayOutputStream()
+        bitmap?.compress(Bitmap.CompressFormat.JPEG, 100, bos)
+        val bitmapData: ByteArray = bos.toByteArray()
+
+        //write the bytes in file
+        try {
+            Log.d("PATH FILE", file.absolutePath)
+            val fos = FileOutputStream(file)
+            fos.write(bitmapData)
+            fos.flush()
+            fos.close()
+        } catch (e: IOException) {
+            e.printStackTrace()
+        }
+        return file
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -72,6 +141,7 @@ class TpsActivity : AppCompatActivity(), MySimpleLocation.MySimpleLocationCallba
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
             val imageBitmap = data?.extras?.get("data") as Bitmap
+            fotoTPS = imageBitmap
             image_tps.setImageBitmap(imageBitmap)
         }
     }
@@ -165,31 +235,32 @@ class TpsActivity : AppCompatActivity(), MySimpleLocation.MySimpleLocationCallba
 
 
         }
-//        AsyncTask.execute {
-//            this.runOnUiThread {
-//                val geoCoder = Geocoder(this, Locale.getDefault())
-//                try {
-//                    val addresses = geoCoder.getFromLocation(latitude, longitude, 1)
-//
-//                    val address = if(addresses != null && addresses.size != 0) {
-//                        val fullAddress = addresses[0].getAddressLine(0)
-//                        fullAddress.plus(", Latitude: $latitude").plus("- Longitude: $longitude")
-//                    } else {
-//                        "Addresses Not Found!"
-//                    }
-//
-//
-//                    et_alamat_tps.text = address ?: "Alamat Tidak Diketahui"
-//
-//                    //If you want to stop get your location on first result
-//                    mySimpleLocation.stopGetLocation()
-//                } catch (e: Exception) {
-//                    Log.e("MAINACTIVITY", e.message.toString())
-//                }
-//            }
-//        }
     }
 
+    override fun isLoadingTps(state: Int?) {
+        loading?.setMessage("Mohon tunggu sebentar...")
+        loading?.show()
+    }
+
+    override fun hideLoadingTps(state: Int?) {
+        loading?.dismiss()
+    }
+
+    override fun getDataTps(message: String?, data: Tps) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+    }
+
+    override fun failedGetDataTps(message: String?) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+    }
+
+    override fun messageSuccess(message: String?) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+    }
+
+    override fun messageFailed(message: String?) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+    }
 
 
 }
