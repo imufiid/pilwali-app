@@ -20,7 +20,8 @@
         android:roundIcon="@mipmap/ic_pemilu_circle"
         android:supportsRtl="true"
         android:usesCleartextTraffic="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        tools:targetApi="m">
         <activity android:name="com.mufiid.pilwali2020.ui.activities.AddVoteActivity"
             android:parentActivityName="com.mufiid.pilwali2020.ui.activities.PilwaliActivity"/>
         <activity
@@ -50,7 +51,6 @@
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
