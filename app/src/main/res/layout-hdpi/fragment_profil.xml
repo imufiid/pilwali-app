@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:layout_marginHorizontal="24dp"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="18dp"
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true">
@@ -30,18 +30,19 @@
             android:layout_gravity="center_vertical"
             android:layout_marginStart="8dp">
             <TextView
+                android:id="@+id/username_user"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:text="Nama Lengkap"
                 android:textStyle="bold"
                 android:textColor="@color/colorPrimaryTextIcon"
                 android:textSize="16sp"/>
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="4dp"
-                android:textSize="12sp"
-                android:text="TPS 1 - Kel. Sukorejo" />
+<!--            <TextView-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="match_parent"-->
+<!--                android:layout_marginTop="4dp"-->
+<!--                android:textSize="12sp"-->
+<!--                android:text="TPS 1 - Kel. Sukorejo" />-->
 
         </LinearLayout>
 
