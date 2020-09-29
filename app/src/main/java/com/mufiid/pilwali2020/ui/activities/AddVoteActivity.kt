@@ -128,13 +128,13 @@ class AddVoteActivity : AppCompatActivity(), IPaslonView, ITpsView {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
 
-    override fun isLoadingTps() {
+    override fun isLoadingTps(state: Int?) {
         shimmer_container_daftar_pemilih.visibility = View.VISIBLE
         shimmer_container_daftar_pemilih.startShimmer()
         layout_daftar_pemilih.visibility = View.GONE
     }
 
-    override fun hideLoadingTps() {
+    override fun hideLoadingTps(state: Int?) {
         shimmer_container_daftar_pemilih.visibility = View.GONE
         shimmer_container_daftar_pemilih.startShimmer()
         layout_daftar_pemilih.visibility = View.VISIBLE
@@ -150,5 +150,13 @@ class AddVoteActivity : AppCompatActivity(), IPaslonView, ITpsView {
 
     override fun failedGetDataTps(message: String?) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+    }
+
+    override fun messageSuccess(message: String?) {
+        TODO("Not yet implemented")
+    }
+
+    override fun messageFailed(message: String?) {
+        TODO("Not yet implemented")
     }
 }

@@ -163,12 +163,20 @@ class BerandaFragment : Fragment(), ITpsView, ConnectivityReceiver.ConnectivityR
         Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
     }
 
+    override fun messageSuccess(message: String?) {
+        TODO("Not yet implemented")
+    }
+
+    override fun messageFailed(message: String?) {
+        TODO("Not yet implemented")
+    }
+
     /**
      * process loading when get data TPS
      *
      * @author imam mufiid
      * */
-    override fun isLoadingTps() {
+    override fun isLoadingTps(state: Int?) {
         shimmer?.startShimmer()
         shimmer?.visibility = View.VISIBLE
         jumlah_pemilih.visibility = View.GONE
@@ -180,7 +188,7 @@ class BerandaFragment : Fragment(), ITpsView, ConnectivityReceiver.ConnectivityR
      *
      * @author imam mufiid
      * */
-    override fun hideLoadingTps() {
+    override fun hideLoadingTps(state: Int?) {
         shimmer?.stopShimmer()
         shimmer?.visibility = View.GONE
         jumlah_pemilih.visibility = View.VISIBLE
