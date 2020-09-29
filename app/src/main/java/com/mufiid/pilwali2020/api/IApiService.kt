@@ -7,7 +7,8 @@ import com.mufiid.pilwali2020.responses.MessageResponse
 import com.mufiid.pilwali2020.responses.WrappedListResponses
 import com.mufiid.pilwali2020.responses.WrappedResponse
 import io.reactivex.rxjava3.core.Flowable
-import io.reactivex.rxjava3.core.Observable
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import retrofit2.http.*
 
 interface IApiService {
@@ -42,5 +43,38 @@ interface IApiService {
         @Query("id") id_tps: String?
     ): Flowable<WrappedResponse<Tps>>
 
+`    // INSERT DAFTAR PEMILIH
+`    @FormUrlEncoded
+    @POST("tps")
+    fun inputDaftarPemilih(
+        @Field("id") id_tps: String?,
+        @Field("form_page") form_page: String?,
+        @Field("dpt_2") dpt: Int?,
+        @Field("dptb_2") dptb: Int?,
+        @Field("dpk_2") dpk: Int?,
+        @Field("dpktb_2") dpktb: Int?,
+        @Field("difabel_2") difabel: Int?
+    ): Flowable<MessageResponse>
 
+    // INSERT DATA TPS
+    @Multipart
+    @POST("tps")
+    fun inputDataTPS(
+        @Part("id") id_tps: RequestBody?,
+        @Part("form_page") form_page: RequestBody?,
+        @Part foto: MultipartBody.Part,
+        @Part("lati") latitude: RequestBody?,
+        @Part("longi") longitude: RequestBody?,
+        @Part("username") username: RequestBody?
+    ) : Flowable<MessageResponse>
+
+    // UPDATE PROFILE
+    @FormUrlEncoded
+    @POST("")
+    fun updateProfile(
+        @Field("id_user") id_user: String?,
+        @Field("nama") nama: String?,
+        @Field("passwdNew") passwdNew: String?,
+        @Field("passwdOld") passwdOld: String?
+    ) : Flowable<MessageResponse>
 }
