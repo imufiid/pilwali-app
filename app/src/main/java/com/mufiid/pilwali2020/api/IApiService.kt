@@ -62,7 +62,7 @@ interface IApiService {
     fun inputDataTPS(
         @Part("id") id_tps: RequestBody?,
         @Part("form_page") form_page: RequestBody?,
-        @Part foto: MultipartBody.Part,
+        @Part foto_tps: MultipartBody.Part,
         @Part("lati") latitude: RequestBody?,
         @Part("longi") longitude: RequestBody?,
         @Part("username") username: RequestBody?
@@ -72,10 +72,11 @@ interface IApiService {
     @Multipart
     @POST("perhitungan")
     fun postSuaraPaslon(
-        @Part("id") id_tps: RequestBody?,
-        @Part("id_paslon[]") id_paslon: RequestBody?,
-        @Part("suara_sah[]") suara_sah: RequestBody?,
-        @Part foto: MultipartBody.Part
+        @Part("id_tps") id_tps: RequestBody?,
+        @Part("id_paslon[]") id_paslon: List<Int>?,
+        @Part("suara_sah[]") suara_sah: List<Int>?,
+        @Part foto_blanko: MultipartBody.Part,
+        @Part("username") username: RequestBody?
     ): Flowable<MessageResponse>
 
     // UPDATE PROFILE

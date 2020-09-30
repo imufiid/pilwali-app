@@ -6,10 +6,12 @@ import com.mufiid.pilwali2020.views.ILoadingView
 import com.mufiid.pilwali2020.views.IPaslonView
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.schedulers.Schedulers
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 
 class AddVotePresenter(private val paslonView: IPaslonView) {
     fun getPaslon() {
-        paslonView.isLoadingPaslon()
+        paslonView.isLoadingPaslon(1)
         ApiClient.instance().getPaslon()
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
@@ -27,11 +29,39 @@ class AddVotePresenter(private val paslonView: IPaslonView) {
                         paslonView.failedGetDataPaslon(it.message)
                     }
                 }
-                paslonView.hideLoadingPaslon()
-            },{
+                paslonView.hideLoadingPaslon(1)
+            }, {
                 // code ...
                 Log.d("AUTH ERROR", it.message!!)
-                paslonView.hideLoadingPaslon()
+                paslonView.hideLoadingPaslon(1)
             })
+    }
+
+    fun postDataPerolehanSuara(
+        id_tps: RequestBody?,
+        id_paslon: List<Int>?,
+        suara_sah: List<Int>,
+        foto: MultipartBody.Part,
+        username: RequestBody?
+    ) {
+        paslonView.isLoadingPaslon(2)
+        ApiClient.instance().postSuaraPaslon(id_tps, id_paslon, suara_sah, foto, username)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe({
+                when (it.status) {
+                    201 -> {
+                        paslonView.failedGetDataPaslon(it.message)
+                    }
+                    400 -> {
+                        paslonView.failedGetDataPaslon(it.message)
+                    }
+                }
+                paslonView.hideLoadingPaslon(2)
+            }, {
+                paslonView.failedGetDataPaslon(it.message)
+                paslonView.hideLoadingPaslon(2)
+            })
+
     }
 }

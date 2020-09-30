@@ -1,6 +1,7 @@
 package com.mufiid.pilwali2020.ui.activities
 
 import android.Manifest
+import android.app.ProgressDialog
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
@@ -45,15 +46,17 @@ import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.*
 
+@Suppress("DEPRECATION")
 class AddVoteActivity : AppCompatActivity(), IPaslonView, ITpsView {
     private val REQUEST_IMAGE_CAPTURE = 1
     private lateinit var viewManager: RecyclerView.LayoutManager
+    private var loading: ProgressDialog? = null
     private var presenter: AddVotePresenter? = null
     private var tpsPresenter: TpsPresenter? = null
     private var fotoBlangko: Bitmap? = null
-    private lateinit var currentPhotoPath: String
-    private val suaraPaslon = mutableListOf<String>()
-    private val idPaslon = mutableListOf<String>()
+    private var currentPhotoPath: String? = null
+    private val suaraPaslon = mutableListOf<Int>()
+    private val idPaslon = mutableListOf<Int>()
     val idJsonObject: JSONObject? = null
     val suaraJsonObject: JSONObject? = null
 
@@ -66,7 +69,8 @@ class AddVoteActivity : AppCompatActivity(), IPaslonView, ITpsView {
         viewManager = LinearLayoutManager(this)
         presenter = AddVotePresenter(this)
         tpsPresenter = TpsPresenter(this)
-
+        loading = ProgressDialog(this)
+        presenter?.getPaslon()
 
         open_camera.setOnClickListener {
             captureBlangko()
@@ -94,12 +98,11 @@ class AddVoteActivity : AppCompatActivity(), IPaslonView, ITpsView {
         idPaslon.clear()
         suaraPaslon.clear()
         for (i in 0 until (PaslonAdapter.dataPaslon?.size ?: 0)) {
-            suaraPaslon.add(PaslonAdapter.dataPaslon!![i].jumlah_suara.toString())
-            idPaslon.add(PaslonAdapter.dataPaslon!![i].id.toString())
+            suaraPaslon.add(PaslonAdapter.dataPaslon!![i].jumlah_suara!!.toInt())
+            idPaslon.add(PaslonAdapter.dataPaslon!![i].id!!.toInt())
             idJsonObject?.put("id[$i]", PaslonAdapter.dataPaslon!![i].id.toString())
             suaraJsonObject?.put("suara[$i]", PaslonAdapter.dataPaslon!![i].jumlah_suara.toString())
         }
-
 
          val idJson = gson.toJson(idPaslon)
 
@@ -109,17 +112,17 @@ class AddVoteActivity : AppCompatActivity(), IPaslonView, ITpsView {
         Log.d("SUARA PASLON", suaraPaslon.toString())
 
         // POST Data
-//        val pictBlangko = File(currentPhotoPath)
-//        val reqFile = pictBlangko.asRequestBody("image/*".toMediaTypeOrNull())
-//        val pictPart = MultipartBody.Part.createFormData("foto", pictBlangko.name, reqFile)
-//
-//        val idTps = Constants.getIDTps(this).toRequestBody("text/plain".toMediaTypeOrNull())
-//        val idPaslon = idPaslon.toString().toRequestBody("text/plain".toMediaTypeOrNull())
+        val pictBlangko = File(currentPhotoPath)
+        val reqFile = pictBlangko.asRequestBody("image/*".toMediaTypeOrNull())
+        val pictPart = MultipartBody.Part.createFormData("foto_blanko", pictBlangko.name, reqFile)
+
+        val idTps = Constants.getIDTps(this).toRequestBody("text/plain".toMediaTypeOrNull())
+        val username = Constants.getUsername(this).toRequestBody("text/plain".toMediaTypeOrNull())
+        presenter?.postDataPerolehanSuara(idTps, idPaslon, suaraPaslon, pictPart, username)
     }
 
     override fun onResume() {
         super.onResume()
-        presenter?.getPaslon()
         tpsPresenter?.getDataTps(Constants.getIDTps(this))
     }
 
@@ -163,7 +166,7 @@ class AddVoteActivity : AppCompatActivity(), IPaslonView, ITpsView {
     }
 
     private fun rotate(bitmap: Bitmap) {
-        val ei = ExifInterface(currentPhotoPath)
+        val ei = ExifInterface(currentPhotoPath!!)
         val orientation =
             ei.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_UNDEFINED)
         Log.d("EXIF value", ei.getAttribute(ExifInterface.TAG_ORIENTATION).toString());
@@ -224,25 +227,42 @@ class AddVoteActivity : AppCompatActivity(), IPaslonView, ITpsView {
         }
     }
 
-    override fun isLoadingPaslon() {
-        shimmer_container.visibility = View.VISIBLE
-        shimmer_container.startShimmer()
-        rv_paslon.visibility = View.GONE
-        title_upload_blangko.visibility = View.GONE
-        div2.visibility = View.GONE
-        layout_img.visibility = View.GONE
-        btn_save.visibility = View.GONE
+    override fun isLoadingPaslon(state: Int?) {
+        when(state) {
+            1 -> {
+                shimmer_container.visibility = View.VISIBLE
+                shimmer_container.startShimmer()
+                rv_paslon.visibility = View.GONE
+                title_upload_blangko.visibility = View.GONE
+                div2.visibility = View.GONE
+                layout_img.visibility = View.GONE
+                btn_save.visibility = View.GONE
+            }
+            2 -> {
+                loading?.setMessage("Tunggu sebentar..")
+                loading?.show()
+            }
+        }
+
     }
 
-    override fun hideLoadingPaslon() {
-        shimmer_container.visibility = View.GONE
-        shimmer_container.stopShimmer()
-        title_upload_blangko.visibility = View.VISIBLE
-        rv_paslon.visibility = View.VISIBLE
+    override fun hideLoadingPaslon(state: Int?) {
+        when(state) {
+            1 -> {
+                shimmer_container.visibility = View.GONE
+                shimmer_container.stopShimmer()
+                title_upload_blangko.visibility = View.VISIBLE
+                rv_paslon.visibility = View.VISIBLE
 
-        div2.visibility = View.VISIBLE
-        layout_img.visibility = View.VISIBLE
-        btn_save.visibility = View.VISIBLE
+                div2.visibility = View.VISIBLE
+                layout_img.visibility = View.VISIBLE
+                btn_save.visibility = View.VISIBLE
+            }
+            2 -> {
+                loading?.dismiss()
+            }
+        }
+
     }
 
     override fun getDataPaslon(message: String?, data: List<Paslon>?) {

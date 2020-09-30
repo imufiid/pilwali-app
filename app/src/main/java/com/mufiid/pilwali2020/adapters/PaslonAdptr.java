@@ -73,7 +73,7 @@ public class PaslonAdptr extends RecyclerView.Adapter<PaslonAdptr.MyViewHolder> 
 
                 @Override
                 public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                    editModelArrayList.get(getAdapterPosition()).setJumlah_suara(Integer.valueOf(editText.getText().toString()));
+                    editModelArrayList.get(getAdapterPosition()).setJumlah_suara(editText.getText().toString());
                 }
 
                 @Override

@@ -84,7 +84,7 @@ class TpsActivity : AppCompatActivity(), MySimpleLocation.MySimpleLocationCallba
         //val pictFromBitmap = createFile(fotoTPS)
         val pictFromBitmap = File(currentPhotoPath)
         val reqFile: RequestBody = RequestBody.create("image/*".toMediaTypeOrNull(), pictFromBitmap)
-        val part = MultipartBody.Part.createFormData("foto", pictFromBitmap.name, reqFile)
+        val part = MultipartBody.Part.createFormData("foto_tps", pictFromBitmap.name, reqFile)
 
         val lat = RequestBody.create("text/plain".toMediaTypeOrNull(), latitude.text.toString())
         val long = RequestBody.create("text/plain".toMediaTypeOrNull(), longitude.text.toString())
