@@ -43,8 +43,8 @@ interface IApiService {
         @Query("id") id_tps: String?
     ): Flowable<WrappedResponse<Tps>>
 
-`    // INSERT DAFTAR PEMILIH
-`    @FormUrlEncoded
+    // INSERT DAFTAR PEMILIH
+    @FormUrlEncoded
     @POST("tps")
     fun inputDaftarPemilih(
         @Field("id") id_tps: String?,
@@ -66,15 +66,15 @@ interface IApiService {
         @Part("lati") latitude: RequestBody?,
         @Part("longi") longitude: RequestBody?,
         @Part("username") username: RequestBody?
-    ) : Flowable<MessageResponse>
+    ): Flowable<MessageResponse>
 
     // UPDATE PROFILE
     @FormUrlEncoded
-    @POST("")
+    @POST("user")
     fun updateProfile(
-        @Field("id_user") id_user: String?,
+        @Field("id") id_user: String?,
+        @Field("username") username: String?,
         @Field("nama") nama: String?,
-        @Field("passwdNew") passwdNew: String?,
-        @Field("passwdOld") passwdOld: String?
-    ) : Flowable<MessageResponse>
+        @Field("password") passwdNew: String?
+    ): Flowable<MessageResponse>
 }
