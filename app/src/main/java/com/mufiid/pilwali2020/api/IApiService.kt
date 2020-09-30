@@ -68,6 +68,16 @@ interface IApiService {
         @Part("username") username: RequestBody?
     ): Flowable<MessageResponse>
 
+    // DATA SUARA PASLON
+    @Multipart
+    @POST("perhitungan")
+    fun postSuaraPaslon(
+        @Part("id") id_tps: RequestBody?,
+        @Part("id_paslon[]") id_paslon: RequestBody?,
+        @Part("suara_sah[]") suara_sah: RequestBody?,
+        @Part foto: MultipartBody.Part
+    ): Flowable<MessageResponse>
+
     // UPDATE PROFILE
     @FormUrlEncoded
     @POST("user")
