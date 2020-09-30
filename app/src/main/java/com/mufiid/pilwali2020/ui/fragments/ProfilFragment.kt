@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
+import android.widget.TextView
 import com.mufiid.pilwali2020.R
 import com.mufiid.pilwali2020.ui.activities.EditProfileActivity
 import com.mufiid.pilwali2020.ui.activities.LoginActivity
@@ -43,13 +44,15 @@ class ProfilFragment : Fragment() {
 
         val editProfile = root.findViewById<LinearLayout>(R.id.editProfile) as LinearLayout
         val logout = root.findViewById<LinearLayout>(R.id.logout) as LinearLayout
+        val tv_username = root.findViewById<TextView>(R.id.username_user) as TextView
 
         editProfile.setOnClickListener {
             startActivity(Intent(context, EditProfileActivity::class.java))
         }
 
+        tv_username.text = Constants.getUsername(context!!)
+
         logout.setOnClickListener {
-            
             AlertDialog.Builder(context).apply { 
                 setTitle("Konfirmasi keluar")
                 setMessage("Anda yakin keluar?")
@@ -63,10 +66,7 @@ class ProfilFragment : Fragment() {
                     }
             }.show()
 
-
-            
         }
-
 
         return root
     }

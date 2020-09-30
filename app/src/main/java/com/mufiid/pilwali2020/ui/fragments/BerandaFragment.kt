@@ -145,7 +145,7 @@ class BerandaFragment : Fragment(), ITpsView, ConnectivityReceiver.ConnectivityR
      * @param data => data from response API
      * */
     override fun getDataTps(message: String?, data: Tps) {
-        tps?.text = "TPS ${data.noTps} - Kel. ${data.kelurahan} Kec. ${data.kecamatan}"
+        tps?.text = "TPS ${data.noTps} - ${data.kelurahan} ${data.kecamatan}"
         dpt?.text = data.dpt2
         dptb?.text = data.dptb2
         dpk?.text = data.dpk2
