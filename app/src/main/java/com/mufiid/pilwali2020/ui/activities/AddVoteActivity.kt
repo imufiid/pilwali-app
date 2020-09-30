@@ -20,6 +20,8 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.FileProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.gson.Gson
+import com.google.gson.GsonBuilder
 import com.mufiid.pilwali2020.R
 import com.mufiid.pilwali2020.adapters.PaslonAdapter
 import com.mufiid.pilwali2020.adapters.PaslonAdptr
@@ -31,6 +33,13 @@ import com.mufiid.pilwali2020.utils.Constants
 import com.mufiid.pilwali2020.views.IPaslonView
 import com.mufiid.pilwali2020.views.ITpsView
 import kotlinx.android.synthetic.main.activity_add_vote.*
+import okhttp3.MediaType
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
+import okhttp3.RequestBody.Companion.asRequestBody
+import okhttp3.RequestBody.Companion.toRequestBody
+import org.json.JSONObject
 import java.io.File
 import java.io.IOException
 import java.text.SimpleDateFormat
@@ -43,6 +52,10 @@ class AddVoteActivity : AppCompatActivity(), IPaslonView, ITpsView {
     private var tpsPresenter: TpsPresenter? = null
     private var fotoBlangko: Bitmap? = null
     private lateinit var currentPhotoPath: String
+    private val suaraPaslon = mutableListOf<String>()
+    private val idPaslon = mutableListOf<String>()
+    val idJsonObject: JSONObject? = null
+    val suaraJsonObject: JSONObject? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -69,9 +82,8 @@ class AddVoteActivity : AppCompatActivity(), IPaslonView, ITpsView {
     }
 
     private fun doUpload() {
-        // get suara paslon
-        var tes: Array<String>? = null
-        val array = mutableListOf<String>()
+        val gson = Gson()
+        val gsonPretty = GsonBuilder().setPrettyPrinting().create()
 
         // JAVA
         // for (i in 0 until PaslonAdptr.editModelArrayList.size) {
@@ -79,10 +91,30 @@ class AddVoteActivity : AppCompatActivity(), IPaslonView, ITpsView {
         // }
 
         // KOTLIN
+        idPaslon.clear()
+        suaraPaslon.clear()
         for (i in 0 until (PaslonAdapter.dataPaslon?.size ?: 0)) {
-            array.add(PaslonAdapter.dataPaslon!![i].jumlah_suara.toString())
+            suaraPaslon.add(PaslonAdapter.dataPaslon!![i].jumlah_suara.toString())
+            idPaslon.add(PaslonAdapter.dataPaslon!![i].id.toString())
+            idJsonObject?.put("id[$i]", PaslonAdapter.dataPaslon!![i].id.toString())
+            suaraJsonObject?.put("suara[$i]", PaslonAdapter.dataPaslon!![i].jumlah_suara.toString())
         }
-        Log.d("SUARA", array.toString())
+
+
+         val idJson = gson.toJson(idPaslon)
+
+
+        Log.d("ID_PASLON", idPaslon.toString())
+        Log.d("ID_PASLON_JSON", idJson)
+        Log.d("SUARA PASLON", suaraPaslon.toString())
+
+        // POST Data
+//        val pictBlangko = File(currentPhotoPath)
+//        val reqFile = pictBlangko.asRequestBody("image/*".toMediaTypeOrNull())
+//        val pictPart = MultipartBody.Part.createFormData("foto", pictBlangko.name, reqFile)
+//
+//        val idTps = Constants.getIDTps(this).toRequestBody("text/plain".toMediaTypeOrNull())
+//        val idPaslon = idPaslon.toString().toRequestBody("text/plain".toMediaTypeOrNull())
     }
 
     override fun onResume() {
