@@ -22,6 +22,16 @@
         android:usesCleartextTraffic="true"
         android:theme="@style/AppTheme"
         tools:targetApi="m">
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="com.mufiid.pilwali2020.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_path">
+            </meta-data>
+        </provider>
         <activity android:name="com.mufiid.pilwali2020.ui.activities.AddVoteActivity"
             android:parentActivityName="com.mufiid.pilwali2020.ui.activities.PilwaliActivity"/>
         <activity

@@ -6,8 +6,11 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.graphics.Matrix
 import android.location.Geocoder
 import android.location.Location
+import android.media.ExifInterface
+import android.net.Uri
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -19,6 +22,7 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
+import androidx.core.content.FileProvider
 import com.example.locationbasedservice.MySimpleLocation
 import com.mufiid.pilwali2020.R
 import com.mufiid.pilwali2020.models.Tps
@@ -39,6 +43,7 @@ import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
+import java.text.SimpleDateFormat
 import java.util.*
 
 @Suppress("DEPRECATION")
@@ -48,14 +53,15 @@ class TpsActivity : AppCompatActivity(), MySimpleLocation.MySimpleLocationCallba
     private var loading: ProgressDialog? = null
     private var tpsPresenter: TpsPresenter? = null
     private var fotoTPS: Bitmap? = null
+    private lateinit var currentPhotoPath: String
 
     // pertama
-    lateinit var mySimpleLocation: MySimpleLocation
+    private lateinit var mySimpleLocation: MySimpleLocation
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_tps)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        supportActionBar?.title = "TPS"
+        supportActionBar?.title = "Detail TPS"
 
         // init progressbar
         loading = ProgressDialog(this)
@@ -71,11 +77,13 @@ class TpsActivity : AppCompatActivity(), MySimpleLocation.MySimpleLocationCallba
         }
 
         getPermission()
+        getPermissionTakePhoto()
     }
 
     private fun doSimpan() {
-        val pictFromBitmap = createFile(fotoTPS)
-        val reqFile: RequestBody = RequestBody.create("image/*".toMediaTypeOrNull(), pictFromBitmap!!)
+        //val pictFromBitmap = createFile(fotoTPS)
+        val pictFromBitmap = File(currentPhotoPath)
+        val reqFile: RequestBody = RequestBody.create("image/*".toMediaTypeOrNull(), pictFromBitmap)
         val part = MultipartBody.Part.createFormData("foto", pictFromBitmap.name, reqFile)
 
         val lat = RequestBody.create("text/plain".toMediaTypeOrNull(), latitude.text.toString())
@@ -86,6 +94,48 @@ class TpsActivity : AppCompatActivity(), MySimpleLocation.MySimpleLocationCallba
 
 
         tpsPresenter?.postData(id_tps, form_page, part, lat, long, username)
+    }
+
+    private fun createImageFile(): File {
+        // Create an image file name
+        val timeStamp: String = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
+        val storageDir: File? = getExternalFilesDir(Environment.DIRECTORY_PICTURES)
+        return File.createTempFile(
+            "JPEG_${timeStamp}_", /* prefix */
+            ".jpg", /* suffix */
+            storageDir /* directory */
+        ).apply {
+            // Save a file: path for use with ACTION_VIEW intents
+            currentPhotoPath = absolutePath
+        }
+    }
+
+    private fun rotate(bitmap: Bitmap) {
+        val ei = ExifInterface(currentPhotoPath)
+        val orientation =
+            ei.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_UNDEFINED)
+        Log.d("EXIF value", ei.getAttribute(ExifInterface.TAG_ORIENTATION).toString());
+        var rotateBitmap: Bitmap? = null
+
+        val eiValue = ei.getAttribute(ExifInterface.TAG_ORIENTATION)?.toInt()
+        if(Build.VERSION.SDK_INT >= 23) {
+            when (eiValue) {
+                6 -> rotateImg(bitmap, 90F)
+                8 -> rotateImg(bitmap, 270F)
+                3 -> rotateImg(bitmap, 180F)
+                1 -> rotateImg(bitmap, 0F)
+                0 -> rotateImg(bitmap, 90F)
+            }
+        }
+
+    }
+
+    private fun rotateImg(bitmap: Bitmap, i: Float) {
+        val matrix = Matrix()
+        matrix.setRotate(i)
+        val img = Bitmap.createBitmap(bitmap, 0, 0, bitmap.width, bitmap.height, matrix, true)
+        fotoTPS = img
+        image_tps.setImageBitmap(img)
     }
 
     /**
@@ -117,6 +167,11 @@ class TpsActivity : AppCompatActivity(), MySimpleLocation.MySimpleLocationCallba
         return file
     }
 
+    override fun onResume() {
+        super.onResume()
+        tpsPresenter?.getDataTps(Constants.getIDTps(this))
+    }
+
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
 //        return super.onCreateOptionsMenu(menu)
         menuInflater.inflate(R.menu.menu_refresh_tps, menu)
@@ -140,16 +195,33 @@ class TpsActivity : AppCompatActivity(), MySimpleLocation.MySimpleLocationCallba
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
-            val imageBitmap = data?.extras?.get("data") as Bitmap
-            fotoTPS = imageBitmap
-            image_tps.setImageBitmap(imageBitmap)
+//            val imageBitmap = data?.extras?.get("data") as Bitmap
+            val imageBitmap = BitmapFactory.decodeFile(currentPhotoPath)
+            rotate(imageBitmap)
         }
     }
 
     private fun captureTPS() {
         Intent(MediaStore.ACTION_IMAGE_CAPTURE).also { takePictureIntent ->
+            // Ensure that there's a camera activity to handle the intent
             takePictureIntent.resolveActivity(packageManager)?.also {
-                startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE)
+                // Create the File where the photo should go
+                val photoFile: File? = try {
+                    createImageFile()
+                } catch (ex: IOException) {
+                    // Error occurred while creating the File
+                    null
+                }
+                // Continue only if the File was successfully created
+                photoFile?.also {
+                    val photoURI: Uri = FileProvider.getUriForFile(
+                        this,
+                        "com.mufiid.pilwali2020.fileprovider",
+                        it
+                    )
+                    takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI)
+                    startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE)
+                }
             }
         }
     }
@@ -194,60 +266,124 @@ class TpsActivity : AppCompatActivity(), MySimpleLocation.MySimpleLocationCallba
         }
     }
 
-    override fun getLocation(location: Location) {
-        val lat = location.latitude
-        val long = location.longitude
-        val lati = lat.toString()
-        val longi = long.toString()
-        Log.d("MAINACTIVITY", "$lat $long")
-
-        GlobalScope.launch(Dispatchers.IO) {
-            val geoCoder = Geocoder(this@TpsActivity, Locale.getDefault())
-            val addresses = geoCoder.getFromLocation(lat, long, 1)
-
-            val address = if (addresses != null && addresses.size != 0) {
-                val fullAddress = addresses[0].getAddressLine(0)
-                fullAddress.plus("")
-            } else {
-                "Addresses Not Found!"
+    private fun getPermissionTakePhoto() {
+        if (Build.VERSION.SDK_INT >= 23) {
+            if (checkSelfPermission(
+                    Manifest.permission.CAMERA
+                ) != PackageManager.PERMISSION_GRANTED ||
+                checkSelfPermission(
+                    Manifest.permission.READ_EXTERNAL_STORAGE
+                ) != PackageManager.PERMISSION_GRANTED ||
+                checkSelfPermission(
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE
+                ) != PackageManager.PERMISSION_GRANTED
+            ) {
+                ActivityCompat.requestPermissions(
+                    this,
+                    arrayOf(
+                        android.Manifest.permission.CAMERA,
+                        android.Manifest.permission.READ_EXTERNAL_STORAGE,
+                        android.Manifest.permission.WRITE_EXTERNAL_STORAGE
+                    ),
+                    1
+                )
             }
-
-            launch(Dispatchers.Main) {
-                try {
-                    Log.d("ADDRESS", address)
-
-                    // stop shimmer
-                    mShimmerViewContainer.stopShimmer()
-                    mShimmerViewContainer.visibility = View.GONE
-                    layout_latitude.visibility = View.VISIBLE
-                    layout_longitude.visibility = View.VISIBLE
-
-                    et_alamat_tps.setText(address)
-                    latitude.setText(lati)
-                    longitude.setText(longi)
-
-                    //If you want to stop get your location on first result
-                    mySimpleLocation.stopGetLocation()
-                } catch (e: Exception) {
-                    Log.e("MAINACTIVITY", e.message.toString())
-                }
-            }
-
-
         }
     }
 
+    override fun getLocation(location: Location) {
+        val lat = location.latitude
+        val long = location.longitude
+        Log.d("MAINACTIVITY", "${lat.toString()} ${long.toString()}")
+
+        // bind to UI
+        try {
+            // stop shimmer
+            mShimmerViewContainer.stopShimmer()
+            mShimmerViewContainer.visibility = View.GONE
+            layout_latitude.visibility = View.VISIBLE
+            layout_longitude.visibility = View.VISIBLE
+
+            latitude.setText(lat.toString())
+            longitude.setText(long.toString())
+
+            //If you want to stop get your location on first result
+            mySimpleLocation.stopGetLocation()
+        } catch (e: Exception) {
+            Log.e("MAINACTIVITY", e.message.toString())
+        }
+
+//        GlobalScope.launch(Dispatchers.IO) {
+//            val geoCoder = Geocoder(this@TpsActivity, Locale.getDefault())
+//            val addresses = geoCoder.getFromLocation(lat, long, 1)
+//
+//            val address = if (addresses != null && addresses.size != 0) {
+//                val fullAddress = addresses[0].getAddressLine(0)
+//                fullAddress.plus("")
+//            } else {
+//                "Addresses Not Found!"
+//            }
+//
+//            launch(Dispatchers.Main) {
+//                try {
+//
+//                    // stop shimmer
+//                    mShimmerViewContainer.stopShimmer()
+//                    mShimmerViewContainer.visibility = View.GONE
+//                    layout_latitude.visibility = View.VISIBLE
+//                    layout_longitude.visibility = View.VISIBLE
+//
+//                    latitude.setText(lati)
+//                    longitude.setText(longi)
+//
+//                    //If you want to stop get your location on first result
+//                    mySimpleLocation.stopGetLocation()
+//                } catch (e: Exception) {
+//                    Log.e("MAINACTIVITY", e.message.toString())
+//                }
+//            }
+//
+//
+//        }
+    }
+
     override fun isLoadingTps(state: Int?) {
-        loading?.setMessage("Mohon tunggu sebentar...")
-        loading?.show()
+        when(state) {
+            1 -> {
+                // get
+                shimmer_container_detail_tps.visibility = View.VISIBLE
+                shimmer_container_detail_tps.startShimmer()
+                sub_layout_detail_tps.visibility = View.GONE
+            }
+            2 -> {
+                // post
+                loading?.setMessage("Mohon tunggu sebentar...")
+                loading?.show()
+            }
+        }
+
     }
 
     override fun hideLoadingTps(state: Int?) {
-        loading?.dismiss()
+        when(state) {
+            1 -> {
+                // get
+                shimmer_container_detail_tps.stopShimmer()
+                shimmer_container_detail_tps.visibility = View.GONE
+                sub_layout_detail_tps.visibility = View.VISIBLE
+            }
+            2 -> {
+                // post
+                loading?.dismiss()
+            }
+        }
     }
 
     override fun getDataTps(message: String?, data: Tps) {
-        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+        nomor_tps.text = data.noTps
+        kel_tps.text = data.kelurahan
+        kec_tps.text = data.kecamatan
+        et_alamat_tps.text = data.alamat
     }
 
     override fun failedGetDataTps(message: String?) {
