@@ -60,7 +60,7 @@ class PaslonAdapter(val data: List<Paslon>) : RecyclerView.Adapter<PaslonAdapter
                 override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                     // code
                      val suara_paslon = s.toString()
-                    data[adapterPosition].jumlah_suara = itemView.et_suara_paslon.text.toString()
+                    data[adapterPosition].jumlah_suara = itemView.et_suara_paslon.text.toString().toInt()
                 }
 
             })
