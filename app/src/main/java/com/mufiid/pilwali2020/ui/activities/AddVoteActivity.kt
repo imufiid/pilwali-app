@@ -4,17 +4,25 @@ import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.graphics.Matrix
+import android.media.ExifInterface
+import android.net.Uri
 import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Environment
 import android.provider.MediaStore
+import android.util.Log
 import android.view.View
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
+import androidx.core.content.FileProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.mufiid.pilwali2020.R
 import com.mufiid.pilwali2020.adapters.PaslonAdapter
+import com.mufiid.pilwali2020.adapters.PaslonAdptr
 import com.mufiid.pilwali2020.models.Paslon
 import com.mufiid.pilwali2020.models.Tps
 import com.mufiid.pilwali2020.presenters.AddVotePresenter
@@ -23,13 +31,18 @@ import com.mufiid.pilwali2020.utils.Constants
 import com.mufiid.pilwali2020.views.IPaslonView
 import com.mufiid.pilwali2020.views.ITpsView
 import kotlinx.android.synthetic.main.activity_add_vote.*
-import kotlinx.android.synthetic.main.activity_add_vote.open_camera
+import java.io.File
+import java.io.IOException
+import java.text.SimpleDateFormat
+import java.util.*
 
 class AddVoteActivity : AppCompatActivity(), IPaslonView, ITpsView {
     private val REQUEST_IMAGE_CAPTURE = 1
     private lateinit var viewManager: RecyclerView.LayoutManager
     private var presenter: AddVotePresenter? = null
     private var tpsPresenter: TpsPresenter? = null
+    private var fotoBlangko: Bitmap? = null
+    private lateinit var currentPhotoPath: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,6 +60,29 @@ class AddVoteActivity : AppCompatActivity(), IPaslonView, ITpsView {
         }
 
         getPermission()
+
+
+
+        btn_save.setOnClickListener {
+            doUpload()
+        }
+    }
+
+    private fun doUpload() {
+        // get suara paslon
+        var tes: Array<String>? = null
+        val array = mutableListOf<String>()
+
+        // JAVA
+        // for (i in 0 until PaslonAdptr.editModelArrayList.size) {
+        //     array.add(PaslonAdptr.editModelArrayList[i].jumlah_suara.toString())
+        // }
+
+        // KOTLIN
+        for (i in 0 until (PaslonAdapter.dataPaslon?.size ?: 0)) {
+            array.add(PaslonAdapter.dataPaslon!![i].jumlah_suara.toString())
+        }
+        Log.d("SUARA", array.toString())
     }
 
     override fun onResume() {
@@ -57,17 +93,76 @@ class AddVoteActivity : AppCompatActivity(), IPaslonView, ITpsView {
 
     private fun captureBlangko() {
         Intent(MediaStore.ACTION_IMAGE_CAPTURE).also { takePictureIntent ->
+            // Ensure that there's a camera activity to handle the intent
             takePictureIntent.resolveActivity(packageManager)?.also {
-                startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE)
+                // Create the File where the photo should go
+                val photoFile: File? = try {
+                    createImageFile()
+                } catch (ex: IOException) {
+                    // Error occurred while creating the File
+                    null
+                }
+                // Continue only if the File was successfully created
+                photoFile?.also {
+                    val photoURI: Uri = FileProvider.getUriForFile(
+                        this,
+                        "com.mufiid.pilwali2020.fileprovider",
+                        it
+                    )
+                    takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI)
+                    startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE)
+                }
             }
         }
+    }
+
+    private fun createImageFile(): File {
+        // Create an image file name
+        val timeStamp: String = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
+        val storageDir: File? = getExternalFilesDir(Environment.DIRECTORY_PICTURES)
+        return File.createTempFile(
+            "JPEG_${timeStamp}_", /* prefix */
+            ".jpg", /* suffix */
+            storageDir /* directory */
+        ).apply {
+            // Save a file: path for use with ACTION_VIEW intents
+            currentPhotoPath = absolutePath
+        }
+    }
+
+    private fun rotate(bitmap: Bitmap) {
+        val ei = ExifInterface(currentPhotoPath)
+        val orientation =
+            ei.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_UNDEFINED)
+        Log.d("EXIF value", ei.getAttribute(ExifInterface.TAG_ORIENTATION).toString());
+        var rotateBitmap: Bitmap? = null
+
+        val eiValue = ei.getAttribute(ExifInterface.TAG_ORIENTATION)?.toInt()
+        if (Build.VERSION.SDK_INT >= 23) {
+            when (eiValue) {
+                6 -> rotateImg(bitmap, 90F)
+                8 -> rotateImg(bitmap, 270F)
+                3 -> rotateImg(bitmap, 180F)
+                1 -> rotateImg(bitmap, 0F)
+                0 -> rotateImg(bitmap, 90F)
+            }
+        }
+
+    }
+
+    private fun rotateImg(bitmap: Bitmap, i: Float) {
+        val matrix = Matrix()
+        matrix.setRotate(i)
+        val img = Bitmap.createBitmap(bitmap, 0, 0, bitmap.width, bitmap.height, matrix, true)
+        fotoBlangko = img
+        image_blangko.setImageBitmap(img)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
-            val imageBitmap = data?.extras?.get("data") as Bitmap
-            image_blangko.setImageBitmap(imageBitmap)
+            val imageBitmap = BitmapFactory.decodeFile(currentPhotoPath)
+            rotate(imageBitmap)
         }
     }
 
@@ -100,6 +195,7 @@ class AddVoteActivity : AppCompatActivity(), IPaslonView, ITpsView {
     override fun isLoadingPaslon() {
         shimmer_container.visibility = View.VISIBLE
         shimmer_container.startShimmer()
+        rv_paslon.visibility = View.GONE
         title_upload_blangko.visibility = View.GONE
         div2.visibility = View.GONE
         layout_img.visibility = View.GONE
@@ -110,6 +206,8 @@ class AddVoteActivity : AppCompatActivity(), IPaslonView, ITpsView {
         shimmer_container.visibility = View.GONE
         shimmer_container.stopShimmer()
         title_upload_blangko.visibility = View.VISIBLE
+        rv_paslon.visibility = View.VISIBLE
+
         div2.visibility = View.VISIBLE
         layout_img.visibility = View.VISIBLE
         btn_save.visibility = View.VISIBLE
@@ -119,8 +217,12 @@ class AddVoteActivity : AppCompatActivity(), IPaslonView, ITpsView {
         rv_paslon.apply {
             setHasFixedSize(true)
             layoutManager = viewManager
+
+            // KOTLIN
             adapter = PaslonAdapter(data!!)
 
+            // JAVA
+            // adapter = PaslonAdptr(this@AddVoteActivity, data as ArrayList<Paslon>?)
         }
     }
 
