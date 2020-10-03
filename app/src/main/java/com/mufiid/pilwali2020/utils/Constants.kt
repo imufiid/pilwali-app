@@ -4,7 +4,7 @@ import android.content.Context
 
 class Constants {
     companion object {
-        const val API_ENDPOINT = "http://192.168.1.3/pilwali-2020/index.php/api/"
+        const val API_ENDPOINT = "http://192.168.1.5/pilwali-2020/index.php/api/"
 
         fun getUsername(context: Context) : String {
             val pref = context.getSharedPreferences("USER", Context.MODE_PRIVATE)
