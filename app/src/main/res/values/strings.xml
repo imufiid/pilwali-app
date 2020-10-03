@@ -17,4 +17,5 @@
     <string name="jumlah_pemilih">Jumlah Pemilih</string>
     <string name="menu_utama">Menu Utama</string>
     <string name="foto_tps">Foto TPS</string>
+    <string name="suara_tidak_sah">Suara Tidak Sah</string>
 </resources>
