@@ -270,12 +270,14 @@
                         android:textStyle="bold" />
 
                     <ImageView
+                        android:id="@+id/ic_verifikasi"
                         android:layout_width="match_parent"
                         android:layout_height="100dp"
                         android:layout_marginTop="8dp"
                         android:src="@drawable/ic_unverification" />
 
                     <TextView
+                        android:id="@+id/tv_verifikasi"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
