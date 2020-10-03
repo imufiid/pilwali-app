@@ -42,11 +42,17 @@ data class Tps(
     @field:SerializedName("dpt_1")
     val dpt1: Any? = null,
 
+    @field:SerializedName("suara_tidak_sah")
+    val suara_tidak_sah: String? = null,
+
     @field:SerializedName("difabel_2")
     val difabel2: String? = null,
 
-    @field:SerializedName("foto")
-    val foto: String? = null,
+    @field:SerializedName("foto_blanko")
+    val foto_blanko: String? = null,
+
+    @field:SerializedName("foto_tps")
+    val foto_tps: String? = null,
 
     @field:SerializedName("difabel_1")
     val difabel1: Any? = null,
