@@ -1,6 +1,7 @@
 package com.mufiid.pilwali2020.api
 
 import com.mufiid.pilwali2020.models.Paslon
+import com.mufiid.pilwali2020.models.Perhitungan
 import com.mufiid.pilwali2020.models.Tps
 import com.mufiid.pilwali2020.models.User
 import com.mufiid.pilwali2020.responses.MessageResponse
@@ -43,6 +44,12 @@ interface IApiService {
         @Query("id") id_tps: String?
     ): Flowable<WrappedResponse<Tps>>
 
+    // GWT Data Verifikasi
+    @GET("perhitungan")
+    fun getVerifikasi(
+        @Query("id_tps") id_tps: String?
+    ): Flowable<WrappedResponse<Perhitungan>>
+
     // INSERT DAFTAR PEMILIH
     @FormUrlEncoded
     @POST("tps")
@@ -62,7 +69,7 @@ interface IApiService {
     fun inputDataTPS(
         @Part("id") id_tps: RequestBody?,
         @Part("form_page") form_page: RequestBody?,
-        @Part foto_tps: MultipartBody.Part,
+        @Part foto_tps: MultipartBody.Part?,
         @Part("lati") latitude: RequestBody?,
         @Part("longi") longitude: RequestBody?,
         @Part("username") username: RequestBody?
@@ -73,9 +80,10 @@ interface IApiService {
     @POST("perhitungan")
     fun postSuaraPaslon(
         @Part("id_tps") id_tps: RequestBody?,
+        @Part("suara_tidak_sah") suara_tidak_sah: RequestBody?,
         @Part("id_paslon[]") id_paslon: List<Int>?,
         @Part("suara_sah[]") suara_sah: List<Int>?,
-        @Part foto_blanko: MultipartBody.Part,
+        @Part foto_blanko: MultipartBody.Part?,
         @Part("username") username: RequestBody?
     ): Flowable<MessageResponse>
 
