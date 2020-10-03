@@ -20,9 +20,11 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.FileProvider
+import com.bumptech.glide.Glide
 import com.example.locationbasedservice.MySimpleLocation
 import com.mufiid.pilwali2020.R
 import com.mufiid.pilwali2020.models.Tps
@@ -53,7 +55,8 @@ class TpsActivity : AppCompatActivity(), MySimpleLocation.MySimpleLocationCallba
     private var loading: ProgressDialog? = null
     private var tpsPresenter: TpsPresenter? = null
     private var fotoTPS: Bitmap? = null
-    private lateinit var currentPhotoPath: String
+    private var part: MultipartBody.Part? = null
+    private var currentPhotoPath: String? = ""
 
     // pertama
     private lateinit var mySimpleLocation: MySimpleLocation
@@ -66,7 +69,8 @@ class TpsActivity : AppCompatActivity(), MySimpleLocation.MySimpleLocationCallba
         // init progressbar
         loading = ProgressDialog(this)
 
-         tpsPresenter = TpsPresenter(this)
+        tpsPresenter = TpsPresenter(this)
+        tpsPresenter?.getDataTps(Constants.getIDTps(this))
 
         open_camera.setOnClickListener {
             captureTPS()
@@ -82,13 +86,20 @@ class TpsActivity : AppCompatActivity(), MySimpleLocation.MySimpleLocationCallba
 
     private fun doSimpan() {
         //val pictFromBitmap = createFile(fotoTPS)
-        val pictFromBitmap = File(currentPhotoPath)
-        val reqFile: RequestBody = RequestBody.create("image/*".toMediaTypeOrNull(), pictFromBitmap)
-        val part = MultipartBody.Part.createFormData("foto_tps", pictFromBitmap.name, reqFile)
+        if (currentPhotoPath != "") {
+            val pictFromBitmap = File(currentPhotoPath)
+            val reqFile: RequestBody =
+                RequestBody.create("image/*".toMediaTypeOrNull(), pictFromBitmap)
+            part = MultipartBody.Part.createFormData("foto_tps", pictFromBitmap.name, reqFile)
+        }
+
+        Log.d("PART", part.toString())
+
 
         val lat = RequestBody.create("text/plain".toMediaTypeOrNull(), latitude.text.toString())
         val long = RequestBody.create("text/plain".toMediaTypeOrNull(), longitude.text.toString())
-        val username = RequestBody.create("text/plain".toMediaTypeOrNull(),  Constants.getUsername(this))
+        val username =
+            RequestBody.create("text/plain".toMediaTypeOrNull(), Constants.getUsername(this))
         val id_tps = RequestBody.create("text/plain".toMediaTypeOrNull(), Constants.getIDTps(this))
         val form_page = RequestBody.create("text/plain".toMediaTypeOrNull(), "2")
 
@@ -111,14 +122,14 @@ class TpsActivity : AppCompatActivity(), MySimpleLocation.MySimpleLocationCallba
     }
 
     private fun rotate(bitmap: Bitmap) {
-        val ei = ExifInterface(currentPhotoPath)
+        val ei = ExifInterface(currentPhotoPath!!)
         val orientation =
             ei.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_UNDEFINED)
         Log.d("EXIF value", ei.getAttribute(ExifInterface.TAG_ORIENTATION).toString());
         var rotateBitmap: Bitmap? = null
 
         val eiValue = ei.getAttribute(ExifInterface.TAG_ORIENTATION)?.toInt()
-        if(Build.VERSION.SDK_INT >= 23) {
+        if (Build.VERSION.SDK_INT >= 23) {
             when (eiValue) {
                 6 -> rotateImg(bitmap, 90F)
                 8 -> rotateImg(bitmap, 270F)
@@ -139,11 +150,11 @@ class TpsActivity : AppCompatActivity(), MySimpleLocation.MySimpleLocationCallba
     }
 
     /**
-    * function to create file
+     * function to create file
      * @author imam mufiid
      * @param bitmap => foto TPS
      *
-    * */
+     * */
     private fun createFile(bitmap: Bitmap?): File? {
         val file = File(
             getExternalFilesDir(Environment.DIRECTORY_PICTURES)
@@ -169,7 +180,7 @@ class TpsActivity : AppCompatActivity(), MySimpleLocation.MySimpleLocationCallba
 
     override fun onResume() {
         super.onResume()
-        tpsPresenter?.getDataTps(Constants.getIDTps(this))
+
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -348,7 +359,7 @@ class TpsActivity : AppCompatActivity(), MySimpleLocation.MySimpleLocationCallba
     }
 
     override fun isLoadingTps(state: Int?) {
-        when(state) {
+        when (state) {
             1 -> {
                 // get
                 shimmer_container_detail_tps.visibility = View.VISIBLE
@@ -358,6 +369,7 @@ class TpsActivity : AppCompatActivity(), MySimpleLocation.MySimpleLocationCallba
             2 -> {
                 // post
                 loading?.setMessage("Mohon tunggu sebentar...")
+                loading?.setCanceledOnTouchOutside(false)
                 loading?.show()
             }
         }
@@ -365,7 +377,7 @@ class TpsActivity : AppCompatActivity(), MySimpleLocation.MySimpleLocationCallba
     }
 
     override fun hideLoadingTps(state: Int?) {
-        when(state) {
+        when (state) {
             1 -> {
                 // get
                 shimmer_container_detail_tps.stopShimmer()
@@ -384,6 +396,16 @@ class TpsActivity : AppCompatActivity(), MySimpleLocation.MySimpleLocationCallba
         kel_tps.text = data.kelurahan
         kec_tps.text = data.kecamatan
         et_alamat_tps.text = data.alamat
+
+        if (!data.foto_tps.isNullOrEmpty()) {
+            Glide.with(this)
+                .load(data.foto_tps)
+                .placeholder(R.drawable.ic_img_placeholder)
+                .centerCrop()
+                .into(image_tps)
+        } else {
+            image_tps.setImageResource(R.drawable.ic_img_placeholder)
+        }
     }
 
     override fun failedGetDataTps(message: String?) {

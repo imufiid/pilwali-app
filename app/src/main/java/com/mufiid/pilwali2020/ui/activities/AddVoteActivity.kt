@@ -21,6 +21,7 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.FileProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.mufiid.pilwali2020.R
@@ -34,6 +35,8 @@ import com.mufiid.pilwali2020.utils.Constants
 import com.mufiid.pilwali2020.views.IPaslonView
 import com.mufiid.pilwali2020.views.ITpsView
 import kotlinx.android.synthetic.main.activity_add_vote.*
+import kotlinx.android.synthetic.main.activity_add_vote.open_camera
+import kotlinx.android.synthetic.main.activity_tps.*
 import okhttp3.MediaType
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
@@ -54,7 +57,8 @@ class AddVoteActivity : AppCompatActivity(), IPaslonView, ITpsView {
     private var presenter: AddVotePresenter? = null
     private var tpsPresenter: TpsPresenter? = null
     private var fotoBlangko: Bitmap? = null
-    private var currentPhotoPath: String? = null
+    private var pictPart: MultipartBody.Part? = null
+    private var currentPhotoPath: String? = ""
     private val suaraPaslon = mutableListOf<Int>()
     private val idPaslon = mutableListOf<Int>()
     val idJsonObject: JSONObject? = null
@@ -71,6 +75,7 @@ class AddVoteActivity : AppCompatActivity(), IPaslonView, ITpsView {
         tpsPresenter = TpsPresenter(this)
         loading = ProgressDialog(this)
         presenter?.getPaslon()
+        tpsPresenter?.getDataTps(Constants.getIDTps(this))
 
         open_camera.setOnClickListener {
             captureBlangko()
@@ -104,26 +109,30 @@ class AddVoteActivity : AppCompatActivity(), IPaslonView, ITpsView {
             suaraJsonObject?.put("suara[$i]", PaslonAdapter.dataPaslon!![i].jumlah_suara.toString())
         }
 
-         val idJson = gson.toJson(idPaslon)
-
-
-        Log.d("ID_PASLON", idPaslon.toString())
-        Log.d("ID_PASLON_JSON", idJson)
-        Log.d("SUARA PASLON", suaraPaslon.toString())
+        val idJson = gson.toJson(idPaslon)
 
         // POST Data
-        val pictBlangko = File(currentPhotoPath)
-        val reqFile = pictBlangko.asRequestBody("image/*".toMediaTypeOrNull())
-        val pictPart = MultipartBody.Part.createFormData("foto_blanko", pictBlangko.name, reqFile)
+        /**
+         * check if user not take picture
+         *
+         * */
+        if (currentPhotoPath != "") {
+            val pictBlangko = File(currentPhotoPath)
+            val reqFile = pictBlangko.asRequestBody("image/*".toMediaTypeOrNull())
+            pictPart = MultipartBody.Part.createFormData("foto_blanko", pictBlangko.name, reqFile)
+        }
+
+        val suaraTidakSah = jumlah_suara_tidak_sah.text.toString()
 
         val idTps = Constants.getIDTps(this).toRequestBody("text/plain".toMediaTypeOrNull())
         val username = Constants.getUsername(this).toRequestBody("text/plain".toMediaTypeOrNull())
-        presenter?.postDataPerolehanSuara(idTps, idPaslon, suaraPaslon, pictPart, username)
+        val suara_tidak_sah = suaraTidakSah.toRequestBody("text/plain".toMediaTypeOrNull())
+        presenter?.postDataPerolehanSuara(idTps, suara_tidak_sah, idPaslon, suaraPaslon, pictPart, username)
     }
 
     override fun onResume() {
         super.onResume()
-        tpsPresenter?.getDataTps(Constants.getIDTps(this))
+
     }
 
     private fun captureBlangko() {
@@ -228,7 +237,7 @@ class AddVoteActivity : AppCompatActivity(), IPaslonView, ITpsView {
     }
 
     override fun isLoadingPaslon(state: Int?) {
-        when(state) {
+        when (state) {
             1 -> {
                 shimmer_container.visibility = View.VISIBLE
                 shimmer_container.startShimmer()
@@ -237,9 +246,12 @@ class AddVoteActivity : AppCompatActivity(), IPaslonView, ITpsView {
                 div2.visibility = View.GONE
                 layout_img.visibility = View.GONE
                 btn_save.visibility = View.GONE
+                layout_suara_tdk_sah.visibility = View.GONE
+                div.visibility = View.GONE
             }
             2 -> {
                 loading?.setMessage("Tunggu sebentar..")
+                loading?.setCanceledOnTouchOutside(false)
                 loading?.show()
             }
         }
@@ -247,7 +259,7 @@ class AddVoteActivity : AppCompatActivity(), IPaslonView, ITpsView {
     }
 
     override fun hideLoadingPaslon(state: Int?) {
-        when(state) {
+        when (state) {
             1 -> {
                 shimmer_container.visibility = View.GONE
                 shimmer_container.stopShimmer()
@@ -257,6 +269,9 @@ class AddVoteActivity : AppCompatActivity(), IPaslonView, ITpsView {
                 div2.visibility = View.VISIBLE
                 layout_img.visibility = View.VISIBLE
                 btn_save.visibility = View.VISIBLE
+
+                layout_suara_tdk_sah.visibility = View.VISIBLE
+                div.visibility = View.VISIBLE
             }
             2 -> {
                 loading?.dismiss()
@@ -300,6 +315,21 @@ class AddVoteActivity : AppCompatActivity(), IPaslonView, ITpsView {
         jumlah_dpk.text = data.dpk2
         jumlah_dpktb.text = data.dpktb2
         jumlah_difabel.text = data.difabel2
+        jumlah_suara_tidak_sah.setText(data.suara_tidak_sah)
+
+        /**
+         * check image if not null
+         * pasang ke imageView
+         * */
+        if (!data.foto_blanko.isNullOrEmpty()) {
+            Glide.with(this)
+                .load(data.foto_blanko)
+                .placeholder(R.drawable.ic_img_placeholder)
+                .centerCrop()
+                .into(image_blangko)
+        }else {
+            image_blangko.setImageResource(R.drawable.ic_img_placeholder)
+        }
     }
 
     override fun failedGetDataTps(message: String?) {
