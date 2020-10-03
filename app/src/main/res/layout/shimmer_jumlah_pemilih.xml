@@ -11,8 +11,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:paddingHorizontal="16dp"
-        android:layout_marginTop="24dp"
-        android:layout_below="@id/card_header">
+        android:layout_marginTop="24dp">
 
         <TextView
             android:id="@+id/title"

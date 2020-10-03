@@ -30,24 +30,41 @@
                 android:layout_alignParentStart="true"
                 android:layout_alignParentEnd="true"
                 android:paddingTop="16dp"
-                android:paddingBottom="24dp"
-                >
+                android:paddingBottom="24dp">
 
-                <androidx.cardview.widget.CardView
-                    android:id="@+id/card_header"
+                <androidx.viewpager.widget.ViewPager
+                    android:id="@+id/banner_viewPager"
                     android:layout_width="match_parent"
                     android:layout_height="170dp"
-                    app:cardCornerRadius="10dp"
-                    android:layout_marginHorizontal="16dp">
-                    <ImageView
-                        android:id="@+id/image_header"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:contentDescription="TODO"
-                        android:cropToPadding="false"
-                        android:scaleType="fitXY"
-                        app:srcCompat="@drawable/ic_img_placeholder" />
-                </androidx.cardview.widget.CardView>
+                    android:paddingHorizontal="16dp"/>
+
+                <com.viewpagerindicator.CirclePageIndicator
+                    android:id="@+id/indicator"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="16dp"
+                    android:layout_below="@id/banner_viewPager"
+                    app:centered="false"
+                    app:snap="false"
+                    app:pageColor="#999999"
+                    app:fillColor="@color/colorPrimary"
+                    android:padding="10dip"/>
+
+<!--                <androidx.cardview.widget.CardView-->
+<!--                    android:id="@+id/card_header"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="170dp"-->
+<!--                    app:cardCornerRadius="10dp"-->
+<!--                    android:layout_marginHorizontal="16dp">-->
+<!--                    <ImageView-->
+<!--                        android:id="@+id/image_header"-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="match_parent"-->
+<!--                        android:contentDescription="TODO"-->
+<!--                        android:cropToPadding="false"-->
+<!--                        android:scaleType="fitXY"-->
+<!--                        app:srcCompat="@drawable/ic_img_placeholder" />-->
+<!--                </androidx.cardview.widget.CardView>-->
 
                 <!-- Lokasi TPS -->
                 <!--                <androidx.cardview.widget.CardView-->
@@ -111,7 +128,7 @@
                     android:orientation="vertical"
                     android:paddingHorizontal="16dp"
                     android:layout_marginTop="24dp"
-                    android:layout_below="@id/card_header">
+                    android:layout_below="@id/indicator">
 
                     <TextView
                         android:id="@+id/title"

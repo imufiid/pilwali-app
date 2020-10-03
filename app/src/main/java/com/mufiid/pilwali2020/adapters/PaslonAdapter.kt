@@ -43,7 +43,8 @@ class PaslonAdapter(val data: List<Paslon>) : RecyclerView.Adapter<PaslonAdapter
             itemView.nama_paslon.text = "${get?.noPeserta}. ${get?.nmPeserta}"
             itemView.et_suara_paslon.setText(get?.jumlah_suara.toString())
 
-            if(adapterPosition == 1) {
+            // get last item
+            if(position == data.size-1) {
                 itemView.divider.visibility = View.GONE
             }
 
