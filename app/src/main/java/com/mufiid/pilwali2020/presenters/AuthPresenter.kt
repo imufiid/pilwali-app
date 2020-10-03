@@ -8,6 +8,16 @@ import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.schedulers.Schedulers
 
 class AuthPresenter(private val authView: IAuthView, private val loading: ILoadingView) {
+
+    /**
+     * fungsi untuk login user
+     *
+     * @author Imam Mufiid
+     *
+     * @param username => username user
+     * @param password => password user
+     *
+     * */
     fun login(username: String?, password: String?) {
         loading.isLoading()
         ApiClient.instance().login(username!!, password!!)

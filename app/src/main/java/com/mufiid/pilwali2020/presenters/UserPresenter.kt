@@ -6,6 +6,15 @@ import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.schedulers.Schedulers
 
 class UserPresenter(private val userView: IUserView) {
+
+    /**
+     * fungsi untuk mengambil data user by ID
+     *
+     * @author Imam Mufiid
+     *
+     * @param id_user => id user
+     *
+     * */
     fun getUserByID(id_user: String) {
         userView.isLoadingUser(1)
         ApiClient.instance().getUserById(id_user)
@@ -28,6 +37,17 @@ class UserPresenter(private val userView: IUserView) {
 
     }
 
+    /**
+     * fungsi untuk update data user by ID
+     *
+     * @author Imam Mufiid
+     *
+     * @param id_user => id user
+     * @param username => username user
+     * @param nama => nama user
+     * @param passwordNew => password baru user
+     *
+     * */
     fun updateUser(id_user: String?, username: String?, nama: String?, passwordNew: String?) {
         userView.isLoadingUser(2)
         ApiClient.instance().updateProfile(id_user, username, nama, passwordNew)

@@ -10,6 +10,12 @@ import okhttp3.MultipartBody
 import okhttp3.RequestBody
 
 class AddVotePresenter(private val paslonView: IPaslonView) {
+
+    /**
+     * mengambil data paslon
+     *
+     * @author Imam Mufiid
+     * */
     fun getPaslon() {
         paslonView.isLoadingPaslon(1)
         ApiClient.instance().getPaslon()
@@ -37,6 +43,19 @@ class AddVotePresenter(private val paslonView: IPaslonView) {
             })
     }
 
+    /**
+     * post data perolehan suara
+     *
+     * @author Imam Mufiid
+     *
+     * @param id_tps => id tps berdasarkan user
+     * @param suara_tidak_sah => jumlah suara tidak sah di tps bersangkutan
+     * @param id_paslon => id masing-masing paslon
+     * @param suara_sah => jumlah suara sah masing-masing paslon
+     * @param foto => upload foto blangko
+     * @param username => username user yg sedang login
+     *
+     * */
     fun postDataPerolehanSuara(
         id_tps: RequestBody?,
         suara_tidak_sah: RequestBody?,

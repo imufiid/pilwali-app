@@ -6,6 +6,16 @@ import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.schedulers.Schedulers
 
 class PilwaliPresenter(private val pilwaliView: IPilwaliView) {
+
+    /**
+     * fungsi mengambil data tps sudah terverifikasi
+     * atau belum
+     *
+     * @author Imam Mufiid
+     *
+     * @param id_tps => id tps
+     *
+     * */
     fun getVerification(id_tps: String?) {
         pilwaliView.isLoadingPilwali()
         ApiClient.instance().getVerifikasi(id_tps)

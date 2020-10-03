@@ -10,6 +10,15 @@ import okhttp3.MultipartBody
 import okhttp3.RequestBody
 
 class TpsPresenter(private val tpsView: ITpsView) {
+
+    /**
+     * fungsi untuk mengambil data detail tps by ID
+     *
+     * @author Imam Mufiid
+     *
+     * @param id_tps => id tps
+     *
+     * */
     fun getDataTps(id_tps: String) {
         tpsView.isLoadingTps(1)
         ApiClient.instance().getDataTps(id_tps)
@@ -30,6 +39,19 @@ class TpsPresenter(private val tpsView: ITpsView) {
             })
     }
 
+    /**
+     * fungsi untuk post data lat long dan foto TPS
+     *
+     * @author Imam Mufiid
+     *
+     * @param id_tps => id TPS
+     * @param form_page => jenis form page
+     * @param fotoTPS => foto TPS
+     * @param latitude => latitude TPS
+     * @param longitude => longitude TPS
+     * @param username => username user login
+     *
+     * */
     fun postData(
         id_tps: RequestBody?,
         form_page: RequestBody?,
@@ -58,6 +80,20 @@ class TpsPresenter(private val tpsView: ITpsView) {
 
     }
 
+    /**
+     * fungsi untuk post jumlah pemilih by TPS
+     *
+     * @author Imam Mufiid
+     *
+     * @param id_tps => id TPS
+     * @param form_page => jenis form page
+     * @param dpt => jumlah dpt
+     * @param dptb => jumlah dptb
+     * @param dpk => jumlah dpk
+     * @param dpktb => jumlah dpktb
+     * @param difabel => jumlah difabel
+     *
+     * */
     fun postJumlahPemilih(
         id_tps: String?,
         form_page: String?,
