@@ -14,10 +14,12 @@
 ---
 
 ### Feature List
-- [ ] Input Jumlah Suara (DPT, Suara sah, Suara tidak sah)
-- [x] Survey TPS, input Lokasi/alamat TPS dengan GPS
-- [ ] Monitoring
-- [ ] Profil
+- [x] Input Jumlah Suara (@jenis pemilih)
+- [x] Input Jumlah Suara Sah Paslon Jumlah Suara tidak sah dan upload image blangko
+- [x] Input Latitude Longitude TPS, dan image TPS
+- [ ] Monitoring (WebView)
+- [ ] Get verification
+- [x] Profil
 - [x] Login
 
 ---
