@@ -33,7 +33,7 @@ class TpsPresenter(private val tpsView: ITpsView) {
     fun postData(
         id_tps: RequestBody?,
         form_page: RequestBody?,
-        fotoTPS: MultipartBody.Part,
+        fotoTPS: MultipartBody.Part?,
         latitude: RequestBody?,
         longitude: RequestBody?,
         username: RequestBody?
