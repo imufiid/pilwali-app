@@ -132,7 +132,6 @@ class AddVoteActivity : AppCompatActivity(), IPaslonView, ITpsView {
 
     override fun onResume() {
         super.onResume()
-
     }
 
     private fun captureBlangko() {
