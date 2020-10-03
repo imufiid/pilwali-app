@@ -8,15 +8,19 @@ import android.util.Log
 import android.view.View
 import android.widget.Toast
 import com.mufiid.pilwali2020.R
+import com.mufiid.pilwali2020.models.Perhitungan
 import com.mufiid.pilwali2020.models.Tps
+import com.mufiid.pilwali2020.presenters.PilwaliPresenter
 import com.mufiid.pilwali2020.presenters.TpsPresenter
 import com.mufiid.pilwali2020.utils.Constants
+import com.mufiid.pilwali2020.views.IPilwaliView
 import com.mufiid.pilwali2020.views.ITpsView
 import kotlinx.android.synthetic.main.activity_pilwali.*
 
 @Suppress("DEPRECATION")
-class PilwaliActivity : AppCompatActivity(), ITpsView {
+class PilwaliActivity : AppCompatActivity(), ITpsView, IPilwaliView {
     private var presenter: TpsPresenter? = null
+    private var pilwaliPresenter: PilwaliPresenter? = null
     private var loading : ProgressDialog? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,6 +29,7 @@ class PilwaliActivity : AppCompatActivity(), ITpsView {
         supportActionBar?.title = "Pilwali"
 
         presenter = TpsPresenter(this)
+        pilwaliPresenter = PilwaliPresenter(this)
         loading = ProgressDialog(this)
 
         btn_add.setOnClickListener {
@@ -61,6 +66,7 @@ class PilwaliActivity : AppCompatActivity(), ITpsView {
     override fun onResume() {
         super.onResume()
         presenter?.getDataTps(Constants.getIDTps(this))
+        pilwaliPresenter?.getVerification(Constants.getIDTps(this))
     }
 
     override fun isLoadingTps(state: Int?) {
@@ -117,6 +123,34 @@ class PilwaliActivity : AppCompatActivity(), ITpsView {
     }
 
     override fun messageFailed(message: String?) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+    }
+
+    override fun isLoadingPilwali() {
+        Log.d("LOADING", "loading")
+    }
+
+    override fun hideLoadingPilwali() {
+        // code ..
+        Log.d("LOADING", "end loading")
+    }
+
+    override fun success(message: String?, data: Perhitungan?) {
+        when(data?.verifikasi) {
+            "1" -> {
+                ic_verifikasi.setImageResource(R.drawable.ic_verification)
+                tv_verifikasi.text = "Sudah diverifikasi"
+                btn_simpan.visibility = View.GONE
+                btn_add.visibility = View.GONE
+            }
+            else -> {
+                ic_verifikasi.setImageResource(R.drawable.ic_unverification)
+                tv_verifikasi.text = "Belum diverifikasi"
+            }
+        }
+    }
+
+    override fun failed(message: String?) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
 }
