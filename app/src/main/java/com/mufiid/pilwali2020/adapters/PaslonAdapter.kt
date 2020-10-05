@@ -24,8 +24,6 @@ class PaslonAdapter(val data: List<Paslon>) : RecyclerView.Adapter<PaslonAdapter
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_paslon, parent, false)
-//        suaraPaslon = ArrayList<SuaraPaslon>(data.size)
-
         return Holder(view)
     }
 

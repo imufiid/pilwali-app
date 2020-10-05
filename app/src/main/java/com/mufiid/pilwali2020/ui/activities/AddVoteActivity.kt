@@ -61,57 +61,55 @@ class AddVoteActivity : AppCompatActivity(), IPaslonView, ITpsView {
     private var currentPhotoPath: String? = ""
     private val suaraPaslon = mutableListOf<Int>()
     private val idPaslon = mutableListOf<Int>()
-    val idJsonObject: JSONObject? = null
-    val suaraJsonObject: JSONObject? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_vote)
 
+        // setting for action bar
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.title = "Perolehan Suara"
+
+        // setting for recycler view
         viewManager = LinearLayoutManager(this)
+
+        // init presenter
         presenter = AddVotePresenter(this)
         tpsPresenter = TpsPresenter(this)
-        loading = ProgressDialog(this)
-        presenter?.getPaslon()
-        tpsPresenter?.getDataTps(Constants.getIDTps(this))
 
+        // init progress dialog
+        loading = ProgressDialog(this)
+
+        // event listener
         open_camera.setOnClickListener {
             captureBlangko()
         }
-
-        getPermission()
-
-
-
         btn_save.setOnClickListener {
             doUpload()
         }
+
+        // running function for first time
+        presenter?.getPaslon()
+        tpsPresenter?.getDataTps(Constants.getIDTps(this))
+        getPermission()
+
     }
 
+    /**
+     * function untuk upload data
+     *
+     * @author Imam Mufiif
+     *
+     * */
     private fun doUpload() {
-        val gson = Gson()
-        val gsonPretty = GsonBuilder().setPrettyPrinting().create()
-
-        // JAVA
-        // for (i in 0 until PaslonAdptr.editModelArrayList.size) {
-        //     array.add(PaslonAdptr.editModelArrayList[i].jumlah_suara.toString())
-        // }
-
-        // KOTLIN
+        // get value dari editText recycler view
         idPaslon.clear()
         suaraPaslon.clear()
         for (i in 0 until (PaslonAdapter.dataPaslon?.size ?: 0)) {
             suaraPaslon.add(PaslonAdapter.dataPaslon!![i].jumlah_suara!!.toInt())
             idPaslon.add(PaslonAdapter.dataPaslon!![i].id!!.toInt())
-            idJsonObject?.put("id[$i]", PaslonAdapter.dataPaslon!![i].id.toString())
-            suaraJsonObject?.put("suara[$i]", PaslonAdapter.dataPaslon!![i].jumlah_suara.toString())
         }
 
-        val idJson = gson.toJson(idPaslon)
-
-        // POST Data
         /**
          * check if user not take picture
          *
@@ -122,11 +120,13 @@ class AddVoteActivity : AppCompatActivity(), IPaslonView, ITpsView {
             pictPart = MultipartBody.Part.createFormData("foto_blanko", pictBlangko.name, reqFile)
         }
 
+        // convert value to Request Body
         val suaraTidakSah = jumlah_suara_tidak_sah.text.toString()
-
         val idTps = Constants.getIDTps(this).toRequestBody("text/plain".toMediaTypeOrNull())
         val username = Constants.getUsername(this).toRequestBody("text/plain".toMediaTypeOrNull())
         val suara_tidak_sah = suaraTidakSah.toRequestBody("text/plain".toMediaTypeOrNull())
+
+        // post data
         presenter?.postDataPerolehanSuara(idTps, suara_tidak_sah, idPaslon, suaraPaslon, pictPart, username)
     }
 
@@ -134,6 +134,12 @@ class AddVoteActivity : AppCompatActivity(), IPaslonView, ITpsView {
         super.onResume()
     }
 
+    /**
+     * function untuk menghidupkan kamera
+     *
+     * @author Imam Mufiid
+     *
+     * */
     private fun captureBlangko() {
         Intent(MediaStore.ACTION_IMAGE_CAPTURE).also { takePictureIntent ->
             // Ensure that there's a camera activity to handle the intent
@@ -159,6 +165,12 @@ class AddVoteActivity : AppCompatActivity(), IPaslonView, ITpsView {
         }
     }
 
+    /**
+     * function untuk convert hasil foto kedalam file
+     *
+     * @author Imam Mufiid
+     *
+     * */
     private fun createImageFile(): File {
         // Create an image file name
         val timeStamp: String = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
@@ -173,6 +185,13 @@ class AddVoteActivity : AppCompatActivity(), IPaslonView, ITpsView {
         }
     }
 
+    /**
+     * function untuk merotate bitmap
+     *
+     * @author Imam Mufiid
+     * @param bitmap berisi bitmap image
+     *
+     * */
     private fun rotate(bitmap: Bitmap) {
         val ei = ExifInterface(currentPhotoPath!!)
         val orientation =
@@ -201,6 +220,13 @@ class AddVoteActivity : AppCompatActivity(), IPaslonView, ITpsView {
 
     }
 
+    /**
+     * function untuk merotate image dan bind ke UI
+     *
+     * @author Imam Mufiid
+     * @param bitmap berisi bitmap gambar
+     * @param i berisi value rotasi
+     * */
     private fun rotateImg(bitmap: Bitmap, i: Float) {
         val matrix = Matrix()
         matrix.setRotate(i)
@@ -209,6 +235,12 @@ class AddVoteActivity : AppCompatActivity(), IPaslonView, ITpsView {
         image_blangko.setImageBitmap(img)
     }
 
+    /**
+     * function activity result setelah take picture
+     *
+     * @author Imam Mufiid
+     *
+     * */
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
@@ -217,6 +249,12 @@ class AddVoteActivity : AppCompatActivity(), IPaslonView, ITpsView {
         }
     }
 
+    /**
+     * function untuk mengecek permission secara runtime
+     *
+     * @author Imam Mufiid
+     *
+     * */
     private fun getPermission() {
         // check permission
         if (Build.VERSION.SDK_INT >= 23) {
@@ -243,6 +281,13 @@ class AddVoteActivity : AppCompatActivity(), IPaslonView, ITpsView {
         }
     }
 
+    /**
+     * function melakukan proses ketika loading get data paslon
+     *
+     * @author Imam Mufiid
+     * @param state berisi state loading
+     *
+     * */
     override fun isLoadingPaslon(state: Int?) {
         when (state) {
             1 -> {
@@ -265,6 +310,13 @@ class AddVoteActivity : AppCompatActivity(), IPaslonView, ITpsView {
 
     }
 
+    /**
+     * function melaukan proses ketika proses loading selesai
+     *
+     * @author Imam Mufiid
+     * @param state berisi state loading
+     *
+     * */
     override fun hideLoadingPaslon(state: Int?) {
         when (state) {
             1 -> {
@@ -287,35 +339,67 @@ class AddVoteActivity : AppCompatActivity(), IPaslonView, ITpsView {
 
     }
 
+    /**
+     * function untuk bind ke UI dari get data paslon
+     *
+     * @author Imam Mufiid
+     * @param message berisi pesan success dari API
+     * @param data berisi list data paslon
+     *
+     * */
     override fun getDataPaslon(message: String?, data: List<Paslon>?) {
         rv_paslon.apply {
             setHasFixedSize(true)
             layoutManager = viewManager
-
-            // KOTLIN
             adapter = PaslonAdapter(data!!)
-
-            // JAVA
-            // adapter = PaslonAdptr(this@AddVoteActivity, data as ArrayList<Paslon>?)
         }
     }
 
+    /**
+     * function ketika proses get data paslon gagal
+     *
+     * @author Imam Mufiid
+     * @param message pesan gagal
+     *
+     * */
     override fun failedGetDataPaslon(message: String?) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
 
+    /**
+     * function ketika proses loading berjalan ketika get data tps
+     *
+     * @author Imam Mufiid
+     * @param state berisi value state loading
+     *
+     * */
     override fun isLoadingTps(state: Int?) {
         shimmer_container_daftar_pemilih.visibility = View.VISIBLE
         shimmer_container_daftar_pemilih.startShimmer()
         layout_daftar_pemilih.visibility = View.GONE
     }
 
+    /**
+     * function ketika proses loading selesai ketika get data tps
+     *
+     * @author Imam Mufiid
+     * @param state berisi value state loading
+     *
+     * */
     override fun hideLoadingTps(state: Int?) {
         shimmer_container_daftar_pemilih.visibility = View.GONE
         shimmer_container_daftar_pemilih.startShimmer()
         layout_daftar_pemilih.visibility = View.VISIBLE
     }
 
+    /**
+     * function untuk bind data TPS ke UI
+     *
+     * @author Imam Mufiid
+     * @param message pesan success
+     * @param data berisi data TPS
+     *
+     * */
     override fun getDataTps(message: String?, data: Tps) {
         jumlah_dpt.text = data.dpt2
         jumlah_dptb.text = data.dptb2
@@ -339,14 +423,35 @@ class AddVoteActivity : AppCompatActivity(), IPaslonView, ITpsView {
         }
     }
 
+    /**
+     * function ketika proses get data tps gagal
+     *
+     * @author Imam Mufiid
+     * @param message pesan gagal
+     *
+     * */
     override fun failedGetDataTps(message: String?) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
 
+    /**
+     * function untuk menampilkan pesan berhasil
+     *
+     * @author Imam Mufiid
+     * @param message pesan berhasil
+     *
+     * */
     override fun messageSuccess(message: String?) {
         TODO("Not yet implemented")
     }
 
+    /**
+     * function untuk menampilkan pesan gagal
+     *
+     * @author Imam Mufiid
+     * @param message pesan gagal
+     *
+     * */
     override fun messageFailed(message: String?) {
         TODO("Not yet implemented")
     }
