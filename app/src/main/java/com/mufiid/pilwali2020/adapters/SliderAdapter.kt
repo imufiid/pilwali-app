@@ -13,7 +13,7 @@ import com.mufiid.pilwali2020.R
 class SliderAdapter(
     private val context: Context,
 //  private val stringList: List<String>
-    private val stringList: List<String>
+    private val stringList: List<String?>?
 ) : PagerAdapter() {
 
     // init
@@ -28,9 +28,9 @@ class SliderAdapter(
         val imageLayout = inflater.inflate(R.layout.image_slider, view, false)!!
         val imageView = imageLayout.findViewById<ImageView>(R.id.image_header)
         Glide.with(view)
-            .load(stringList[position])
-            .placeholder(R.drawable.ic_img_placeholder)
-            .error(R.drawable.ic_img_placeholder)
+            .load(stringList?.get(position))
+            .placeholder(R.drawable.ic_banner_placeholder)
+            .error(R.drawable.ic_banner_placeholder)
             .into(imageView)
 
         view.addView(imageLayout, 0)
@@ -47,5 +47,5 @@ class SliderAdapter(
 
     override fun isViewFromObject(view: View, `object`: Any) = view == `object`
 
-    override fun getCount() = stringList.size
+    override fun getCount(): Int = stringList?.size ?: 0
 }
