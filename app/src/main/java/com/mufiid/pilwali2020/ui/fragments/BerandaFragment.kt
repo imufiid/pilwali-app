@@ -321,7 +321,7 @@ class BerandaFragment : Fragment(), ITpsView, IConfigView,
 
         // checking android SDK
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
+            val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
             val dateConfig = LocalDateTime.parse(data.dDay, formatter)
             val currentDate = LocalDateTime.now()
 

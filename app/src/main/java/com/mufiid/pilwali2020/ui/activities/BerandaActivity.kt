@@ -48,7 +48,6 @@ class BerandaActivity : AppCompatActivity(), BottomNavigationView.OnNavigationIt
     }
 
     override fun onBackPressed() {
-//        super.onBackPressed()
         if (doubleBack) {
             super.onBackPressed()
             return
