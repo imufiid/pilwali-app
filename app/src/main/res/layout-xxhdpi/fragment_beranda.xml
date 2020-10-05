@@ -178,9 +178,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:layout_below="@id/layout_title"
+                    android:layout_below="@id/banner_viewPager"
                     shimmer:duration="800"
-                    android:layout_marginTop="16dp"
                     android:visibility="gone">
 
                     <include
