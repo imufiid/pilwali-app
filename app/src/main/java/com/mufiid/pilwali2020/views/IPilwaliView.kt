@@ -6,6 +6,6 @@ interface IPilwaliView {
     fun isLoadingPilwali()
     fun hideLoadingPilwali()
 
-    fun success(message: String?, data: Perhitungan?)
+    fun success(message: String?, verification: Int?)
     fun failed(message: String?)
 }
