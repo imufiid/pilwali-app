@@ -48,6 +48,7 @@ class BerandaFragment : Fragment(), ITpsView, IConfigView,
     private var param1: String? = null
     private var param2: String? = null
     private var shimmer: ShimmerFrameLayout? = null
+    private var shimmerImageSlider: ShimmerFrameLayout? = null
     private var presenter: TpsPresenter? = null
     private var configPresenter: ConfigPresenter? = null
     private var viewPager: ViewPager? = null
@@ -77,13 +78,12 @@ class BerandaFragment : Fragment(), ITpsView, IConfigView,
     ): View? {
         // Inflate the layout for this fragment
         val root = inflater.inflate(R.layout.fragment_beranda, container, false)
-        val btn_pilwali = root.findViewById<ImageButton>(R.id.btn_pilwali) as ImageButton
-        val btn_tps = root.findViewById<ImageButton>(R.id.btn_tps) as ImageButton
-        val btn_monitoring = root.findViewById<ImageButton>(R.id.btn_monitor) as ImageButton
-        val btn_blangko = root.findViewById<ImageButton>(R.id.btn_blangko) as ImageButton
-        //val image_header = root.findViewById<ImageView>(R.id.image_header) as ImageView
-        shimmer =
-            root.findViewById<View>(R.id.mShimmerViewContainer) as com.facebook.shimmer.ShimmerFrameLayout
+        val btnPilwali = root.findViewById<ImageButton>(R.id.btn_pilwali) as ImageButton
+        val btnTps = root.findViewById<ImageButton>(R.id.btn_tps) as ImageButton
+        val btnMonitoring = root.findViewById<ImageButton>(R.id.btn_monitor) as ImageButton
+        val btnBlangko = root.findViewById<ImageButton>(R.id.btn_blangko) as ImageButton
+        shimmer = root.findViewById<View>(R.id.mShimmerViewContainer) as com.facebook.shimmer.ShimmerFrameLayout
+        shimmerImageSlider = root.findViewById<View>(R.id.shimmer_image_slider_container) as com.facebook.shimmer.ShimmerFrameLayout
         val jumlah_pemilih = root.findViewById<View>(R.id.jumlah_pemilih)
         val layout_title = root.findViewById<LinearLayout>(R.id.layout_title) as LinearLayout
         viewPager = root.findViewById(R.id.banner_viewPager) as ViewPager
@@ -105,16 +105,16 @@ class BerandaFragment : Fragment(), ITpsView, IConfigView,
         // createImageSlider(Constants.imageSlider)
 
 
-        btn_pilwali.setOnClickListener {
+        btnPilwali.setOnClickListener {
             startActivity(Intent(context, PilwaliActivity::class.java))
         }
-        btn_tps.setOnClickListener {
+        btnTps.setOnClickListener {
             startActivity(Intent(context, TpsActivity::class.java))
         }
-        btn_monitoring.setOnClickListener {
+        btnMonitoring.setOnClickListener {
             startActivity(Intent(context, MonitoringActivity::class.java))
         }
-        btn_blangko.setOnClickListener {
+        btnBlangko.setOnClickListener {
             Toast.makeText(context, "Blangko", Toast.LENGTH_SHORT).show()
         }
 
@@ -133,14 +133,6 @@ class BerandaFragment : Fragment(), ITpsView, IConfigView,
 
 
     companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment BerandaFragment.
-         */
         @JvmStatic
         fun newInstance(param1: String, param2: String) =
             BerandaFragment().apply {
@@ -251,7 +243,7 @@ class BerandaFragment : Fragment(), ITpsView, IConfigView,
 
         // Auto get Data
         val update = Runnable {
-            if (currentPage === numPages) {
+            if (currentPage == numPages) {
                 currentPage = 0
             }
             viewPager?.setCurrentItem(currentPage++, true)
@@ -287,10 +279,14 @@ class BerandaFragment : Fragment(), ITpsView, IConfigView,
 
     override fun isLoadingConfig() {
         // code ..
+        shimmerImageSlider?.visibility = View.VISIBLE
+        shimmerImageSlider?.startShimmer()
     }
 
     override fun hideLoadingConfig() {
         // code ..
+        shimmerImageSlider?.stopShimmer()
+        shimmerImageSlider?.visibility = View.GONE
     }
 
 

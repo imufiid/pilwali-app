@@ -4,7 +4,7 @@ import android.content.Context
 
 class Constants {
     companion object {
-        const val API_ENDPOINT = "http://192.168.1.5/pilwali-2020/index.php/api/"
+        const val API_ENDPOINT = "http://192.168.1.3/pilwali-2020/index.php/api/"
         val imageSlider = listOf(
             "https://cdn2.tstatic.net/wartakota/foto/bank/images/pilkada-serentak-2020a.jpg",
             "https://assets.pikiran-rakyat.com/crop/0x0:0x0/x/photo/2020/03/19/3779749248.jpg",

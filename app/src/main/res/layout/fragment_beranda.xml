@@ -50,6 +50,22 @@
                     app:fillColor="@color/colorPrimary"
                     android:padding="10dip"/>
 
+                <com.facebook.shimmer.ShimmerFrameLayout
+                    android:id="@+id/shimmer_image_slider_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_alignParentTop="true"
+                    shimmer:duration="800"
+                    android:layout_marginHorizontal="16dp"
+                    android:visibility="gone">
+
+                    <include
+                        android:id="@+id/shimmer_latlong"
+                        layout="@layout/shimmer_image_slider"/>
+
+                </com.facebook.shimmer.ShimmerFrameLayout>
+
 
 <!--                <androidx.cardview.widget.CardView-->
 <!--                    android:id="@+id/card_header"-->
@@ -128,7 +144,7 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:paddingHorizontal="16dp"
-                    android:layout_marginTop="24dp"
+                    android:layout_marginTop="20dp"
                     android:layout_below="@id/indicator">
 
                     <TextView
