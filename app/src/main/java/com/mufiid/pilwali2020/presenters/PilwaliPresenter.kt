@@ -16,15 +16,15 @@ class PilwaliPresenter(private val pilwaliView: IPilwaliView) {
      * @param id_tps => id tps
      *
      * */
-    fun getVerification(id_tps: String?) {
+    fun getVerification(verif_tps: String?) {
         pilwaliView.isLoadingPilwali()
-        ApiClient.instance().getVerifikasi(id_tps)
+        ApiClient.instance().getVerifikasi(verif_tps)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
                 when(it.status) {
                     200 -> {
-                        pilwaliView.success(it.message, it.data)
+                        pilwaliView.success(it.message, it.verification)
                     }
                     else -> {
                         pilwaliView.failed(it.message)

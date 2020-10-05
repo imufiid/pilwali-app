@@ -1,10 +1,8 @@
 package com.mufiid.pilwali2020.api
 
-import com.mufiid.pilwali2020.models.Paslon
-import com.mufiid.pilwali2020.models.Perhitungan
-import com.mufiid.pilwali2020.models.Tps
-import com.mufiid.pilwali2020.models.User
+import com.mufiid.pilwali2020.models.*
 import com.mufiid.pilwali2020.responses.MessageResponse
+import com.mufiid.pilwali2020.responses.VerificationResponse
 import com.mufiid.pilwali2020.responses.WrappedListResponses
 import com.mufiid.pilwali2020.responses.WrappedResponse
 import io.reactivex.rxjava3.core.Flowable
@@ -38,17 +36,21 @@ interface IApiService {
     @GET("paslon")
     fun getPaslon(): Flowable<WrappedListResponses<Paslon>>
 
-    // GWT Data Tps
+    // GET Data Tps
     @GET("tps")
     fun getDataTps(
         @Query("id") id_tps: String?
     ): Flowable<WrappedResponse<Tps>>
 
-    // GWT Data Verifikasi
+    // GET Data Verifikasi
     @GET("perhitungan")
     fun getVerifikasi(
-        @Query("id_tps") id_tps: String?
-    ): Flowable<WrappedResponse<Perhitungan>>
+        @Query("verif_tps") id_tps: String?
+    ): Flowable<VerificationResponse>
+
+    // GET CONFIG
+    @GET("config")
+    fun getConfig() : Flowable<WrappedResponse<Config>>
 
     // INSERT DAFTAR PEMILIH
     @FormUrlEncoded
