@@ -76,35 +76,37 @@ class BerandaFragment : Fragment(), ITpsView, IConfigView,
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        return inflater.inflate(R.layout.fragment_beranda, container, false)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
         // Inflate the layout for this fragment
-        val root = inflater.inflate(R.layout.fragment_beranda, container, false)
-        val btnPilwali = root.findViewById<ImageButton>(R.id.btn_pilwali) as ImageButton
-        val btnTps = root.findViewById<ImageButton>(R.id.btn_tps) as ImageButton
-        val btnMonitoring = root.findViewById<ImageButton>(R.id.btn_monitor) as ImageButton
-        val btnBlangko = root.findViewById<ImageButton>(R.id.btn_blangko) as ImageButton
-        shimmer = root.findViewById<View>(R.id.mShimmerViewContainer) as com.facebook.shimmer.ShimmerFrameLayout
-        shimmerImageSlider = root.findViewById<View>(R.id.shimmer_image_slider_container) as com.facebook.shimmer.ShimmerFrameLayout
-        val jumlah_pemilih = root.findViewById<View>(R.id.jumlah_pemilih)
-        val layout_title = root.findViewById<LinearLayout>(R.id.layout_title) as LinearLayout
-        viewPager = root.findViewById(R.id.banner_viewPager) as ViewPager
-        indicator = root.findViewById(R.id.indicator) as CirclePageIndicator
+        val btnPilwali = view.findViewById<ImageButton>(R.id.btn_pilwali) as ImageButton
+        val btnTps = view.findViewById<ImageButton>(R.id.btn_tps) as ImageButton
+        val btnMonitoring = view.findViewById<ImageButton>(R.id.btn_monitor) as ImageButton
+        val btnBlangko = view.findViewById<ImageButton>(R.id.btn_blangko) as ImageButton
+        shimmer = view.findViewById<View>(R.id.mShimmerViewContainer) as com.facebook.shimmer.ShimmerFrameLayout
+        shimmerImageSlider = view.findViewById<View>(R.id.shimmer_image_slider_container) as com.facebook.shimmer.ShimmerFrameLayout
+        val jumlahPemilih = view.findViewById<View>(R.id.jumlah_pemilih)
+        val layoutTitle = view.findViewById<LinearLayout>(R.id.layout_title) as LinearLayout
+        viewPager = view.findViewById(R.id.banner_viewPager) as ViewPager
+        indicator = view.findViewById(R.id.indicator) as CirclePageIndicator
 
         // init id jumlah_pemilih
-        dpt = root.findViewById<TextView>(R.id.dpt) as TextView
-        dptb = root.findViewById<TextView>(R.id.dptb) as TextView
-        dpk = root.findViewById<TextView>(R.id.dpk) as TextView
-        dpktb = root.findViewById<TextView>(R.id.dpktb) as TextView
-        difabel = root.findViewById<TextView>(R.id.difabel) as TextView
-        tps = root.findViewById(R.id.subTitle) as TextView
+        dpt = view.findViewById<TextView>(R.id.dpt) as TextView
+        dptb = view.findViewById<TextView>(R.id.dptb) as TextView
+        dpk = view.findViewById<TextView>(R.id.dpk) as TextView
+        dpktb = view.findViewById<TextView>(R.id.dpktb) as TextView
+        difabel = view.findViewById<TextView>(R.id.difabel) as TextView
+        tps = view.findViewById(R.id.subTitle) as TextView
 
         // init presenter
         presenter = TpsPresenter(this)
         configPresenter = ConfigPresenter(this)
 
-        // slider
-        // createImageSlider(Constants.imageSlider)
-
-
+        // event listener
         btnPilwali.setOnClickListener {
             startActivity(Intent(context, PilwaliActivity::class.java))
         }
@@ -127,8 +129,6 @@ class BerandaFragment : Fragment(), ITpsView, IConfigView,
             ConnectivityReceiver(),
             IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION)
         )
-
-        return root
     }
 
 
@@ -232,6 +232,13 @@ class BerandaFragment : Fragment(), ITpsView, IConfigView,
         }
     }
 
+    /**
+     * fungsi untuk membuat image slider
+     *
+     * @author Imam Mufiid
+     * @param string untuk menampung List image dgn tipe data string
+     *
+     * */
     private fun createImageSlider(string: List<String?>?) {
         viewPager?.adapter = SliderAdapter(context!!, string)
         indicator?.setViewPager(viewPager)
@@ -277,34 +284,59 @@ class BerandaFragment : Fragment(), ITpsView, IConfigView,
         })
     }
 
+    /**
+     * fungsi untuk melakukan proses loading get data config
+     *
+     * @author Imam Mufiid
+     *
+     * */
     override fun isLoadingConfig() {
-        // code ..
         shimmerImageSlider?.visibility = View.VISIBLE
         shimmerImageSlider?.startShimmer()
     }
 
+    /**
+     * fungsi ketika proses loading get data config selesai
+     *
+     * @author Imam Mufiid
+     *
+     * */
     override fun hideLoadingConfig() {
         // code ..
         shimmerImageSlider?.stopShimmer()
         shimmerImageSlider?.visibility = View.GONE
     }
 
-
+    /**
+     * fungsi untuk mengambil data config dan bind ke UI
+     *
+     * @author Imam Mufiid
+     * @param message berisi pesan success/failed dari API
+     * @param data berisi data config dari database
+     *
+     * */
     override fun getSuccessConfig(message: String?, data: Config) {
+        // memanggil fungsi untuk membuat image slider
         createImageSlider(data.banner!!)
 
+        // checking android SDK
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
             val dateConfig = LocalDateTime.parse(data.dDay, formatter)
             val currentDate = LocalDateTime.now()
 
+            // checking status and date
             if (data.status == "production" && currentDate < dateConfig) {
+
+                // memanggil fungsi untuk menampilkan dialog fragment
                 OpenDialog(
                     "Mohon Maaf!",
                     "Aplikasi belum dapat diakses sampai waktu yang ditentukan.",
                     0
                 )
             } else {
+
+                // memanggil fungsi untuk menampilkan dialog fragment
                 OpenDialog(
                     "Pemberitahuan!",
                     "Waktu Percobaan aplikasi kurang ${Duration.between(currentDate, dateConfig).toDays()} hari lagi",
@@ -314,18 +346,19 @@ class BerandaFragment : Fragment(), ITpsView, IConfigView,
             val formatter = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
             val dateConfig = formatter.parse(data.dDay)
             val diff = ((((dateConfig.time - Date().time)/1000)/60)/60)/24
-            val seconds = diff / 1000
-            val minutes = seconds / 60
-            val hours = minutes / 60
-            val days = hours / 24
 
+            // checking status and date
             if (data.status == "production" && Date() < dateConfig) {
+
+                // memanggil fungsi untuk menampilkan dialog fragment
                 OpenDialog(
                     "Mohon Maaf!",
                     "Aplikasi belum dapat diakses sampai waktu yang ditentukan.",
                     0
                 )
             } else {
+
+                // memanggil fungsi untuk menampilkan dialog fragment
                 OpenDialog(
                     "Pemberitahuan!",
                     "Waktu Percobaan aplikasi kurang $diff hari lagi",
@@ -335,11 +368,28 @@ class BerandaFragment : Fragment(), ITpsView, IConfigView,
 
     }
 
+    /**
+     * fungsi ketika gagal mengambil data config dari database
+     *
+     * @author Imam Mufiid
+     * @param message berisi pesan gagal
+     *
+     * */
     override fun getFailedConfig(message: String?) {
         // code ..
     }
 
+    /**
+     * fungsi untuk mengimplementasi dialog fragment
+     *
+     * @author Imam Mufiid
+     * @param title untuk title dialog
+     * @param message untuk pesan dialog
+     * @param state state untuk menyimpan nilai state
+     * */
     private fun OpenDialog(title: String, message: String?, state: Int?) {
+
+        // menyimpan data untuk di passing ke Dialog Fragment
         val mBundle = Bundle().apply {
             putString(OpenDialogFragment.TITLE_MESSAGE, title)
             putString(
@@ -348,6 +398,8 @@ class BerandaFragment : Fragment(), ITpsView, IConfigView,
             )
             putInt(OpenDialogFragment.STATE.toString(), state!!)
         }
+
+        // menampilkan dialog fragment
         OpenDialogFragment().apply {
             arguments = mBundle
             isCancelable = false
@@ -356,6 +408,7 @@ class BerandaFragment : Fragment(), ITpsView, IConfigView,
         )
     }
 
+    // mengimplementasi interface button listener di dialog fragment
     internal var buttonListener: OpenDialogFragment.ButtonListener =
         object : OpenDialogFragment.ButtonListener {
             override fun choose() {
