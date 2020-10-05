@@ -415,7 +415,7 @@ class AddVoteActivity : AppCompatActivity(), IPaslonView, ITpsView {
         if (!data.foto_blanko.isNullOrEmpty()) {
             Glide.with(this)
                 .load(data.foto_blanko)
-                .placeholder(R.drawable.ic_img_placeholder)
+                .placeholder(R.drawable.ic_spinner_imagepx)
                 .centerCrop()
                 .into(image_blangko)
         }else {

@@ -408,7 +408,7 @@ class TpsActivity : AppCompatActivity(), MySimpleLocation.MySimpleLocationCallba
         if (!data.foto_tps.isNullOrEmpty()) {
             Glide.with(this)
                 .load(data.foto_tps)
-                .placeholder(R.drawable.ic_img_placeholder)
+                .placeholder(R.drawable.ic_spinner_imagepx)
                 .centerCrop()
                 .into(image_tps)
         } else {
