@@ -137,6 +137,14 @@ class TpsActivity : AppCompatActivity(), MySimpleLocation.MySimpleLocationCallba
                 1 -> rotateImg(bitmap, 0F)
                 0 -> rotateImg(bitmap, 90F)
             }
+        } else {
+            when (eiValue) {
+                6 -> rotateImg(bitmap, 90F)
+                8 -> rotateImg(bitmap, 270F)
+                3 -> rotateImg(bitmap, 180F)
+                1 -> rotateImg(bitmap, 0F)
+                0 -> rotateImg(bitmap, 0F)
+            }
         }
 
     }
