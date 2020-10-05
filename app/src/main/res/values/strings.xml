@@ -18,4 +18,8 @@
     <string name="menu_utama">Menu Utama</string>
     <string name="foto_tps">Foto TPS</string>
     <string name="suara_tidak_sah">Suara Tidak Sah</string>
+    <string name="pesan">pesan</string>
+    <string name="title">Title</string>
+    <string name="keluar">Logout</string>
+    <string name="cancel">Cancel</string>
 </resources>
