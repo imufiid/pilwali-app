@@ -39,21 +39,24 @@ class ProfilFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        val root = inflater.inflate(R.layout.fragment_profil, container, false)
+        return inflater.inflate(R.layout.fragment_profil, container, false)
+    }
 
-        val editProfile = root.findViewById<LinearLayout>(R.id.editProfile) as LinearLayout
-        val logout = root.findViewById<LinearLayout>(R.id.logout) as LinearLayout
-        val tv_username = root.findViewById<TextView>(R.id.username_user) as TextView
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        val editProfile = view.findViewById<LinearLayout>(R.id.editProfile) as LinearLayout
+        val logout = view.findViewById<LinearLayout>(R.id.logout) as LinearLayout
+        val tvUsername = view.findViewById<TextView>(R.id.username_user) as TextView
 
         editProfile.setOnClickListener {
             startActivity(Intent(context, EditProfileActivity::class.java))
         }
 
-        tv_username.text = Constants.getUsername(context!!)
+        tvUsername.text = Constants.getUsername(context!!)
 
         logout.setOnClickListener {
-            AlertDialog.Builder(context).apply { 
+            AlertDialog.Builder(context).apply {
                 setTitle("Konfirmasi keluar")
                 setMessage("Anda yakin keluar?")
                     .setPositiveButton("Iya") { dialogInterface, i ->
@@ -61,14 +64,12 @@ class ProfilFragment : Fragment() {
                         startActivity(Intent(context, LoginActivity::class.java))
                         activity?.finish()
                     }
-                    .setNegativeButton("Tidak") { dialogInterface, i ->  
+                    .setNegativeButton("Tidak") { dialogInterface, i ->
                         dialogInterface.dismiss()
                     }
             }.show()
 
         }
-
-        return root
     }
 
     companion object {
