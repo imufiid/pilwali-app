@@ -58,14 +58,6 @@ class OpenDialogFragment : DialogFragment(), View.OnClickListener {
         button_cancel?.setOnClickListener(this)
 
         dialog?.setCanceledOnTouchOutside(false)
-//        dialog?.setCancelable(false)
-//        dialog?.setOnKeyListener { dialogInterface, i, keyEvent ->
-//            if(i == KeyEvent.KEYCODE_BACK && keyEvent.action == KeyEvent.ACTION_UP) {
-//                // code
-//                return@setOnKeyListener
-//            }
-//
-//        }
 
     }
 
