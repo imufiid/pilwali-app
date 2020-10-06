@@ -17,8 +17,8 @@
 - [x] Input Jumlah Suara (@jenis pemilih)
 - [x] Input Jumlah Suara Sah Paslon Jumlah Suara tidak sah dan upload image blangko
 - [x] Input Latitude Longitude TPS, dan image TPS
-- [ ] Monitoring (WebView)
-- [ ] Get verification
+- [x] Monitoring (WebView)
+- [x] Get verification
 - [x] Profil
 - [x] Login
 
