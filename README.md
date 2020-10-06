@@ -37,7 +37,8 @@
 |--|--|--|
 |Splash Screen|Login|Beranda|
 |![](https://i.ibb.co/Z25wF0D/pilwali.jpg)|![](https://i.ibb.co/JsCKkVL/tps.jpg)|![](https://i.ibb.co/hV5kMP4/perhitungan.png)|
-|Pilwali|TPS|Perhitungan|
 |--|--|--|
+|Pilwali|TPS|Perhitungan|
 |![](https://i.ibb.co/4VcN0Lw/monitoring.jpg)|![](https://i.ibb.co/2qYDZ9g/profile.jpg)|![](https://i.ibb.co/W2DChyP/edit-profile.jpg)|
+|--|--|--|
 |Monitoring|Profile|Edit Profile|

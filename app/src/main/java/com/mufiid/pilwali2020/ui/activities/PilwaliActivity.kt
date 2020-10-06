@@ -142,6 +142,12 @@ class PilwaliActivity : AppCompatActivity(), ITpsView, IPilwaliView {
                 tv_verifikasi.text = "Sudah diverifikasi"
                 btn_simpan.visibility = View.GONE
                 btn_add.visibility = View.GONE
+
+                jumlah_dpt.isEnabled = false
+                jumlah_dptb.isEnabled = false
+                jumlah_dpk.isEnabled = false
+                jumlah_dpktb.isEnabled = false
+                jumlah_difabel.isEnabled = false
             }
             else -> {
                 ic_verifikasi.setImageResource(R.drawable.ic_unverification)
