@@ -4,8 +4,8 @@ import android.content.Context
 
 class Constants {
     companion object {
-        const val API_ENDPOINT = "http://192.168.1.4/pilwali-2020/api/"
-        const val URL_WEBVIEW = "http://192.168.1.4/pilwali-2020/publics/chart_perhitungan"
+        const val API_ENDPOINT = "http://192.168.1.2/pilwali-2020/api/"
+        const val URL_WEBVIEW = "http://192.168.1.2/pilwali-2020/publics/chart_perhitungan"
 
         fun getUsername(context: Context) : String {
             val pref = context.getSharedPreferences("USER", Context.MODE_PRIVATE)

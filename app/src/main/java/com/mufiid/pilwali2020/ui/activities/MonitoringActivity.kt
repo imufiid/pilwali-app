@@ -33,6 +33,7 @@ class MonitoringActivity : AppCompatActivity() {
 
         // ....
         loading?.setMessage("Tunggu sebentar...")
+        loading?.setCancelable(false)
         loading?.show()
     }
 
