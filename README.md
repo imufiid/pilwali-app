@@ -34,6 +34,7 @@
 
 ### Tampilan Aplikasi v-1.0
 |![](https://i.ibb.co/hVXWZ1S/splash-screen.jpg)|![](https://i.ibb.co/0mdPyRM/login.jpg)|![](https://i.ibb.co/Qf2psQM/beranda.jpg)|
+|--|--|--|
 |Splash Screen|Login|Beranda|
 |![](https://i.ibb.co/Z25wF0D/pilwali.jpg)|![](https://i.ibb.co/JsCKkVL/tps.jpg)|![](https://i.ibb.co/hV5kMP4/perhitungan.png)|
 |Pilwali|TPS|Perhitungan|
