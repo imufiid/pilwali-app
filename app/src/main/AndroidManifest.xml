@@ -33,7 +33,8 @@
             </meta-data>
         </provider>
         <activity android:name="com.mufiid.pilwali2020.ui.activities.AddVoteActivity"
-            android:parentActivityName="com.mufiid.pilwali2020.ui.activities.PilwaliActivity"/>
+            android:parentActivityName="com.mufiid.pilwali2020.ui.activities.PilwaliActivity"
+            android:screenOrientation="portrait"/>
         <activity
             android:name="com.mufiid.pilwali2020.ui.activities.MonitoringActivity"
             android:parentActivityName="com.mufiid.pilwali2020.ui.activities.BerandaActivity"
