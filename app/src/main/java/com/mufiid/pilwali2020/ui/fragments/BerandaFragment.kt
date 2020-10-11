@@ -124,7 +124,7 @@ class BerandaFragment : Fragment(), ITpsView, IConfigView,
                     .setPositiveButton(resources.getString(R.string.close)) { dialogInterface, _ ->
                         dialogInterface.dismiss()
                     }
-            }
+            }.show()
         }
 
         /**
