@@ -15,6 +15,7 @@ import android.os.Environment
 import android.provider.MediaStore
 import android.util.Log
 import android.view.View
+import android.widget.Button
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
@@ -22,11 +23,8 @@ import androidx.core.content.FileProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.google.gson.Gson
-import com.google.gson.GsonBuilder
 import com.mufiid.pilwali2020.R
 import com.mufiid.pilwali2020.adapters.PaslonAdapter
-import com.mufiid.pilwali2020.adapters.PaslonAdptr
 import com.mufiid.pilwali2020.models.Paslon
 import com.mufiid.pilwali2020.models.Tps
 import com.mufiid.pilwali2020.presenters.AddVotePresenter
@@ -36,14 +34,10 @@ import com.mufiid.pilwali2020.views.IPaslonView
 import com.mufiid.pilwali2020.views.ITpsView
 import kotlinx.android.synthetic.main.activity_add_vote.*
 import kotlinx.android.synthetic.main.activity_add_vote.open_camera
-import kotlinx.android.synthetic.main.activity_tps.*
-import okhttp3.MediaType
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
-import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.asRequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
-import org.json.JSONObject
 import java.io.File
 import java.io.IOException
 import java.text.SimpleDateFormat
@@ -61,6 +55,7 @@ class AddVoteActivity : AppCompatActivity(), IPaslonView, ITpsView {
     private var currentPhotoPath: String? = ""
     private val suaraPaslon = mutableListOf<Int>()
     private val idPaslon = mutableListOf<Int>()
+    private var verifTps: Int? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -72,6 +67,9 @@ class AddVoteActivity : AppCompatActivity(), IPaslonView, ITpsView {
 
         // setting for recycler view
         viewManager = LinearLayoutManager(this)
+
+        // check Verification
+        checkVerification()
 
         // init presenter
         presenter = AddVotePresenter(this)
@@ -95,10 +93,20 @@ class AddVoteActivity : AppCompatActivity(), IPaslonView, ITpsView {
 
     }
 
+    private fun checkVerification() {
+        when (Constants.getVerification(this)) {
+            1 -> {
+                jumlah_suara_tidak_sah.isEnabled = false
+                layout_btn_save.visibility = View.GONE
+                open_camera.visibility = View.GONE
+            }
+        }
+    }
+
     /**
      * function untuk upload data
      *
-     * @author Imam Mufiif
+     * @author Imam Mufiid
      *
      * */
     private fun doUpload() {
@@ -127,7 +135,14 @@ class AddVoteActivity : AppCompatActivity(), IPaslonView, ITpsView {
         val suara_tidak_sah = suaraTidakSah.toRequestBody("text/plain".toMediaTypeOrNull())
 
         // post data
-        presenter?.postDataPerolehanSuara(idTps, suara_tidak_sah, idPaslon, suaraPaslon, pictPart, username)
+        presenter?.postDataPerolehanSuara(
+            idTps,
+            suara_tidak_sah,
+            idPaslon,
+            suaraPaslon,
+            pictPart,
+            username
+        )
     }
 
     override fun onResume() {
@@ -418,7 +433,7 @@ class AddVoteActivity : AppCompatActivity(), IPaslonView, ITpsView {
                 .placeholder(R.drawable.ic_spinner_imagepx)
                 .centerCrop()
                 .into(image_blangko)
-        }else {
+        } else {
             image_blangko.setImageResource(R.drawable.ic_img_placeholder)
         }
     }

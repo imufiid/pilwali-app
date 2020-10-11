@@ -22,4 +22,5 @@
     <string name="title">Title</string>
     <string name="keluar">Logout</string>
     <string name="cancel">Cancel</string>
+    <string name="simpan">Simpan</string>
 </resources>

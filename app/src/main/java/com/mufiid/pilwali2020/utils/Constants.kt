@@ -4,8 +4,8 @@ import android.content.Context
 
 class Constants {
     companion object {
-        const val API_ENDPOINT = "http://192.168.1.2/pilwali-2020/api/"
-        const val URL_WEBVIEW = "http://192.168.1.2/pilwali-2020/publics/chart_perhitungan"
+        const val API_ENDPOINT = "http://192.168.1.5/pilwali-2020/api/"
+        const val URL_WEBVIEW = "http://192.168.1.5/pilwali-2020/publics/chart_perhitungan"
 
         fun getUsername(context: Context) : String {
             val pref = context.getSharedPreferences("USER", Context.MODE_PRIVATE)
@@ -29,6 +29,19 @@ class Constants {
             val pref = context.getSharedPreferences("USER", Context.MODE_PRIVATE)
             pref.edit().apply {
                 putString("ID_TPS", username)
+                apply()
+            }
+        }
+
+        fun getVerification(context: Context?) : Int {
+            val pref = context?.getSharedPreferences("USER", Context.MODE_PRIVATE)
+            return pref?.getInt("VERIF", 0)!!
+        }
+
+        fun setVerification(context: Context, verification: Int) {
+            val pref = context.getSharedPreferences("USER", Context.MODE_PRIVATE)
+            pref.edit().apply {
+                putInt("VERIF", verification)
                 apply()
             }
         }

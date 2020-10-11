@@ -299,19 +299,22 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <Button
-            android:id="@+id/btn_save"
+        <LinearLayout
+            android:id="@+id/layout_btn_save"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/layout_img"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentEnd="true"
+            android:orientation="vertical"
             android:layout_marginHorizontal="16dp"
             android:layout_marginTop="32dp"
             android:layout_marginBottom="80dp"
-            android:background="@color/colorPrimaryDark"
-            android:foreground="?android:attr/selectableItemBackground"
-            android:text="Simpan"
-            android:textColor="@color/colorTextIcon" />
+            android:layout_below="@id/layout_img">
+            <Button
+                android:id="@+id/btn_save"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorPrimaryDark"
+                android:text="Simpan"
+                android:textColor="@color/colorTextIcon" />
+        </LinearLayout>
     </RelativeLayout>
 </androidx.core.widget.NestedScrollView>

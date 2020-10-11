@@ -1,5 +1,6 @@
 package com.mufiid.pilwali2020.adapters
 
+import android.content.Context
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
@@ -10,12 +11,14 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.mufiid.pilwali2020.R
 import com.mufiid.pilwali2020.models.Paslon
+import com.mufiid.pilwali2020.utils.Constants
 import kotlinx.android.synthetic.main.item_paslon.view.*
 
 
 class PaslonAdapter(val data: List<Paslon>) : RecyclerView.Adapter<PaslonAdapter.Holder>() {
     companion object {
         var dataPaslon : List<Paslon>? = null
+        var context: Context? = null
     }
 
     init {
@@ -24,6 +27,7 @@ class PaslonAdapter(val data: List<Paslon>) : RecyclerView.Adapter<PaslonAdapter
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_paslon, parent, false)
+        context = parent.context
         return Holder(view)
     }
 
@@ -32,6 +36,11 @@ class PaslonAdapter(val data: List<Paslon>) : RecyclerView.Adapter<PaslonAdapter
     override fun onBindViewHolder(holder: Holder, position: Int) {
         holder.onBind(data[position])
         holder.itemView.et_suara_paslon
+        when(Constants.getVerification(context)) {
+            1 -> {
+                holder.itemView.et_suara_paslon.isEnabled = false
+            }
+        }
     }
 
     @Suppress("DEPRECATION")
@@ -40,6 +49,8 @@ class PaslonAdapter(val data: List<Paslon>) : RecyclerView.Adapter<PaslonAdapter
             Log.d("GET", get.toString())
             itemView.nama_paslon.text = "${get?.noPeserta}. ${get?.nmPeserta}"
             itemView.et_suara_paslon.setText(get?.jumlah_suara.toString())
+
+
 
             // get last item
             if(position == data.size-1) {
