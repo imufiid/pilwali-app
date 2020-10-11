@@ -26,6 +26,8 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.FileProvider
 import com.bumptech.glide.Glide
 import com.example.locationbasedservice.MySimpleLocation
+import com.google.android.gms.location.LocationServices
+import com.google.android.gms.tasks.OnSuccessListener
 import com.mufiid.pilwali2020.R
 import com.mufiid.pilwali2020.models.Tps
 import com.mufiid.pilwali2020.presenters.TpsPresenter
@@ -80,7 +82,7 @@ class TpsActivity : AppCompatActivity(), MySimpleLocation.MySimpleLocationCallba
             doSimpan()
         }
 
-        getPermission()
+        getLatLong()
         getPermissionTakePhoto()
     }
 
@@ -205,7 +207,7 @@ class TpsActivity : AppCompatActivity(), MySimpleLocation.MySimpleLocationCallba
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.refresh -> {
-                getPermission()
+                getLatLong()
             }
         }
         return super.onOptionsItemSelected(item)
@@ -264,8 +266,9 @@ class TpsActivity : AppCompatActivity(), MySimpleLocation.MySimpleLocationCallba
                     1
                 )
             } else {
-                mySimpleLocation = MySimpleLocation(this, this)
-                mySimpleLocation.checkLocationSetting(this)
+//                mySimpleLocation = MySimpleLocation(this, this)
+//                mySimpleLocation.checkLocationSetting(this)
+                getLatLong()
 
                 // show shimmer
                 mShimmerViewContainer.startShimmer()
@@ -274,8 +277,9 @@ class TpsActivity : AppCompatActivity(), MySimpleLocation.MySimpleLocationCallba
                 layout_longitude.visibility = View.GONE
             }
         } else {
-            mySimpleLocation = MySimpleLocation(this, this)
-            mySimpleLocation.checkLocationSetting(this)
+//            mySimpleLocation = MySimpleLocation(this, this)
+//            mySimpleLocation.checkLocationSetting(this)
+            getLatLong()
 
             // show shimmer
             mShimmerViewContainer.startShimmer()
@@ -313,57 +317,28 @@ class TpsActivity : AppCompatActivity(), MySimpleLocation.MySimpleLocationCallba
     override fun getLocation(location: Location) {
         val lat = location.latitude
         val long = location.longitude
-        Log.d("MAINACTIVITY", "${lat.toString()} ${long.toString()}")
 
-        // bind to UI
-        try {
-            // stop shimmer
-            mShimmerViewContainer.stopShimmer()
-            mShimmerViewContainer.visibility = View.GONE
-            layout_latitude.visibility = View.VISIBLE
-            layout_longitude.visibility = View.VISIBLE
+        GlobalScope.launch(Dispatchers.IO) {
 
-            latitude.setText(lat.toString())
-            longitude.setText(long.toString())
+            launch(Dispatchers.Main) {
+                // bind to UI
+                try {
+                    // stop shimmer
+                    mShimmerViewContainer.stopShimmer()
+                    mShimmerViewContainer.visibility = View.GONE
+                    layout_latitude.visibility = View.VISIBLE
+                    layout_longitude.visibility = View.VISIBLE
 
-            //If you want to stop get your location on first result
-            mySimpleLocation.stopGetLocation()
-        } catch (e: Exception) {
-            Log.e("MAINACTIVITY", e.message.toString())
+                    latitude.setText(lat.toString())
+                    longitude.setText(long.toString())
+
+                    //If you want to stop get your location on first result
+                    mySimpleLocation.stopGetLocation()
+                } catch (e: Exception) {
+                    Log.e("MAINACTIVITY", e.message.toString())
+                }
+            }
         }
-
-//        GlobalScope.launch(Dispatchers.IO) {
-//            val geoCoder = Geocoder(this@TpsActivity, Locale.getDefault())
-//            val addresses = geoCoder.getFromLocation(lat, long, 1)
-//
-//            val address = if (addresses != null && addresses.size != 0) {
-//                val fullAddress = addresses[0].getAddressLine(0)
-//                fullAddress.plus("")
-//            } else {
-//                "Addresses Not Found!"
-//            }
-//
-//            launch(Dispatchers.Main) {
-//                try {
-//
-//                    // stop shimmer
-//                    mShimmerViewContainer.stopShimmer()
-//                    mShimmerViewContainer.visibility = View.GONE
-//                    layout_latitude.visibility = View.VISIBLE
-//                    layout_longitude.visibility = View.VISIBLE
-//
-//                    latitude.setText(lati)
-//                    longitude.setText(longi)
-//
-//                    //If you want to stop get your location on first result
-//                    mySimpleLocation.stopGetLocation()
-//                } catch (e: Exception) {
-//                    Log.e("MAINACTIVITY", e.message.toString())
-//                }
-//            }
-//
-//
-//        }
     }
 
     override fun isLoadingTps(state: Int?) {
@@ -426,6 +401,43 @@ class TpsActivity : AppCompatActivity(), MySimpleLocation.MySimpleLocationCallba
 
     override fun messageFailed(message: String?) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+    }
+
+    private fun getLatLong() {
+
+        val mFusedLocation = LocationServices.getFusedLocationProviderClient(this)
+        if (ActivityCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            ActivityCompat.requestPermissions(
+                this,
+                arrayOf(
+                    android.Manifest.permission.ACCESS_FINE_LOCATION,
+                    android.Manifest.permission.ACCESS_COARSE_LOCATION
+                ),
+                1
+            )
+        } else {
+            mFusedLocation.lastLocation.addOnSuccessListener(
+                this
+            ) { location ->
+                // Display in Toast
+                mShimmerViewContainer.stopShimmer()
+                mShimmerViewContainer.visibility = View.GONE
+                layout_latitude.visibility = View.VISIBLE
+                layout_longitude.visibility = View.VISIBLE
+
+                latitude.setText(location?.latitude.toString())
+                longitude.setText(location?.longitude.toString())
+            }
+        }
+
+
     }
 
 
