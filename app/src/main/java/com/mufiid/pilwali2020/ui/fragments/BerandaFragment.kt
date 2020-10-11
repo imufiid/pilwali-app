@@ -337,10 +337,10 @@ class BerandaFragment : Fragment(), ITpsView, IConfigView,
             } else {
 
                 // memanggil fungsi untuk menampilkan dialog fragment
-                OpenDialog(
-                    "Pemberitahuan!",
-                    "Waktu Percobaan aplikasi kurang ${Duration.between(currentDate, dateConfig).toDays()} hari lagi",
-                    1)
+//                OpenDialog(
+//                    "Pemberitahuan!",
+//                    "Waktu Percobaan aplikasi kurang ${Duration.between(currentDate, dateConfig).toDays()} hari lagi",
+//                    1)
             }
         } else {
             val formatter = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
