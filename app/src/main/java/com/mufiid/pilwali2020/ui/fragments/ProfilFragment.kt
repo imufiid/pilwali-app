@@ -9,10 +9,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
+import com.mufiid.pilwali2020.BuildConfig
 import com.mufiid.pilwali2020.R
 import com.mufiid.pilwali2020.ui.activities.EditProfileActivity
 import com.mufiid.pilwali2020.ui.activities.LoginActivity
 import com.mufiid.pilwali2020.utils.Constants
+import org.w3c.dom.Text
 
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
@@ -48,6 +50,9 @@ class ProfilFragment : Fragment() {
         val editProfile = view.findViewById<LinearLayout>(R.id.editProfile) as LinearLayout
         val logout = view.findViewById<LinearLayout>(R.id.logout) as LinearLayout
         val tvUsername = view.findViewById<TextView>(R.id.username_user) as TextView
+        val appVersion = view.findViewById<TextView>(R.id.app_version)
+
+        appVersion.text = "App Version - ${BuildConfig.VERSION_NAME}"
 
         editProfile.setOnClickListener {
             startActivity(Intent(context, EditProfileActivity::class.java))
