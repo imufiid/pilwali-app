@@ -211,7 +211,6 @@ class AddVoteActivity : AppCompatActivity(), IPaslonView, ITpsView {
         val ei = ExifInterface(currentPhotoPath!!)
         val orientation =
             ei.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_UNDEFINED)
-        Log.d("EXIF value", ei.getAttribute(ExifInterface.TAG_ORIENTATION).toString());
         var rotateBitmap: Bitmap? = null
 
         val eiValue = ei.getAttribute(ExifInterface.TAG_ORIENTATION)?.toInt()

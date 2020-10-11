@@ -95,9 +95,6 @@ class TpsActivity : AppCompatActivity(), MySimpleLocation.MySimpleLocationCallba
             part = MultipartBody.Part.createFormData("foto_tps", pictFromBitmap.name, reqFile)
         }
 
-        Log.d("PART", part.toString())
-
-
         val lat = RequestBody.create("text/plain".toMediaTypeOrNull(), latitude.text.toString())
         val long = RequestBody.create("text/plain".toMediaTypeOrNull(), longitude.text.toString())
         val username =
@@ -127,7 +124,6 @@ class TpsActivity : AppCompatActivity(), MySimpleLocation.MySimpleLocationCallba
         val ei = ExifInterface(currentPhotoPath!!)
         val orientation =
             ei.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_UNDEFINED)
-        Log.d("EXIF value", ei.getAttribute(ExifInterface.TAG_ORIENTATION).toString());
         var rotateBitmap: Bitmap? = null
 
         val eiValue = ei.getAttribute(ExifInterface.TAG_ORIENTATION)?.toInt()
@@ -177,7 +173,6 @@ class TpsActivity : AppCompatActivity(), MySimpleLocation.MySimpleLocationCallba
 
         //write the bytes in file
         try {
-            Log.d("PATH FILE", file.absolutePath)
             val fos = FileOutputStream(file)
             fos.write(bitmapData)
             fos.flush()
@@ -335,7 +330,7 @@ class TpsActivity : AppCompatActivity(), MySimpleLocation.MySimpleLocationCallba
                     //If you want to stop get your location on first result
                     mySimpleLocation.stopGetLocation()
                 } catch (e: Exception) {
-                    Log.e("MAINACTIVITY", e.message.toString())
+                    // code ...
                 }
             }
         }

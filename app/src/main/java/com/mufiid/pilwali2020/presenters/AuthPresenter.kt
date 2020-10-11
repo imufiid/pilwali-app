@@ -40,7 +40,6 @@ class AuthPresenter(private val authView: IAuthView, private val loading: ILoadi
                 loading.hideLoading()
             },{
                 // code ...
-                Log.d("AUTH ERROR", it.message!!)
                 loading.hideLoading()
             })
     }

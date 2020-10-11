@@ -38,7 +38,6 @@ class AddVotePresenter(private val paslonView: IPaslonView) {
                 paslonView.hideLoadingPaslon(1)
             }, {
                 // code ...
-                Log.d("AUTH ERROR", it.message!!)
                 paslonView.hideLoadingPaslon(1)
             })
     }

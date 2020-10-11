@@ -106,7 +106,6 @@ class PilwaliActivity : AppCompatActivity(), ITpsView, IPilwaliView {
     }
 
     override fun getDataTps(message: String?, data: Tps) {
-        Log.d("MESSAGE", message!!)
         jumlah_dpt.setText(data.dpt2)
         jumlah_dptb.setText(data.dptb2)
         jumlah_dpk.setText(data.dpk2)
@@ -127,12 +126,11 @@ class PilwaliActivity : AppCompatActivity(), ITpsView, IPilwaliView {
     }
 
     override fun isLoadingPilwali() {
-        Log.d("LOADING", "loading")
+        // code ..
     }
 
     override fun hideLoadingPilwali() {
         // code ..
-        Log.d("LOADING", "end loading")
     }
 
     override fun success(message: String?, verification: Int?) {

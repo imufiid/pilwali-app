@@ -43,8 +43,6 @@ class LoginActivity : AppCompatActivity(), IAuthView, ILoadingView {
     }
 
     override fun successLogin(message: String?, user: User) {
-        Log.d("USER", user.toString())
-
         Constants.setIDUser(this, user.id.toString())
         Constants.setUsername(this, user.username.toString())
         Constants.setIDTps(this, user.idTps.toString())
