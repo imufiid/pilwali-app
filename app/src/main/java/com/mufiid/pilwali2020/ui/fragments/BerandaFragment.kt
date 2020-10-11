@@ -1,5 +1,6 @@
 package com.mufiid.pilwali2020.ui.fragments
 
+import android.app.AlertDialog
 import android.content.Intent
 import android.content.IntentFilter
 import android.net.ConnectivityManager
@@ -117,7 +118,13 @@ class BerandaFragment : Fragment(), ITpsView, IConfigView,
             startActivity(Intent(context, MonitoringActivity::class.java))
         }
         btnBlangko.setOnClickListener {
-            Toast.makeText(context, "Blangko", Toast.LENGTH_SHORT).show()
+            AlertDialog.Builder(context).apply {
+                setTitle(resources.getString(R.string.sorry))
+                setMessage(resources.getString(R.string.message_developement))
+                    .setPositiveButton(resources.getString(R.string.close)) { dialogInterface, _ ->
+                        dialogInterface.dismiss()
+                    }
+            }
         }
 
         /**

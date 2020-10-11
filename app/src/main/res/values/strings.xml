@@ -23,4 +23,7 @@
     <string name="keluar">Logout</string>
     <string name="cancel">Cancel</string>
     <string name="simpan">Simpan</string>
+    <string name="message_developement">Masih dalam tahap pengembangan!</string>
+    <string name="close">Tutup</string>
+    <string name="sorry">Mohon maaf</string>
 </resources>
