@@ -27,6 +27,6 @@
     <string name="close">Tutup</string>
     <string name="sorry">Mohon maaf</string>
     <string name="permission_denied">Permission Denied!</string>
-    <string name="title_download">Download</string>
+    <string name="title_download">Download Blangko</string>
     <string name="download_description">Sedang download file...</string>
 </resources>

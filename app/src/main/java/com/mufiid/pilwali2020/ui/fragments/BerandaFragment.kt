@@ -39,6 +39,7 @@ import com.mufiid.pilwali2020.views.IConfigView
 import com.mufiid.pilwali2020.views.ITpsView
 import com.viewpagerindicator.CirclePageIndicator
 import kotlinx.android.synthetic.main.fragment_beranda.*
+import java.net.URI
 import java.text.SimpleDateFormat
 import java.time.Duration
 import java.time.LocalDateTime
@@ -141,7 +142,11 @@ class BerandaFragment : Fragment(), ITpsView, IConfigView,
 
     private fun doDownloadBlangko() {
         if (Build.VERSION.SDK_INT >= 23) {
-            if (ActivityCompat.checkSelfPermission(context!!, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            if (ActivityCompat.checkSelfPermission(
+                    context!!,
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE
+                ) != PackageManager.PERMISSION_GRANTED
+            ) {
                 ActivityCompat.requestPermissions(
                     activity!!,
                     arrayOf(
@@ -150,7 +155,7 @@ class BerandaFragment : Fragment(), ITpsView, IConfigView,
                     1
                 )
             } else {
-                // do download
+                // do  download
                 startDownload()
             }
         } else {
@@ -160,17 +165,22 @@ class BerandaFragment : Fragment(), ITpsView, IConfigView,
     }
 
     private fun startDownload() {
-        Toast.makeText(context, "download", Toast.LENGTH_SHORT).show()
+        Toast.makeText(context, resources.getString(R.string.title_download), Toast.LENGTH_SHORT).show()
         val url = Constants.URL_DOWNLOAD_BLANGKO
 
-        val nameFile = Constants.URL_DOWNLOAD_BLANGKO.split("/")
+        val path = URI(Constants.URL_DOWNLOAD_BLANGKO).path
+        val nameFile = path.substring(path.lastIndexOf('/') + 1)
+
         val request = DownloadManager.Request(Uri.parse(url)).apply {
             setAllowedNetworkTypes(DownloadManager.Request.NETWORK_WIFI or DownloadManager.Request.NETWORK_MOBILE)
             setTitle(resources.getString(R.string.title_download))
             setDescription(resources.getString(R.string.download_description))
             allowScanningByMediaScanner()
             setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
-            setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, "${System.currentTimeMillis()}_${nameFile.last().toString()}")
+            setDestinationInExternalPublicDir(
+                Environment.DIRECTORY_DOWNLOADS,
+                "${System.currentTimeMillis()}_${nameFile}"
+            )
         }
 
         // get download service and enqueue file
@@ -183,14 +193,18 @@ class BerandaFragment : Fragment(), ITpsView, IConfigView,
         permissions: Array<out String>,
         grantResults: IntArray
     ) {
-        when(requestCode) {
+        when (requestCode) {
             1 -> {
-                if(grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     // permission from popup was granted, perform download
                     startDownload()
                 } else {
                     // permission from popup was denied, show error message
-                    Toast.makeText(context, resources.getString(R.string.permission_denied), Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        context,
+                        resources.getString(R.string.permission_denied),
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
             }
         }
