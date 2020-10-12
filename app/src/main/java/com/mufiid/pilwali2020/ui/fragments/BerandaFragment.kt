@@ -1,13 +1,16 @@
 package com.mufiid.pilwali2020.ui.fragments
 
+import android.Manifest
 import android.app.AlertDialog
+import android.app.DownloadManager
+import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import android.content.pm.PackageManager
 import android.net.ConnectivityManager
-import android.os.Build
-import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
+import android.net.Uri
+import android.os.*
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,6 +18,8 @@ import android.widget.ImageButton
 import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.viewpager.widget.ViewPager
 import com.facebook.shimmer.ShimmerFrameLayout
@@ -88,8 +93,10 @@ class BerandaFragment : Fragment(), ITpsView, IConfigView,
         val btnTps = view.findViewById<ImageButton>(R.id.btn_tps) as ImageButton
         val btnMonitoring = view.findViewById<ImageButton>(R.id.btn_monitor) as ImageButton
         val btnBlangko = view.findViewById<ImageButton>(R.id.btn_blangko) as ImageButton
-        shimmer = view.findViewById<View>(R.id.mShimmerViewContainer) as com.facebook.shimmer.ShimmerFrameLayout
-        shimmerImageSlider = view.findViewById<View>(R.id.shimmer_image_slider_container) as com.facebook.shimmer.ShimmerFrameLayout
+        shimmer =
+            view.findViewById<View>(R.id.mShimmerViewContainer) as com.facebook.shimmer.ShimmerFrameLayout
+        shimmerImageSlider =
+            view.findViewById<View>(R.id.shimmer_image_slider_container) as com.facebook.shimmer.ShimmerFrameLayout
         val jumlahPemilih = view.findViewById<View>(R.id.jumlah_pemilih)
         val layoutTitle = view.findViewById<LinearLayout>(R.id.layout_title) as LinearLayout
         viewPager = view.findViewById(R.id.banner_viewPager) as ViewPager
@@ -118,13 +125,7 @@ class BerandaFragment : Fragment(), ITpsView, IConfigView,
             startActivity(Intent(context, MonitoringActivity::class.java))
         }
         btnBlangko.setOnClickListener {
-            AlertDialog.Builder(context).apply {
-                setTitle(resources.getString(R.string.sorry))
-                setMessage(resources.getString(R.string.message_developement))
-                    .setPositiveButton(resources.getString(R.string.close)) { dialogInterface, _ ->
-                        dialogInterface.dismiss()
-                    }
-            }.show()
+            doDownloadBlangko()
         }
 
         /**
@@ -136,6 +137,63 @@ class BerandaFragment : Fragment(), ITpsView, IConfigView,
             ConnectivityReceiver(),
             IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION)
         )
+    }
+
+    private fun doDownloadBlangko() {
+        if (Build.VERSION.SDK_INT >= 23) {
+            if (ActivityCompat.checkSelfPermission(context!!, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(
+                    activity!!,
+                    arrayOf(
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE
+                    ),
+                    1
+                )
+            } else {
+                // do download
+                startDownload()
+            }
+        } else {
+            // do download sdk <= 23
+            startDownload()
+        }
+    }
+
+    private fun startDownload() {
+        Toast.makeText(context, "download", Toast.LENGTH_SHORT).show()
+        val url = Constants.URL_DOWNLOAD_BLANGKO
+
+        val nameFile = Constants.URL_DOWNLOAD_BLANGKO.split("/")
+        val request = DownloadManager.Request(Uri.parse(url)).apply {
+            setAllowedNetworkTypes(DownloadManager.Request.NETWORK_WIFI or DownloadManager.Request.NETWORK_MOBILE)
+            setTitle(resources.getString(R.string.title_download))
+            setDescription(resources.getString(R.string.download_description))
+            allowScanningByMediaScanner()
+            setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
+            setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, "${System.currentTimeMillis()}_${nameFile.last().toString()}")
+        }
+
+        // get download service and enqueue file
+        val manager = activity?.getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
+        manager.enqueue(request)
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        when(requestCode) {
+            1 -> {
+                if(grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    // permission from popup was granted, perform download
+                    startDownload()
+                } else {
+                    // permission from popup was denied, show error message
+                    Toast.makeText(context, resources.getString(R.string.permission_denied), Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
     }
 
 
@@ -352,7 +410,7 @@ class BerandaFragment : Fragment(), ITpsView, IConfigView,
         } else {
             val formatter = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
             val dateConfig = formatter.parse(data.dDay)
-            val diff = ((((dateConfig.time - Date().time)/1000)/60)/60)/24
+            val diff = ((((dateConfig.time - Date().time) / 1000) / 60) / 60) / 24
 
             // checking status and date
             if (data.status == "production" && Date() < dateConfig) {
@@ -366,10 +424,11 @@ class BerandaFragment : Fragment(), ITpsView, IConfigView,
             } else {
 
                 // memanggil fungsi untuk menampilkan dialog fragment
-                OpenDialog(
-                    "Pemberitahuan!",
-                    "Waktu Percobaan aplikasi kurang $diff hari lagi",
-                    1)
+//                OpenDialog(
+//                    "Pemberitahuan!",
+//                    "Waktu Percobaan aplikasi kurang $diff hari lagi",
+//                    1
+//                )
             }
         }
 
