@@ -6,7 +6,6 @@ class Constants {
     companion object {
         const val API_ENDPOINT = "http://pilwali.tobiaditia.my.id/Api/"
         const val URL_WEBVIEW = "http://pilwali.tobiaditia.my.id/publics/chart_perhitungan"
-        const val URL_DOWNLOAD_BLANGKO = "http://pilwali.tobiaditia.my.id/assets/img/blanko/20201006_120640_JPEG_20201006_120618_3463935527490257966.jpg"
 
         fun getUsername(context: Context) : String {
             val pref = context.getSharedPreferences("USER", Context.MODE_PRIVATE)

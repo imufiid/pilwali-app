@@ -50,8 +50,7 @@ private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
 
 @Suppress("DEPRECATION")
-class BerandaFragment : Fragment(), ITpsView, IConfigView,
-    ConnectivityReceiver.ConnectivityReceiverListener {
+class BerandaFragment : Fragment(), ITpsView, IConfigView {
     private var param1: String? = null
     private var param2: String? = null
     private var shimmer: ShimmerFrameLayout? = null
@@ -62,6 +61,7 @@ class BerandaFragment : Fragment(), ITpsView, IConfigView,
     private var indicator: CirclePageIndicator? = null
     private var currentPage = 0
     private var numPages = 0
+    private var pathFileBlanko: String? = null
 
     // var jumlah pemilih
     private var dpt: TextView? = null
@@ -166,12 +166,10 @@ class BerandaFragment : Fragment(), ITpsView, IConfigView,
 
     private fun startDownload() {
         Toast.makeText(context, resources.getString(R.string.title_download), Toast.LENGTH_SHORT).show()
-        val url = Constants.URL_DOWNLOAD_BLANGKO
-
-        val path = URI(Constants.URL_DOWNLOAD_BLANGKO).path
+        val path = URI(pathFileBlanko).path
         val nameFile = path.substring(path.lastIndexOf('/') + 1)
 
-        val request = DownloadManager.Request(Uri.parse(url)).apply {
+        val request = DownloadManager.Request(Uri.parse(pathFileBlanko)).apply {
             setAllowedNetworkTypes(DownloadManager.Request.NETWORK_WIFI or DownloadManager.Request.NETWORK_MOBILE)
             setTitle(resources.getString(R.string.title_download))
             setDescription(resources.getString(R.string.download_description))
@@ -226,8 +224,6 @@ class BerandaFragment : Fragment(), ITpsView, IConfigView,
         super.onResume()
         presenter?.getDataTps(Constants.getIDTps(context!!))
         configPresenter?.config()
-
-        ConnectivityReceiver.connectivityReceiverListener = this
     }
 
     /**
@@ -286,15 +282,6 @@ class BerandaFragment : Fragment(), ITpsView, IConfigView,
         shimmer?.visibility = View.GONE
         jumlah_pemilih.visibility = View.VISIBLE
         layout_title.visibility = View.VISIBLE
-    }
-
-    /**
-     * check ketika koneksi internet berubah
-     *
-     * @author imam mufiid
-     * */
-    override fun onNetworkConnectionChanged(isConnected: Boolean) {
-        showNetworkMessage(isConnected)
     }
 
     /**
@@ -398,6 +385,8 @@ class BerandaFragment : Fragment(), ITpsView, IConfigView,
         // memanggil fungsi untuk membuat image slider
         createImageSlider(data.banner!!)
 
+        pathFileBlanko = data.blanko
+
         // checking android SDK
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
@@ -414,12 +403,7 @@ class BerandaFragment : Fragment(), ITpsView, IConfigView,
                     0
                 )
             } else {
-
-                // memanggil fungsi untuk menampilkan dialog fragment
-//                OpenDialog(
-//                    "Pemberitahuan!",
-//                    "Waktu Percobaan aplikasi kurang ${Duration.between(currentDate, dateConfig).toDays()} hari lagi",
-//                    1)
+                // code ...
             }
         } else {
             val formatter = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
@@ -436,13 +420,7 @@ class BerandaFragment : Fragment(), ITpsView, IConfigView,
                     0
                 )
             } else {
-
-                // memanggil fungsi untuk menampilkan dialog fragment
-//                OpenDialog(
-//                    "Pemberitahuan!",
-//                    "Waktu Percobaan aplikasi kurang $diff hari lagi",
-//                    1
-//                )
+                // code...
             }
         }
 

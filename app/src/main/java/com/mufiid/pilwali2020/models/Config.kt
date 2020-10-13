@@ -11,5 +11,8 @@ data class Config(
 	val dDay: String? = null,
 
 	@field:SerializedName("status")
-	val status: String? = null
+	val status: String? = null,
+
+	@field:SerializedName("blanko")
+	val blanko: String? = null
 )
