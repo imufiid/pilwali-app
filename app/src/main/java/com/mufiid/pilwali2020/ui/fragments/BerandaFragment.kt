@@ -38,6 +38,7 @@ import com.mufiid.pilwali2020.utils.helpers.ConnectivityReceiver
 import com.mufiid.pilwali2020.views.IConfigView
 import com.mufiid.pilwali2020.views.ITpsView
 import com.viewpagerindicator.CirclePageIndicator
+import io.reactivex.rxjava3.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.fragment_beranda.*
 import java.net.URI
 import java.text.SimpleDateFormat
@@ -115,6 +116,9 @@ class BerandaFragment : Fragment(), ITpsView, IConfigView {
         presenter = TpsPresenter(this)
         configPresenter = ConfigPresenter(this)
 
+        configPresenter?.config()
+        presenter?.getDataTps(Constants.getIDTps(context!!))
+
         // event listener
         btnPilwali.setOnClickListener {
             startActivity(Intent(context, PilwaliActivity::class.java))
@@ -128,16 +132,15 @@ class BerandaFragment : Fragment(), ITpsView, IConfigView {
         btnBlangko.setOnClickListener {
             doDownloadBlangko()
         }
+    }
 
-        /**
-         * register receiver untuk check internet
-         *
-         * @author imam mufiid
-         */
-        requireActivity().registerReceiver(
-            ConnectivityReceiver(),
-            IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION)
-        )
+    override fun onDestroy() {
+        super.onDestroy()
+        CompositeDisposable().clear()
+    }
+
+    override fun onStop() {
+        super.onStop()
     }
 
     private fun doDownloadBlangko() {
@@ -222,8 +225,6 @@ class BerandaFragment : Fragment(), ITpsView, IConfigView {
 
     override fun onResume() {
         super.onResume()
-        presenter?.getDataTps(Constants.getIDTps(context!!))
-        configPresenter?.config()
     }
 
     /**
@@ -253,11 +254,11 @@ class BerandaFragment : Fragment(), ITpsView, IConfigView {
     }
 
     override fun messageSuccess(message: String?) {
-        TODO("Not yet implemented")
+        // code...
     }
 
     override fun messageFailed(message: String?) {
-        TODO("Not yet implemented")
+        // code ..
     }
 
     /**
@@ -280,8 +281,8 @@ class BerandaFragment : Fragment(), ITpsView, IConfigView {
     override fun hideLoadingTps(state: Int?) {
         shimmer?.stopShimmer()
         shimmer?.visibility = View.GONE
-        jumlah_pemilih.visibility = View.VISIBLE
-        layout_title.visibility = View.VISIBLE
+        jumlah_pemilih?.visibility = View.VISIBLE
+        layout_title?.visibility = View.VISIBLE
     }
 
     /**

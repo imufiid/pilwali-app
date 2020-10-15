@@ -5,6 +5,7 @@ import com.mufiid.pilwali2020.utils.Constants
 import com.mufiid.pilwali2020.views.ILoadingView
 import com.mufiid.pilwali2020.views.ITpsView
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.schedulers.Schedulers
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -21,7 +22,7 @@ class TpsPresenter(private val tpsView: ITpsView) {
      * */
     fun getDataTps(id_tps: String) {
         tpsView.isLoadingTps(1)
-        ApiClient.instance().getDataTps(id_tps)
+        CompositeDisposable().add(ApiClient.instance().getDataTps(id_tps)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
@@ -36,7 +37,7 @@ class TpsPresenter(private val tpsView: ITpsView) {
             }, {
                 tpsView.failedGetDataTps(it.message)
                 tpsView.hideLoadingTps(1)
-            })
+            }))
     }
 
     /**

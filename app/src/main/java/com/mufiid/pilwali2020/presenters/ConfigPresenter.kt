@@ -3,12 +3,13 @@ package com.mufiid.pilwali2020.presenters
 import com.mufiid.pilwali2020.api.ApiClient
 import com.mufiid.pilwali2020.views.IConfigView
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.schedulers.Schedulers
 
 class ConfigPresenter(private val configView: IConfigView) {
     fun config() {
         configView.isLoadingConfig()
-        ApiClient.instance().getConfig()
+        CompositeDisposable().add(ApiClient.instance().getConfig()
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
@@ -24,6 +25,6 @@ class ConfigPresenter(private val configView: IConfigView) {
             }, {
                 configView.getFailedConfig(it.message)
                 configView.hideLoadingConfig()
-            })
+            }))
     }
 }
