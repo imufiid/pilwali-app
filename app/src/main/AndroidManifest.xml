@@ -34,26 +34,53 @@
         </provider>
         <activity android:name="com.mufiid.pilwali2020.ui.activities.AddVoteActivity"
             android:parentActivityName="com.mufiid.pilwali2020.ui.activities.PilwaliActivity"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ui.activities.PilwaliActivity">
+            </meta-data>
+        </activity>
         <activity
             android:name="com.mufiid.pilwali2020.ui.activities.MonitoringActivity"
             android:parentActivityName="com.mufiid.pilwali2020.ui.activities.BerandaActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ui.activities.BerandaActivity">
+            </meta-data>
+        </activity>
         <activity
             android:name="com.mufiid.pilwali2020.ui.activities.EditProfileActivity"
             android:parentActivityName="com.mufiid.pilwali2020.ui.activities.BerandaActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ui.activities.BerandaActivity">
+            </meta-data>
+        </activity>
         <activity
             android:name="com.mufiid.pilwali2020.ui.activities.TpsActivity"
             android:parentActivityName="com.mufiid.pilwali2020.ui.activities.BerandaActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ui.activities.BerandaActivity">
+            </meta-data>
+        </activity>
         <activity
             android:name="com.mufiid.pilwali2020.ui.activities.PilwaliActivity"
             android:parentActivityName="com.mufiid.pilwali2020.ui.activities.BerandaActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:launchMode="singleTop">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ui.activities.BerandaActivity">
+            </meta-data>
+        </activity>
         <activity
             android:name="com.mufiid.pilwali2020.ui.activities.BerandaActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:launchMode="singleTop"/>
         <activity
             android:name="com.mufiid.pilwali2020.ui.activities.LoginActivity"
             android:screenOrientation="portrait" />
