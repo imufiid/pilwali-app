@@ -48,7 +48,7 @@ class PaslonAdapter(val data: List<Paslon>) : RecyclerView.Adapter<PaslonAdapter
         fun onBind(get: Paslon?) {
             Log.d("GET", get.toString())
             itemView.nama_paslon.text = "${get?.noPeserta}. ${get?.nmPeserta}"
-            itemView.et_suara_paslon.setText(get?.jumlah_suara.toString())
+            itemView.et_suara_paslon.setText(get?.jumlah_suara_di_tps.toString())
 
 
 
@@ -70,7 +70,7 @@ class PaslonAdapter(val data: List<Paslon>) : RecyclerView.Adapter<PaslonAdapter
                 override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                     // code
                      val suara_paslon = s.toString()
-                    data[adapterPosition].jumlah_suara = itemView.et_suara_paslon.text.toString()
+                    data[adapterPosition].jumlah_suara_di_tps = itemView.et_suara_paslon.text.toString()
                 }
 
             })

@@ -88,7 +88,7 @@ class AddVoteActivity : AppCompatActivity(), IPaslonView, ITpsView {
         }
 
         // running function for first time
-        presenter?.getPaslon()
+        presenter?.getPaslon(Constants.getIDTps(this))
         tpsPresenter?.getDataTps(Constants.getIDTps(this))
         getPermission()
 
@@ -120,7 +120,7 @@ class AddVoteActivity : AppCompatActivity(), IPaslonView, ITpsView {
         idPaslon.clear()
         suaraPaslon.clear()
         for (i in 0 until (PaslonAdapter.dataPaslon?.size ?: 0)) {
-            suaraPaslon.add(PaslonAdapter.dataPaslon!![i].jumlah_suara!!.toInt())
+            suaraPaslon.add(PaslonAdapter.dataPaslon!![i].jumlah_suara_di_tps!!.toInt())
             idPaslon.add(PaslonAdapter.dataPaslon!![i].id!!.toInt())
         }
 
@@ -322,9 +322,12 @@ class AddVoteActivity : AppCompatActivity(), IPaslonView, ITpsView {
                 div.visibility = View.GONE
             }
             2 -> {
-                loading?.setMessage("Tunggu sebentar..")
-                loading?.setCanceledOnTouchOutside(false)
-                loading?.show()
+                loading?.let {
+                    it.setMessage("Tunggu sebentar..")
+                    it.setCanceledOnTouchOutside(false)
+                    it.setCancelable(false)
+                    it.show()
+                }
             }
         }
 

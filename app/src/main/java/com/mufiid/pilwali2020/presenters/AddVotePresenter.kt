@@ -17,9 +17,9 @@ class AddVotePresenter(private val paslonView: IPaslonView) {
      *
      * @author Imam Mufiid
      * */
-    fun getPaslon() {
+    fun getPaslon(id_tps: String?) {
         paslonView.isLoadingPaslon(1)
-        CompositeDisposable().add(ApiClient.instance().getPaslon()
+        CompositeDisposable().add(ApiClient.instance().getPaslon(id_tps)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({

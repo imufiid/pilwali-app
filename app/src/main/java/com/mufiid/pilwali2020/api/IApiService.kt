@@ -34,7 +34,9 @@ interface IApiService {
 
     // GET Data Paslon
     @GET("paslon")
-    fun getPaslon(): Observable<WrappedListResponses<Paslon>>
+    fun getPaslon(
+        @Query("id_tps") id_tps: String?
+    ): Observable<WrappedListResponses<Paslon>>
 
     // GET Data Tps
     @GET("tps")
