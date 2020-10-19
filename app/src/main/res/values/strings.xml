@@ -1,34 +1,50 @@
 <resources>
     <string name="app_name">Pilwali Kota Blitar 2020</string>
-    <string name="title_beranda">Beranda</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
     <string name="beranda">Beranda</string>
     <string name="profil">Profil</string>
-    <string name="pilwali">Pilwali</string>
-    <string name="tps">TPS</string>
-    <string name="monitoring">Monitoring</string>
-    <string name="blangko">Blangko</string>
     <string name="refresh">Refresh</string>
+
+    <string name="title_beranda">Beranda</string>
+    <string name="detail_tps">Detail TPS</string>
+    <string name="title_monitoring_perhitungan">Monitoring Perhitungan</string>
+    <string name="edit_account">Edit Profil</string>
+
     <string name="jumlah_dpt">Jumlah DPT</string>
     <string name="jumlah_dptb">Jumlah DPTb</string>
     <string name="jumlah_dpk">Jumlah DPK</string>
     <string name="jumlah_dpktb">Jumlah DPKTb</string>
     <string name="jumlah_difabel">Jumlah Difabel</string>
     <string name="jumlah_pemilih">Jumlah Pemilih</string>
-    <string name="menu_utama">Menu Utama</string>
-    <string name="foto_tps">Foto TPS</string>
     <string name="suara_tidak_sah">Suara Tidak Sah</string>
+
+    <string name="pilwali">Pilwali</string>
+    <string name="tps">TPS</string>
+    <string name="monitoring">Monitoring</string>
+    <string name="blangko">Blangko</string>
+
     <string name="pesan">pesan</string>
-    <string name="title">Title</string>
-    <string name="keluar">Logout</string>
+    <string name="sorry">Mohon maaf</string>
+    <string name="message_developement">Masih dalam tahap pengembangan!</string>
+    <string name="message_gps_dialog">Mohon hidupkan GPS di smartphone anda</string>
+    <string name="please_wait">Tunggu Sebentar...</string>
+    <string name="download_description">Sedang download file...</string>
+    <string name="title_download">Download Blangko</string>
+
+    <string name="keluar">Keluar</string>
     <string name="cancel">Cancel</string>
     <string name="simpan">Simpan</string>
-    <string name="message_developement">Masih dalam tahap pengembangan!</string>
     <string name="close">Tutup</string>
-    <string name="sorry">Mohon maaf</string>
-    <string name="permission_denied">Permission Denied!</string>
-    <string name="title_download">Download Blangko</string>
-    <string name="download_description">Sedang download file...</string>
-    <string name="message_gps_dialog">Mohon hidupkan GPS di smartphone anda</string>
     <string name="actived_gps_location">Hidupkan GPS</string>
+
+    <string name="foto_tps">Foto TPS</string>
+    <string name="upload_blangko">Unggah Blangko</string>
+    <string name="menu_utama">Menu Utama</string>
+    <string name="detail_tps_address">TPS %1$s - %2$s -%3$s</string>
+    <string name="status_verfication">Verifikasi</string>
+    <string name="app_versions">App Version - %s</string>
+
+    <string name="title">Title</string>
+    <string name="permission_denied">Permission Denied!</string>
 </resources>
