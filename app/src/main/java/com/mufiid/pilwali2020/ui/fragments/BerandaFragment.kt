@@ -114,8 +114,8 @@ class BerandaFragment : Fragment(), ITpsView, IConfigView {
 
         // init presenter
         presenter = TpsPresenter(this)
+        configPresenter = ConfigPresenter(this)
 
-        configPresenter?.config()
 
         // event listener
         btnPilwali.setOnClickListener {
@@ -223,7 +223,7 @@ class BerandaFragment : Fragment(), ITpsView, IConfigView {
 
     override fun onResume() {
         super.onResume()
-        configPresenter = ConfigPresenter(this)
+        configPresenter?.config()
         presenter?.getDataTps(Constants.getIDTps(context!!))
     }
 
