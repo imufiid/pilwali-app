@@ -29,4 +29,6 @@
     <string name="permission_denied">Permission Denied!</string>
     <string name="title_download">Download Blangko</string>
     <string name="download_description">Sedang download file...</string>
+    <string name="message_gps_dialog">Mohon hidupkan GPS di smartphone anda</string>
+    <string name="actived_gps_location">Hidupkan GPS</string>
 </resources>
