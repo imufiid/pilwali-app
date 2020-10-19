@@ -88,29 +88,6 @@ class TpsActivity : AppCompatActivity(), MySimpleLocation.MySimpleLocationCallba
 
         getPermissionGps()
         getPermissionTakePhoto()
-        checkGPSLocation()
-    }
-
-    private fun checkGPSLocation() {
-        val locationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
-        if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-            // Toast.makeText(this, "GPS is Enabled in your devide", Toast.LENGTH_SHORT).show();
-        } else {
-            showGPSDisabledAlertToUser();
-        }
-    }
-
-    private fun showGPSDisabledAlertToUser() {
-        val alert = AlertDialog.Builder(this).apply {
-            setMessage(resources.getString(R.string.message_gps_dialog))
-            setCancelable(false)
-                .setPositiveButton(resources.getString(R.string.actived_gps_location)) { _, _ ->
-                    startActivity(Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS))
-                }
-                .setNegativeButton(resources.getString(R.string.cancel)) { dialog, _ ->
-                    dialog.cancel()
-                }
-        }
     }
 
     private fun doSimpan() {
@@ -377,9 +354,12 @@ class TpsActivity : AppCompatActivity(), MySimpleLocation.MySimpleLocationCallba
             }
             2 -> {
                 // post
-                loading?.setMessage("Mohon tunggu sebentar...")
-                loading?.setCanceledOnTouchOutside(false)
-                loading?.show()
+                loading?.let {
+                    it?.setMessage(resources.getString(R.string.please_wait))
+                    it?.setCanceledOnTouchOutside(false)
+                    it?.setCancelable(false)
+                    it?.show()
+                }
             }
         }
 
