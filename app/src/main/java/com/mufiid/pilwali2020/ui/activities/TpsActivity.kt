@@ -1,33 +1,36 @@
 package com.mufiid.pilwali2020.ui.activities
 
 import android.Manifest
+import android.app.AlertDialog
 import android.app.ProgressDialog
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Matrix
-import android.location.Geocoder
 import android.location.Location
+import android.location.LocationManager
 import android.media.ExifInterface
 import android.net.Uri
 import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Environment
+import android.os.Looper
 import android.provider.MediaStore
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.widget.ImageView
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.FileProvider
 import com.bumptech.glide.Glide
 import com.example.locationbasedservice.MySimpleLocation
-import com.google.android.gms.location.LocationServices
-import com.google.android.gms.tasks.OnSuccessListener
+import com.google.android.gms.common.api.GoogleApiClient
+import com.google.android.gms.location.*
+import com.google.android.gms.location.LocationServices.getFusedLocationProviderClient
 import com.mufiid.pilwali2020.R
 import com.mufiid.pilwali2020.models.Tps
 import com.mufiid.pilwali2020.presenters.TpsPresenter
@@ -38,12 +41,9 @@ import kotlinx.android.synthetic.main.activity_tps.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
-import okhttp3.MediaType
-import okhttp3.MediaType.Companion.parse
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
-import okhttp3.RequestBody.Companion.toRequestBody
 import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.FileOutputStream
@@ -60,6 +60,9 @@ class TpsActivity : AppCompatActivity(), MySimpleLocation.MySimpleLocationCallba
     private var fotoTPS: Bitmap? = null
     private var part: MultipartBody.Part? = null
     private var currentPhotoPath: String? = ""
+    private lateinit var mGoogleApiClient: GoogleApiClient
+    private val UPDATE_INTERVAL = 10 * 1000 /* 10 secs */.toLong()
+    private val FASTEST_INTERVAL: Long = 2000 /* 2 sec */
 
     // pertama
     private lateinit var mySimpleLocation: MySimpleLocation
@@ -83,8 +86,31 @@ class TpsActivity : AppCompatActivity(), MySimpleLocation.MySimpleLocationCallba
             doSimpan()
         }
 
-        getLatLong()
+        getPermissionGps()
         getPermissionTakePhoto()
+        checkGPSLocation()
+    }
+
+    private fun checkGPSLocation() {
+        val locationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
+        if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+            // Toast.makeText(this, "GPS is Enabled in your devide", Toast.LENGTH_SHORT).show();
+        } else {
+            showGPSDisabledAlertToUser();
+        }
+    }
+
+    private fun showGPSDisabledAlertToUser() {
+        val alert = AlertDialog.Builder(this).apply {
+            setMessage(resources.getString(R.string.message_gps_dialog))
+            setCancelable(false)
+                .setPositiveButton(resources.getString(R.string.actived_gps_location)) { _, _ ->
+                    startActivity(Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS))
+                }
+                .setNegativeButton(resources.getString(R.string.cancel)) { dialog, _ ->
+                    dialog.cancel()
+                }
+        }
     }
 
     private fun doSimpan() {
@@ -207,7 +233,7 @@ class TpsActivity : AppCompatActivity(), MySimpleLocation.MySimpleLocationCallba
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.refresh -> {
-                getLatLong()
+                getPermissionGps()
             }
         }
         return super.onOptionsItemSelected(item)
@@ -247,7 +273,7 @@ class TpsActivity : AppCompatActivity(), MySimpleLocation.MySimpleLocationCallba
         }
     }
 
-    private fun getPermission() {
+    private fun getPermissionGps() {
         // check permission
         if (Build.VERSION.SDK_INT >= 23) {
             if (checkSelfPermission(
@@ -268,7 +294,7 @@ class TpsActivity : AppCompatActivity(), MySimpleLocation.MySimpleLocationCallba
             } else {
 //                mySimpleLocation = MySimpleLocation(this, this)
 //                mySimpleLocation.checkLocationSetting(this)
-                getLatLong()
+                startLocationUpdates()
 
                 // show shimmer
                 mShimmerViewContainer.startShimmer()
@@ -279,7 +305,7 @@ class TpsActivity : AppCompatActivity(), MySimpleLocation.MySimpleLocationCallba
         } else {
 //            mySimpleLocation = MySimpleLocation(this, this)
 //            mySimpleLocation.checkLocationSetting(this)
-            getLatLong()
+            startLocationUpdates()
 
             // show shimmer
             mShimmerViewContainer.startShimmer()
@@ -403,9 +429,25 @@ class TpsActivity : AppCompatActivity(), MySimpleLocation.MySimpleLocationCallba
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
 
-    private fun getLatLong() {
+    // Trigger new location updates at interval
+    private fun startLocationUpdates() {
 
-        val mFusedLocation = LocationServices.getFusedLocationProviderClient(this)
+        // Create the location request to start receiving updates
+        val mLocationRequest = LocationRequest().apply {
+            priority = LocationRequest.PRIORITY_HIGH_ACCURACY
+            interval = UPDATE_INTERVAL
+            fastestInterval = FASTEST_INTERVAL
+        }
+
+        // Create LocationSettingsRequest object using location request
+        val builder: LocationSettingsRequest.Builder = LocationSettingsRequest.Builder()
+        builder.addLocationRequest(mLocationRequest)
+        val locationSettingsRequest: LocationSettingsRequest = builder.build()
+
+        val settingsClient: SettingsClient = LocationServices.getSettingsClient(this)
+        settingsClient.checkLocationSettings(locationSettingsRequest)
+
+        // new Google API SDK v11 uses getFusedLocationProviderClient(this)
         if (ActivityCompat.checkSelfPermission(
                 this,
                 Manifest.permission.ACCESS_FINE_LOCATION
@@ -414,31 +456,52 @@ class TpsActivity : AppCompatActivity(), MySimpleLocation.MySimpleLocationCallba
                 Manifest.permission.ACCESS_COARSE_LOCATION
             ) != PackageManager.PERMISSION_GRANTED
         ) {
-            ActivityCompat.requestPermissions(
-                this,
-                arrayOf(
-                    android.Manifest.permission.ACCESS_FINE_LOCATION,
-                    android.Manifest.permission.ACCESS_COARSE_LOCATION
-                ),
-                1
-            )
-        } else {
-            mFusedLocation.lastLocation.addOnSuccessListener(
-                this
-            ) { location ->
-                // Display in Toast
-                mShimmerViewContainer.stopShimmer()
-                mShimmerViewContainer.visibility = View.GONE
-                layout_latitude.visibility = View.VISIBLE
-                layout_longitude.visibility = View.VISIBLE
-
-                latitude.setText(location?.latitude.toString())
-                longitude.setText(location?.longitude.toString())
-            }
+            return
         }
-
-
+        getFusedLocationProviderClient(this).requestLocationUpdates(
+            mLocationRequest, object : LocationCallback() {
+                override fun onLocationResult(locationResult: LocationResult) {
+                    // do work here
+                    onLocationChanged(locationResult.lastLocation)
+                }
+            },
+            Looper.myLooper()
+        )
     }
 
+    private fun onLocationChanged(location: Location?) {
+        val msg = "Updated Location: ${location?.latitude}, ${location?.longitude}"
+        // Display in Toast
+        mShimmerViewContainer.stopShimmer()
+        mShimmerViewContainer.visibility = View.GONE
+        layout_latitude.visibility = View.VISIBLE
+        layout_longitude.visibility = View.VISIBLE
+
+        latitude.setText(location?.latitude.toString())
+        longitude.setText(location?.longitude.toString())
+    }
+
+    private fun getLastLocation() {
+        // Get last known recent location using new Google Play Services SDK (v11+)
+        val locationClient = getFusedLocationProviderClient(this)
+        if (ActivityCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            return
+        }
+        locationClient.lastLocation
+            .addOnSuccessListener { location -> // GPS location can be null if GPS is switched off
+                location?.let { onLocationChanged(it) }
+            }
+            .addOnFailureListener { e ->
+                Log.d("MapDemoActivity", "Error trying to get last GPS location")
+                e.printStackTrace()
+            }
+    }
 
 }
