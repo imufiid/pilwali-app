@@ -9,6 +9,7 @@ import com.mufiid.pilwali2020.models.User
 import com.mufiid.pilwali2020.presenters.UserPresenter
 import com.mufiid.pilwali2020.utils.Constants
 import com.mufiid.pilwali2020.views.IUserView
+import io.reactivex.rxjava3.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.activity_edit_profile.*
 
 @Suppress("DEPRECATION")
@@ -38,6 +39,11 @@ class EditProfileActivity : AppCompatActivity(), IUserView {
             nama,
             passwdNew
         )
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        CompositeDisposable().clear()
     }
 
     override fun onResume() {

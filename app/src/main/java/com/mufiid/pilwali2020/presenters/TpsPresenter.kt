@@ -14,7 +14,7 @@ class TpsPresenter(private val tpsView: ITpsView) {
 
     /**
      * fungsi untuk mengambil data detail tps by ID
-     *
+     * 
      * @author Imam Mufiid
      *
      * @param id_tps => id tps
@@ -62,7 +62,7 @@ class TpsPresenter(private val tpsView: ITpsView) {
         username: RequestBody?
     ) {
         tpsView.isLoadingTps(2)
-        ApiClient.instance().inputDataTPS(id_tps, form_page, fotoTPS, latitude, longitude, username)
+        CompositeDisposable().add(ApiClient.instance().inputDataTPS(id_tps, form_page, fotoTPS, latitude, longitude, username)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
@@ -77,7 +77,7 @@ class TpsPresenter(private val tpsView: ITpsView) {
                 // code ...
                 tpsView.messageFailed(it.message)
                 tpsView.hideLoadingTps(2)
-            })
+            }))
 
     }
 
@@ -105,7 +105,7 @@ class TpsPresenter(private val tpsView: ITpsView) {
         difabel: Int?
     ) {
         tpsView.isLoadingTps(2)
-        ApiClient.instance().inputDaftarPemilih(id_tps, form_page, dpt, dptb, dpk, dpktb, difabel)
+        CompositeDisposable().add(ApiClient.instance().inputDaftarPemilih(id_tps, form_page, dpt, dptb, dpk, dpktb, difabel)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
@@ -118,6 +118,7 @@ class TpsPresenter(private val tpsView: ITpsView) {
                 tpsView.messageFailed(it.message)
                 tpsView.hideLoadingTps(2)
             })
+        )
 
     }
 }

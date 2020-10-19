@@ -5,6 +5,7 @@ import com.mufiid.pilwali2020.api.ApiClient
 import com.mufiid.pilwali2020.views.ILoadingView
 import com.mufiid.pilwali2020.views.IPaslonView
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.schedulers.Schedulers
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -18,7 +19,7 @@ class AddVotePresenter(private val paslonView: IPaslonView) {
      * */
     fun getPaslon() {
         paslonView.isLoadingPaslon(1)
-        ApiClient.instance().getPaslon()
+        CompositeDisposable().add(ApiClient.instance().getPaslon()
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
@@ -40,6 +41,7 @@ class AddVotePresenter(private val paslonView: IPaslonView) {
                 // code ...
                 paslonView.hideLoadingPaslon(1)
             })
+        )
     }
 
     /**
@@ -64,7 +66,8 @@ class AddVotePresenter(private val paslonView: IPaslonView) {
         username: RequestBody?
     ) {
         paslonView.isLoadingPaslon(2)
-        ApiClient.instance().postSuaraPaslon(id_tps, suara_tidak_sah, id_paslon, suara_sah, foto, username)
+        CompositeDisposable().add(ApiClient.instance()
+            .postSuaraPaslon(id_tps, suara_tidak_sah, id_paslon, suara_sah, foto, username)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
@@ -81,6 +84,7 @@ class AddVotePresenter(private val paslonView: IPaslonView) {
                 paslonView.failedGetDataPaslon(it.message)
                 paslonView.hideLoadingPaslon(2)
             })
+        )
 
     }
 }

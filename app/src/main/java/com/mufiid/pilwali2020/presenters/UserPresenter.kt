@@ -3,6 +3,7 @@ package com.mufiid.pilwali2020.presenters
 import com.mufiid.pilwali2020.api.ApiClient
 import com.mufiid.pilwali2020.views.IUserView
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.schedulers.Schedulers
 
 class UserPresenter(private val userView: IUserView) {
@@ -17,7 +18,7 @@ class UserPresenter(private val userView: IUserView) {
      * */
     fun getUserByID(id_user: String) {
         userView.isLoadingUser(1)
-        ApiClient.instance().getUserById(id_user)
+        CompositeDisposable().add(ApiClient.instance().getUserById(id_user)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
@@ -33,7 +34,7 @@ class UserPresenter(private val userView: IUserView) {
             }, {
                 userView.failedMessage(it.message)
                 userView.hideLoadingUser(1)
-            })
+            }))
 
     }
 
@@ -50,7 +51,7 @@ class UserPresenter(private val userView: IUserView) {
      * */
     fun updateUser(id_user: String?, username: String?, nama: String?, passwordNew: String?) {
         userView.isLoadingUser(2)
-        ApiClient.instance().updateProfile(id_user, username, nama, passwordNew)
+        CompositeDisposable().add(ApiClient.instance().updateProfile(id_user, username, nama, passwordNew)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
@@ -66,7 +67,7 @@ class UserPresenter(private val userView: IUserView) {
             },{
                 userView.failedMessage(it.message)
                 userView.hideLoadingUser(2)
-            })
+            }))
 
     }
 }

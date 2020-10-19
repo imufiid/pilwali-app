@@ -32,6 +32,7 @@ import com.mufiid.pilwali2020.presenters.TpsPresenter
 import com.mufiid.pilwali2020.utils.Constants
 import com.mufiid.pilwali2020.views.IPaslonView
 import com.mufiid.pilwali2020.views.ITpsView
+import io.reactivex.rxjava3.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.activity_add_vote.*
 import kotlinx.android.synthetic.main.activity_add_vote.open_camera
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
@@ -91,6 +92,11 @@ class AddVoteActivity : AppCompatActivity(), IPaslonView, ITpsView {
         tpsPresenter?.getDataTps(Constants.getIDTps(this))
         getPermission()
 
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        CompositeDisposable().clear()
     }
 
     private fun checkVerification() {

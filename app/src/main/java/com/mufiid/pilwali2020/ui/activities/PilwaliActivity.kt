@@ -15,6 +15,7 @@ import com.mufiid.pilwali2020.presenters.TpsPresenter
 import com.mufiid.pilwali2020.utils.Constants
 import com.mufiid.pilwali2020.views.IPilwaliView
 import com.mufiid.pilwali2020.views.ITpsView
+import io.reactivex.rxjava3.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.activity_pilwali.*
 
 @Suppress("DEPRECATION")
@@ -67,6 +68,11 @@ class PilwaliActivity : AppCompatActivity(), ITpsView, IPilwaliView {
         super.onResume()
         presenter?.getDataTps(Constants.getIDTps(this))
         pilwaliPresenter?.getVerification(Constants.getIDTps(this))
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        CompositeDisposable().clear()
     }
 
     override fun isLoadingTps(state: Int?) {

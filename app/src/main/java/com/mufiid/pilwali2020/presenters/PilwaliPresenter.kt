@@ -3,6 +3,7 @@ package com.mufiid.pilwali2020.presenters
 import com.mufiid.pilwali2020.api.ApiClient
 import com.mufiid.pilwali2020.views.IPilwaliView
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.schedulers.Schedulers
 
 class PilwaliPresenter(private val pilwaliView: IPilwaliView) {
@@ -18,7 +19,7 @@ class PilwaliPresenter(private val pilwaliView: IPilwaliView) {
      * */
     fun getVerification(verif_tps: String?) {
         pilwaliView.isLoadingPilwali()
-        ApiClient.instance().getVerifikasi(verif_tps)
+        CompositeDisposable().add(ApiClient.instance().getVerifikasi(verif_tps)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
@@ -34,7 +35,7 @@ class PilwaliPresenter(private val pilwaliView: IPilwaliView) {
             }, {
                 pilwaliView.failed(it.message)
                 pilwaliView.hideLoadingPilwali()
-            })
+            }))
     }
 
 }

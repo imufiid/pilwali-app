@@ -14,6 +14,7 @@ import com.mufiid.pilwali2020.presenters.AuthPresenter
 import com.mufiid.pilwali2020.utils.Constants
 import com.mufiid.pilwali2020.views.IAuthView
 import com.mufiid.pilwali2020.views.ILoadingView
+import io.reactivex.rxjava3.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.activity_login.*
 
 @Suppress("DEPRECATION")
@@ -40,6 +41,11 @@ class LoginActivity : AppCompatActivity(), IAuthView, ILoadingView {
             }
 
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        CompositeDisposable().clear()
     }
 
     override fun successLogin(message: String?, user: User) {

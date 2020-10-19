@@ -5,6 +5,7 @@ import com.mufiid.pilwali2020.api.ApiClient
 import com.mufiid.pilwali2020.views.IAuthView
 import com.mufiid.pilwali2020.views.ILoadingView
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.schedulers.Schedulers
 
 class AuthPresenter(private val authView: IAuthView, private val loading: ILoadingView) {
@@ -20,7 +21,7 @@ class AuthPresenter(private val authView: IAuthView, private val loading: ILoadi
      * */
     fun login(username: String?, password: String?) {
         loading.isLoading()
-        ApiClient.instance().login(username!!, password!!)
+        CompositeDisposable().add(ApiClient.instance().login(username!!, password!!)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
@@ -41,6 +42,6 @@ class AuthPresenter(private val authView: IAuthView, private val loading: ILoadi
             },{
                 // code ...
                 loading.hideLoading()
-            })
+            }))
     }
 }

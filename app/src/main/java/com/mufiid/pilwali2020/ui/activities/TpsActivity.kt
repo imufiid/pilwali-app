@@ -33,6 +33,7 @@ import com.mufiid.pilwali2020.models.Tps
 import com.mufiid.pilwali2020.presenters.TpsPresenter
 import com.mufiid.pilwali2020.utils.Constants
 import com.mufiid.pilwali2020.views.ITpsView
+import io.reactivex.rxjava3.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.activity_tps.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -185,7 +186,11 @@ class TpsActivity : AppCompatActivity(), MySimpleLocation.MySimpleLocationCallba
 
     override fun onResume() {
         super.onResume()
+    }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        CompositeDisposable().clear()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
