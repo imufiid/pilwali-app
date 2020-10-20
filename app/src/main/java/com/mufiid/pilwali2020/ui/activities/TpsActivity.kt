@@ -1,16 +1,13 @@
 package com.mufiid.pilwali2020.ui.activities
 
 import android.Manifest
-import android.app.AlertDialog
 import android.app.ProgressDialog
-import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Matrix
 import android.location.Location
-import android.location.LocationManager
 import android.media.ExifInterface
 import android.net.Uri
 import android.os.Build
@@ -64,6 +61,10 @@ class TpsActivity : AppCompatActivity(), MySimpleLocation.MySimpleLocationCallba
     private val UPDATE_INTERVAL = 10 * 1000 /* 10 secs */.toLong()
     private val FASTEST_INTERVAL: Long = 2000 /* 2 sec */
 
+    private lateinit var mFusedLocationProviderClient: FusedLocationProviderClient
+    private lateinit var mLocationRequest: LocationRequest
+    private var mLocationCallback: LocationCallback? = null
+
     // pertama
     private lateinit var mySimpleLocation: MySimpleLocation
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -88,7 +89,9 @@ class TpsActivity : AppCompatActivity(), MySimpleLocation.MySimpleLocationCallba
 
         getPermissionGps()
         getPermissionTakePhoto()
+
     }
+
 
     private fun doSimpan() {
         //val pictFromBitmap = createFile(fotoTPS)
@@ -187,24 +190,19 @@ class TpsActivity : AppCompatActivity(), MySimpleLocation.MySimpleLocationCallba
         return file
     }
 
-    override fun onResume() {
-        super.onResume()
-    }
 
     override fun onDestroy() {
         super.onDestroy()
         CompositeDisposable().clear()
+        if (mFusedLocationProviderClient != null) {
+            mFusedLocationProviderClient.removeLocationUpdates(mLocationCallback)
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
 //        return super.onCreateOptionsMenu(menu)
         menuInflater.inflate(R.menu.menu_refresh_tps, menu)
         return true
-    }
-
-    override fun onSupportNavigateUp(): Boolean {
-        return super.onSupportNavigateUp()
-        onBackPressed()
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -271,9 +269,9 @@ class TpsActivity : AppCompatActivity(), MySimpleLocation.MySimpleLocationCallba
             } else {
 //                mySimpleLocation = MySimpleLocation(this, this)
 //                mySimpleLocation.checkLocationSetting(this)
-                startLocationUpdates()
+//                startLocationUpdates()
+                requestLocationUpdate()
 
-                // show shimmer
                 mShimmerViewContainer.startShimmer()
                 mShimmerViewContainer.visibility = View.VISIBLE
                 layout_latitude.visibility = View.GONE
@@ -282,7 +280,8 @@ class TpsActivity : AppCompatActivity(), MySimpleLocation.MySimpleLocationCallba
         } else {
 //            mySimpleLocation = MySimpleLocation(this, this)
 //            mySimpleLocation.checkLocationSetting(this)
-            startLocationUpdates()
+//            startLocationUpdates()
+            requestLocationUpdate()
 
             // show shimmer
             mShimmerViewContainer.startShimmer()
@@ -409,9 +408,54 @@ class TpsActivity : AppCompatActivity(), MySimpleLocation.MySimpleLocationCallba
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
 
-    // Trigger new location updates at interval
-    private fun startLocationUpdates() {
+    private fun requestLocationUpdate() {
+        mFusedLocationProviderClient = getFusedLocationProviderClient(this)
+        mLocationCallback = object : LocationCallback() {
+            override fun onLocationResult(locationResult: LocationResult?) {
+                onLocationChanged(locationResult?.lastLocation)
+            }
+        }
+        mLocationRequest = LocationRequest().apply {
+            priority = LocationRequest.PRIORITY_HIGH_ACCURACY
+            interval = UPDATE_INTERVAL
+            fastestInterval = FASTEST_INTERVAL
+        }
+        if (ActivityCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            ActivityCompat.requestPermissions(
+                this,
+                arrayOf(
+                    android.Manifest.permission.ACCESS_FINE_LOCATION,
+                    android.Manifest.permission.ACCESS_COARSE_LOCATION
+                ),
+                1
+            )
+        }
+        mFusedLocationProviderClient.requestLocationUpdates(
+            mLocationRequest,
+            mLocationCallback,
+            Looper.myLooper()
+        )
+    }
 
+    private fun onLocationChanged(location: Location?) {
+        mShimmerViewContainer.stopShimmer()
+        mShimmerViewContainer.visibility = View.GONE
+        layout_latitude.visibility = View.VISIBLE
+        layout_longitude.visibility = View.VISIBLE
+
+        latitude.setText(location?.latitude.toString())
+        longitude.setText(location?.longitude.toString())
+    }
+
+    private fun startLocationUpdates() {
+        mFusedLocationProviderClient = getFusedLocationProviderClient(this)
         // Create the location request to start receiving updates
         val mLocationRequest = LocationRequest().apply {
             priority = LocationRequest.PRIORITY_HIGH_ACCURACY
@@ -436,29 +480,23 @@ class TpsActivity : AppCompatActivity(), MySimpleLocation.MySimpleLocationCallba
                 Manifest.permission.ACCESS_COARSE_LOCATION
             ) != PackageManager.PERMISSION_GRANTED
         ) {
-            return
+            ActivityCompat.requestPermissions(
+                this,
+                arrayOf(
+                    android.Manifest.permission.ACCESS_FINE_LOCATION,
+                    android.Manifest.permission.ACCESS_COARSE_LOCATION
+                ),
+                1
+            )
         }
-        getFusedLocationProviderClient(this).requestLocationUpdates(
+        mFusedLocationProviderClient.requestLocationUpdates(
             mLocationRequest, object : LocationCallback() {
                 override fun onLocationResult(locationResult: LocationResult) {
-                    // do work here
                     onLocationChanged(locationResult.lastLocation)
                 }
             },
             Looper.myLooper()
         )
-    }
-
-    private fun onLocationChanged(location: Location?) {
-        val msg = "Updated Location: ${location?.latitude}, ${location?.longitude}"
-        // Display in Toast
-        mShimmerViewContainer.stopShimmer()
-        mShimmerViewContainer.visibility = View.GONE
-        layout_latitude.visibility = View.VISIBLE
-        layout_longitude.visibility = View.VISIBLE
-
-        latitude.setText(location?.latitude.toString())
-        longitude.setText(location?.longitude.toString())
     }
 
     private fun getLastLocation() {
