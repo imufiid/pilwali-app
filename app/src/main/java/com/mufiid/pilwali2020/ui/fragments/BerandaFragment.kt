@@ -47,13 +47,9 @@ import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.util.*
 
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
 
 @Suppress("DEPRECATION")
 class BerandaFragment : Fragment(), ITpsView, IConfigView {
-    private var param1: String? = null
-    private var param2: String? = null
     private var shimmer: ShimmerFrameLayout? = null
     private var shimmerImageSlider: ShimmerFrameLayout? = null
     private var presenter: TpsPresenter? = null
@@ -75,8 +71,6 @@ class BerandaFragment : Fragment(), ITpsView, IConfigView {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
         }
     }
 
@@ -115,6 +109,7 @@ class BerandaFragment : Fragment(), ITpsView, IConfigView {
         // init presenter
         presenter = TpsPresenter(this)
         configPresenter = ConfigPresenter(this)
+        configPresenter?.config()
 
 
         // event listener
@@ -135,10 +130,6 @@ class BerandaFragment : Fragment(), ITpsView, IConfigView {
     override fun onDestroy() {
         super.onDestroy()
         CompositeDisposable().clear()
-    }
-
-    override fun onStop() {
-        super.onStop()
     }
 
     private fun doDownloadBlangko() {
@@ -215,15 +206,12 @@ class BerandaFragment : Fragment(), ITpsView, IConfigView {
         fun newInstance(param1: String, param2: String) =
             BerandaFragment().apply {
                 arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
                 }
             }
     }
 
     override fun onResume() {
         super.onResume()
-        configPresenter?.config()
         presenter?.getDataTps(Constants.getIDTps(context!!))
     }
 
@@ -283,20 +271,6 @@ class BerandaFragment : Fragment(), ITpsView, IConfigView {
         shimmer?.visibility = View.GONE
         jumlah_pemilih?.visibility = View.VISIBLE
         layout_title?.visibility = View.VISIBLE
-    }
-
-    /**
-     * bind ke UI ketika koneksi internet berubah
-     *
-     * @author imam mufiid
-     * */
-    private fun showNetworkMessage(isConnected: Boolean) {
-        if (!isConnected) {
-            Toast.makeText(context, "You're offline", Toast.LENGTH_SHORT).show()
-        } else {
-            // code ..
-            // Toast.makeText(context, "You're online", Toast.LENGTH_SHORT).show()
-        }
     }
 
     /**
