@@ -46,7 +46,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Jumlah DPT"
+                        android:text="@string/jumlah_dpt"
                         android:textColor="@color/colorAccent"
                         android:textSize="14sp"
                         android:textStyle="bold" />
@@ -81,7 +81,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Jumlah DPTb"
+                        android:text="@string/jumlah_dptb"
                         android:textColor="@color/colorAccent"
                         android:textSize="14sp"
                         android:textStyle="bold" />
@@ -116,7 +116,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Jumlah DPK"
+                        android:text="@string/jumlah_dpk"
                         android:textColor="@color/colorAccent"
                         android:textSize="14sp"
                         android:textStyle="bold" />
@@ -151,19 +151,19 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Jumlah DPKTb"
+                        android:text="@string/jumlah_dph"
                         android:textColor="@color/colorAccent"
                         android:textSize="14sp"
                         android:textStyle="bold" />
 
                     <com.google.android.material.textfield.TextInputLayout
-                        android:id="@+id/in_jumlah_dpktb"
+                        android:id="@+id/in_jumlah_dph"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
                         <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/jumlah_dpktb"
+                            android:id="@+id/jumlah_dph"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:textAlignment="center"
@@ -172,43 +172,8 @@
                             android:textSize="20sp" />
                     </com.google.android.material.textfield.TextInputLayout>
 
-
                 </LinearLayout>
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:theme="@style/Theme.MaterialComponents.Light"
-                    android:layout_marginHorizontal="20dp">
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="Jumlah Difabel"
-                        android:textColor="@color/colorAccent"
-                        android:textSize="14sp"
-                        android:textStyle="bold" />
-
-                    <com.google.android.material.textfield.TextInputLayout
-                        android:id="@+id/in_jumlah_difabel"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-                        <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/jumlah_difabel"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:textAlignment="center"
-                            android:maxLines="1"
-                            android:inputType="number"
-                            android:textSize="20sp" />
-                    </com.google.android.material.textfield.TextInputLayout>
-
-
-                </LinearLayout>
 
                 <Button
                     android:id="@+id/btn_simpan"

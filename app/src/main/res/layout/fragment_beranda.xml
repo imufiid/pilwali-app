@@ -228,6 +228,32 @@
                         android:layout_weight="1">
 
                         <ImageButton
+                            android:id="@+id/btn_tps"
+                            android:layout_width="80dp"
+                            android:layout_height="80dp"
+                            android:padding="15dp"
+                            android:background="@drawable/button_stroke"
+                            android:scaleType="fitCenter"
+                            android:src="@drawable/ic_tps"
+                            android:layout_gravity="center_horizontal"
+                            android:foreground="?android:attr/selectableItemBackground"/>
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/tps"
+                            android:layout_marginTop="8dp"
+                            android:textSize="16sp"
+                            android:textColor="@color/colorPrimaryTextIcon"
+                            android:gravity="center_horizontal"/>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_weight="1">
+
+                        <ImageButton
                             android:id="@+id/btn_pilwali"
                             android:layout_width="80dp"
                             android:layout_height="80dp"
@@ -247,31 +273,6 @@
                             android:gravity="center_horizontal"/>
                     </LinearLayout>
 
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:layout_weight="1">
-
-                        <ImageButton
-                            android:id="@+id/btn_tps"
-                            android:layout_width="80dp"
-                            android:layout_height="80dp"
-                            android:padding="15dp"
-                            android:background="@drawable/button_stroke"
-                            android:scaleType="fitCenter"
-                            android:src="@drawable/ic_tps"
-                            android:layout_gravity="center_horizontal"
-                            android:foreground="?android:attr/selectableItemBackground"/>
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="@string/tps"
-                            android:layout_marginTop="8dp"
-                            android:textSize="16sp"
-                            android:textColor="@color/colorPrimaryTextIcon"
-                            android:gravity="center_horizontal"/>
-                    </LinearLayout>
                     <LinearLayout
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"

@@ -13,8 +13,8 @@
 
     <string name="jumlah_dpt">Jumlah DPT</string>
     <string name="jumlah_dptb">Jumlah DPTb</string>
+    <string name="jumlah_dph">Jumlah DPPh</string>
     <string name="jumlah_dpk">Jumlah DPK</string>
-    <string name="jumlah_dpktb">Jumlah DPKTb</string>
     <string name="jumlah_difabel">Jumlah Difabel</string>
     <string name="jumlah_pemilih">Jumlah Pemilih</string>
     <string name="suara_tidak_sah">Suara Tidak Sah</string>
@@ -31,6 +31,7 @@
     <string name="please_wait">Tunggu Sebentar...</string>
     <string name="download_description">Sedang download file...</string>
     <string name="title_download">Download Blangko</string>
+    <string name="success_login">Anda Berhasil Login</string>
 
     <string name="keluar">Keluar</string>
     <string name="cancel">Cancel</string>

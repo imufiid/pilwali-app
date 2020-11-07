@@ -47,7 +47,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Jumlah DPT"
+                        android:text="@string/jumlah_dpt"
                         android:textColor="@color/colorAccent"
                         android:textSize="14sp"
                         android:textStyle="bold" />
@@ -71,7 +71,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Jumlah DPTb"
+                        android:text="@string/jumlah_dptb"
                         android:textColor="@color/colorAccent"
                         android:textSize="14sp"
                         android:textStyle="bold" />
@@ -95,7 +95,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Jumlah DPK"
+                        android:text="@string/jumlah_dpk"
                         android:textColor="@color/colorAccent"
                         android:textSize="14sp"
                         android:textStyle="bold" />
@@ -119,37 +119,13 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Jumlah DPKTb"
+                        android:text="@string/jumlah_dph"
                         android:textColor="@color/colorAccent"
                         android:textSize="14sp"
                         android:textStyle="bold" />
 
                     <TextView
-                        android:id="@+id/jumlah_dpktb"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:maxLines="1"
-                        android:text="0"
-                        android:textSize="20sp" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="Jumlah Difabel"
-                        android:textColor="@color/colorAccent"
-                        android:textSize="14sp"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:id="@+id/jumlah_difabel"
+                        android:id="@+id/jumlah_dph"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:maxLines="1"
