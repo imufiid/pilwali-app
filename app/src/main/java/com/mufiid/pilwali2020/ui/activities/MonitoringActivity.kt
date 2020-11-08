@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.view.View
 import android.webkit.WebView
 import android.webkit.WebViewClient
+import android.widget.ProgressBar
 import com.mufiid.pilwali2020.R
 import com.mufiid.pilwali2020.utils.Constants
 import kotlinx.android.synthetic.main.activity_monitoring.*
@@ -14,7 +15,7 @@ import kotlinx.android.synthetic.main.activity_monitoring.*
 @Suppress("DEPRECATION")
 class MonitoringActivity : AppCompatActivity() {
     companion object {
-        private var loading: ProgressDialog? = null
+        var progressBar: ProgressBar? = null
     }
 
     @SuppressLint("SetJavaScriptEnabled")
@@ -22,8 +23,7 @@ class MonitoringActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_monitoring)
 
-        supportActionBar?.title = "Monitoring Perhitungan"
-        loading = ProgressDialog(this)
+        supportActionBar?.title = resources.getString(R.string.title_monitoring_perhitungan)
         // set web view
         wv_monitoring.loadUrl(Constants.URL_WEBVIEW)
         wv_monitoring.settings.apply {
@@ -32,9 +32,8 @@ class MonitoringActivity : AppCompatActivity() {
         wv_monitoring.webViewClient = WebViewClient()
 
         // ....
-        loading?.setMessage("Tunggu sebentar...")
-        loading?.setCancelable(false)
-        loading?.show()
+        progressBar = findViewById<View>(R.id.progress_bar) as ProgressBar
+        progress_bar?.visibility = View.VISIBLE
     }
 
     open class WebViewClient : android.webkit.WebViewClient() {
@@ -48,8 +47,7 @@ class MonitoringActivity : AppCompatActivity() {
 
         override fun onPageFinished(view: WebView, url: String) {
             super.onPageFinished(view, url)
-            //loading?.dismiss()
-            loading?.dismiss()
+            progressBar?.visibility = View.GONE
         }
     }
 }

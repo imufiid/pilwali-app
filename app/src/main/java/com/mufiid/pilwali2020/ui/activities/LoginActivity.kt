@@ -51,10 +51,11 @@ class LoginActivity : AppCompatActivity(), IAuthView, ILoadingView {
     override fun successLogin(message: String?, user: User) {
         Constants.setIDUser(this, user.id.toString())
         Constants.setUsername(this, user.username.toString())
+        Constants.setApiKey(this, user.api_key.toString())
         Constants.setIDTps(this, user.idTps.toString())
         Constants.setISLOGGEDIN(this, true)
 
-        showToast("Anda Berhasil Login")
+        showToast(resources.getString(R.string.success_login))
 
         Handler().postDelayed({
             startActivity(Intent(this, BerandaActivity::class.java))

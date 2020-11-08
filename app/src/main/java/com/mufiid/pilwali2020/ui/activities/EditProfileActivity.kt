@@ -37,7 +37,8 @@ class EditProfileActivity : AppCompatActivity(), IUserView {
             Constants.getIDUser(this),
             Constants.getUsername(this),
             nama,
-            passwdNew
+            passwdNew,
+            Constants.getApiKey(this)
         )
     }
 
@@ -48,7 +49,9 @@ class EditProfileActivity : AppCompatActivity(), IUserView {
 
     override fun onResume() {
         super.onResume()
-        userPresenter?.getUserByID(Constants.getIDUser(this))
+        Constants.getIDUser(this)?.let {
+            userPresenter?.getUserByID(it)
+        }
     }
 
     override fun isLoadingUser(state: Int?) {

@@ -4,11 +4,9 @@ import android.app.ProgressDialog
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.Toast
 import com.mufiid.pilwali2020.R
-import com.mufiid.pilwali2020.models.Perhitungan
 import com.mufiid.pilwali2020.models.Tps
 import com.mufiid.pilwali2020.presenters.PilwaliPresenter
 import com.mufiid.pilwali2020.presenters.TpsPresenter
@@ -27,12 +25,13 @@ class PilwaliActivity : AppCompatActivity(), ITpsView, IPilwaliView {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_pilwali)
 
-        supportActionBar?.title = "Pilwali"
+        supportActionBar?.title = resources.getString(R.string.title_pilwali)
 
         presenter = TpsPresenter(this)
         pilwaliPresenter = PilwaliPresenter(this)
         loading = ProgressDialog(this)
 
+        btn_add.visibility = View.GONE
         btn_add.setOnClickListener {
             startActivity(Intent(this, AddVoteActivity::class.java))
         }
@@ -46,9 +45,8 @@ class PilwaliActivity : AppCompatActivity(), ITpsView, IPilwaliView {
         val dpt = jumlah_dpt.text.toString()
         val dptb = jumlah_dptb.text.toString()
         val dpk = jumlah_dpk.text.toString()
-        val dpktb = jumlah_dpktb.text.toString()
-        val difabel = jumlah_difabel.text.toString()
-        if (dpt.isEmpty() || dptb.isEmpty() || dpk.isEmpty() || dpktb.isEmpty() || difabel.isEmpty()) {
+        val dph = jumlah_dph.text.toString()
+        if (dpt.isEmpty() || dptb.isEmpty() || dpk.isEmpty() || dph.isEmpty()) {
             Toast.makeText(this, "Form tidak boleh kosong", Toast.LENGTH_SHORT).show()
         } else {
             presenter?.postJumlahPemilih(
@@ -57,8 +55,9 @@ class PilwaliActivity : AppCompatActivity(), ITpsView, IPilwaliView {
                 dpt.toInt(),
                 dptb.toInt(),
                 dpk.toInt(),
-                dpktb.toInt(),
-                difabel.toInt()
+                dph.toInt(),
+                Constants.getUsername(this),
+                Constants.getApiKey(this)
             )
         }
 
@@ -66,7 +65,7 @@ class PilwaliActivity : AppCompatActivity(), ITpsView, IPilwaliView {
 
     override fun onResume() {
         super.onResume()
-        presenter?.getDataTps(Constants.getIDTps(this))
+        Constants.getIDTps(this)?.let { presenter?.getDataTps(it) }
         pilwaliPresenter?.getVerification(Constants.getIDTps(this))
     }
 
@@ -115,8 +114,11 @@ class PilwaliActivity : AppCompatActivity(), ITpsView, IPilwaliView {
         jumlah_dpt.setText(data.dpt2)
         jumlah_dptb.setText(data.dptb2)
         jumlah_dpk.setText(data.dpk2)
-        jumlah_dpktb.setText(data.dpktb2)
-        jumlah_difabel.setText(data.difabel2)
+        jumlah_dph.setText(data.dpph2)
+
+        if(data.dpt2?.toInt()!! > 0) {
+            btn_add.visibility = View.VISIBLE
+        }
     }
 
     override fun failedGetDataTps(message: String?) {
@@ -125,6 +127,7 @@ class PilwaliActivity : AppCompatActivity(), ITpsView, IPilwaliView {
 
     override fun messageSuccess(message: String?) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+        btn_add.visibility = View.VISIBLE
     }
 
     override fun messageFailed(message: String?) {
@@ -151,8 +154,7 @@ class PilwaliActivity : AppCompatActivity(), ITpsView, IPilwaliView {
                 jumlah_dpt.isEnabled = false
                 jumlah_dptb.isEnabled = false
                 jumlah_dpk.isEnabled = false
-                jumlah_dpktb.isEnabled = false
-                jumlah_difabel.isEnabled = false
+                jumlah_dph.isEnabled = false
             }
             else -> {
                 ic_verifikasi.setImageResource(R.drawable.ic_unverification)

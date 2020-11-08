@@ -13,15 +13,14 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
-import android.util.Log
 import android.view.View
-import android.widget.Button
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.FileProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import com.bumptech.glide.Glide
 import com.mufiid.pilwali2020.R
 import com.mufiid.pilwali2020.adapters.PaslonAdapter
@@ -89,7 +88,9 @@ class AddVoteActivity : AppCompatActivity(), IPaslonView, ITpsView {
 
         // running function for first time
         presenter?.getPaslon(Constants.getIDTps(this))
-        tpsPresenter?.getDataTps(Constants.getIDTps(this))
+        Constants.getIDTps(this)?.let {
+            tpsPresenter?.getDataTps(it)
+        }
         getPermission()
 
     }
@@ -136,9 +137,10 @@ class AddVoteActivity : AppCompatActivity(), IPaslonView, ITpsView {
 
         // convert value to Request Body
         val suaraTidakSah = jumlah_suara_tidak_sah.text.toString()
-        val idTps = Constants.getIDTps(this).toRequestBody("text/plain".toMediaTypeOrNull())
-        val username = Constants.getUsername(this).toRequestBody("text/plain".toMediaTypeOrNull())
+        val idTps = Constants.getIDTps(this)?.toRequestBody("text/plain".toMediaTypeOrNull())
+        val username = Constants.getUsername(this)?.toRequestBody("text/plain".toMediaTypeOrNull())
         val suara_tidak_sah = suaraTidakSah.toRequestBody("text/plain".toMediaTypeOrNull())
+        val apiKey = Constants.getApiKey(this)?.toRequestBody("text/plain".toMediaTypeOrNull())
 
         // post data
         presenter?.postDataPerolehanSuara(
@@ -147,7 +149,8 @@ class AddVoteActivity : AppCompatActivity(), IPaslonView, ITpsView {
             idPaslon,
             suaraPaslon,
             pictPart,
-            username
+            username,
+            apiKey
         )
     }
 
@@ -427,18 +430,21 @@ class AddVoteActivity : AppCompatActivity(), IPaslonView, ITpsView {
         jumlah_dpt.text = data.dpt2
         jumlah_dptb.text = data.dptb2
         jumlah_dpk.text = data.dpk2
-        jumlah_dpktb.text = data.dpktb2
-        jumlah_difabel.text = data.difabel2
+        jumlah_dph.text = data.dpph2
         jumlah_suara_tidak_sah.setText(data.suara_tidak_sah)
 
         /**
          * check image if not null
          * pasang ke imageView
          * */
-        if (!data.foto_blanko.isNullOrEmpty()) {
+        if (!data.fotoBlangkoResize.isNullOrEmpty()) {
+            val circularProgressDrawable = CircularProgressDrawable(this)
+            circularProgressDrawable.centerRadius = 100F
+            circularProgressDrawable.start()
+
             Glide.with(this)
-                .load(data.foto_blanko)
-                .placeholder(R.drawable.ic_spinner_imagepx)
+                .load(data.fotoBlangkoResize)
+                .placeholder(circularProgressDrawable)
                 .centerCrop()
                 .into(image_blangko)
         } else {
