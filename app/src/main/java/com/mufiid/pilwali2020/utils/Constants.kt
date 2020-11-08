@@ -4,12 +4,12 @@ import android.content.Context
 
 class Constants {
     companion object {
-        const val API_ENDPOINT = "http://pilwali.tobiaditia.my.id/Api/"
-        const val URL_WEBVIEW = "http://pilwali.tobiaditia.my.id/publics/chart_perhitungan"
+        const val API_ENDPOINT = "http://tobiaditia.my.id/Api/"
+        const val URL_WEBVIEW = "http://tobiaditia.my.id/publics/chart_perhitungan"
 
-        fun getUsername(context: Context) : String {
+        fun getUsername(context: Context) : String? {
             val pref = context.getSharedPreferences("USER", Context.MODE_PRIVATE)
-            return pref.getString("USERNAME", "undefined")!!
+            return pref.getString("USERNAME", "undefined")
         }
 
         fun setUsername(context: Context, username: String) {
@@ -20,9 +20,22 @@ class Constants {
             }
         }
 
-        fun getIDUser(context: Context) : String {
+        fun getApiKey(context: Context) : String? {
             val pref = context.getSharedPreferences("USER", Context.MODE_PRIVATE)
-            return pref.getString("ID_USER", "undefined")!!
+            return pref.getString("APIKEY", "undefined")
+        }
+
+        fun setApiKey(context: Context, apiKey: String) {
+            val pref = context.getSharedPreferences("USER", Context.MODE_PRIVATE)
+            pref.edit().apply {
+                putString("APIKEY", apiKey)
+                apply()
+            }
+        }
+
+        fun getIDUser(context: Context) : String? {
+            val pref = context.getSharedPreferences("USER", Context.MODE_PRIVATE)
+            return pref.getString("ID_USER", "undefined")
         }
 
         fun setIDTps(context: Context, username: String) {
@@ -33,9 +46,9 @@ class Constants {
             }
         }
 
-        fun getVerification(context: Context?) : Int {
+        fun getVerification(context: Context?) : Int? {
             val pref = context?.getSharedPreferences("USER", Context.MODE_PRIVATE)
-            return pref?.getInt("VERIF", 0)!!
+            return pref?.getInt("VERIF", 0)
         }
 
         fun setVerification(context: Context, verification: Int) {
@@ -46,9 +59,9 @@ class Constants {
             }
         }
 
-        fun getIDTps(context: Context) : String {
+        fun getIDTps(context: Context) : String? {
             val pref = context.getSharedPreferences("USER", Context.MODE_PRIVATE)
-            return pref.getString("ID_TPS", "undefined")!!
+            return pref.getString("ID_TPS", "undefined")
         }
 
         fun setIDUser(context: Context, username: String) {
@@ -61,7 +74,7 @@ class Constants {
 
         fun ISLOGGEDIN(context: Context) : Boolean {
             val pref = context.getSharedPreferences("USER", Context.MODE_PRIVATE)
-            return pref.getBoolean("ISLOGGEDIN", false)!!
+            return pref.getBoolean("ISLOGGEDIN", false)
         }
 
         fun setISLOGGEDIN(context: Context, state: Boolean) {
