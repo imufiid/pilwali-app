@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import com.bumptech.glide.Glide
 import com.mufiid.pilwali2020.R
 import com.mufiid.pilwali2020.models.Paslon
@@ -57,8 +58,13 @@ class PaslonAdapter(val data: List<Paslon>) : RecyclerView.Adapter<PaslonAdapter
                 itemView.divider.visibility = View.GONE
             }
 
+            val circularProgressDrawable = CircularProgressDrawable(context!!)
+            circularProgressDrawable.centerRadius = 100F
+            circularProgressDrawable.start()
+
             Glide.with(itemView)
                 .load(get?.foto)
+                .placeholder(circularProgressDrawable )
                 .into(itemView.img_paslon)
 
             itemView.et_suara_paslon.addTextChangedListener(object : TextWatcher {
