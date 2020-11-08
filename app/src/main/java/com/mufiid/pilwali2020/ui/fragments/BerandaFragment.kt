@@ -1,16 +1,12 @@
 package com.mufiid.pilwali2020.ui.fragments
 
 import android.Manifest
-import android.app.AlertDialog
 import android.app.DownloadManager
 import android.content.Context
 import android.content.Intent
-import android.content.IntentFilter
 import android.content.pm.PackageManager
-import android.net.ConnectivityManager
 import android.net.Uri
 import android.os.*
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -19,7 +15,6 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.viewpager.widget.ViewPager
 import com.facebook.shimmer.ShimmerFrameLayout
@@ -34,7 +29,6 @@ import com.mufiid.pilwali2020.ui.activities.MonitoringActivity
 import com.mufiid.pilwali2020.ui.activities.PilwaliActivity
 import com.mufiid.pilwali2020.ui.activities.TpsActivity
 import com.mufiid.pilwali2020.utils.Constants
-import com.mufiid.pilwali2020.utils.helpers.ConnectivityReceiver
 import com.mufiid.pilwali2020.views.IConfigView
 import com.mufiid.pilwali2020.views.ITpsView
 import com.viewpagerindicator.CirclePageIndicator
@@ -42,7 +36,6 @@ import io.reactivex.rxjava3.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.fragment_beranda.*
 import java.net.URI
 import java.text.SimpleDateFormat
-import java.time.Duration
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.util.*
@@ -64,7 +57,7 @@ class BerandaFragment : Fragment(), ITpsView, IConfigView {
     private var dpt: TextView? = null
     private var dptb: TextView? = null
     private var dpk: TextView? = null
-    private var dpktb: TextView? = null
+    private var dph: TextView? = null
     private var difabel: TextView? = null
     private var tps: TextView? = null
 
@@ -102,8 +95,7 @@ class BerandaFragment : Fragment(), ITpsView, IConfigView {
         dpt = view.findViewById<TextView>(R.id.dpt) as TextView
         dptb = view.findViewById<TextView>(R.id.dptb) as TextView
         dpk = view.findViewById<TextView>(R.id.dpk) as TextView
-        dpktb = view.findViewById<TextView>(R.id.dpktb) as TextView
-        difabel = view.findViewById<TextView>(R.id.difabel) as TextView
+        dph = view.findViewById<TextView>(R.id.dph) as TextView
         tps = view.findViewById(R.id.subTitle) as TextView
 
         // init presenter
@@ -212,7 +204,9 @@ class BerandaFragment : Fragment(), ITpsView, IConfigView {
 
     override fun onResume() {
         super.onResume()
-        presenter?.getDataTps(Constants.getIDTps(context!!))
+        Constants.getIDTps(context!!)?.let {
+            presenter?.getDataTps(it)
+        }
     }
 
     /**
@@ -227,8 +221,7 @@ class BerandaFragment : Fragment(), ITpsView, IConfigView {
         dpt?.text = data.dpt2
         dptb?.text = data.dptb2
         dpk?.text = data.dpk2
-        dpktb?.text = data.dpktb2
-        difabel?.text = data.difabel2
+        dph?.text = data.dpph2
     }
 
     /**
