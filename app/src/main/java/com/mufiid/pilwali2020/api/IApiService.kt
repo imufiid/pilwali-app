@@ -63,8 +63,9 @@ interface IApiService {
         @Field("dpt_2") dpt: Int?,
         @Field("dptb_2") dptb: Int?,
         @Field("dpk_2") dpk: Int?,
-        @Field("dpktb_2") dpktb: Int?,
-        @Field("difabel_2") difabel: Int?
+        @Field("dpph_2") dpph: Int?,
+        @Field("username") username: String?,
+        @Field("api_key") api_key: String?
     ): Observable<MessageResponse>
 
     // INSERT DATA TPS
@@ -76,7 +77,8 @@ interface IApiService {
         @Part foto_tps: MultipartBody.Part?,
         @Part("lati") latitude: RequestBody?,
         @Part("longi") longitude: RequestBody?,
-        @Part("username") username: RequestBody?
+        @Part("username") username: RequestBody?,
+        @Part("api_key") apiKey: RequestBody?
     ): Observable<MessageResponse>
 
     // DATA SUARA PASLON
@@ -88,7 +90,8 @@ interface IApiService {
         @Part("id_paslon[]") id_paslon: List<Int>?,
         @Part("suara_sah[]") suara_sah: List<Int>?,
         @Part foto_blanko: MultipartBody.Part?,
-        @Part("username") username: RequestBody?
+        @Part("username") username: RequestBody?,
+        @Field("api_key") api_key: RequestBody?
     ): Observable<MessageResponse>
 
     // UPDATE PROFILE
@@ -98,6 +101,7 @@ interface IApiService {
         @Field("id") id_user: String?,
         @Field("username") username: String?,
         @Field("nama") nama: String?,
-        @Field("password") passwdNew: String?
+        @Field("password") passwdNew: String?,
+        @Field("api_key") api_key: String?
     ): Observable<MessageResponse>
 }
