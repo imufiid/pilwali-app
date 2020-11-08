@@ -4,10 +4,11 @@
 
     <string name="beranda">Beranda</string>
     <string name="profil">Profil</string>
-    <string name="refresh">Refresh</string>
+    <string name="refresh">Refresh Lokasi</string>
 
     <string name="title_beranda">Beranda</string>
-    <string name="detail_tps">Detail TPS</string>
+    <string name="title_detail_tps">Detail TPS</string>
+    <string name="title_pilwali">Pilwali</string>
     <string name="title_monitoring_perhitungan">Monitoring Perhitungan</string>
     <string name="edit_account">Edit Profil</string>
 
@@ -28,6 +29,7 @@
     <string name="sorry">Mohon maaf</string>
     <string name="message_developement">Masih dalam tahap pengembangan!</string>
     <string name="message_gps_dialog">Mohon hidupkan GPS di smartphone anda</string>
+    <string name="message_not_upload_image">Anda belum mengunggah foto</string>
     <string name="please_wait">Tunggu Sebentar...</string>
     <string name="download_description">Sedang download file...</string>
     <string name="title_download">Download Blangko</string>
