@@ -18,8 +18,8 @@ data class Tps(
     @field:SerializedName("dpk_2")
     val dpk2: String? = null,
 
-    @field:SerializedName("dpktb_2")
-    val dpktb2: String? = null,
+    @field:SerializedName("dpph_2")
+    val dpph2: String? = null,
 
     @field:SerializedName("dptb_2")
     val dptb2: String? = null,
@@ -31,7 +31,7 @@ data class Tps(
     val dptb1: Any? = null,
 
     @field:SerializedName("longi")
-    val longi: Any? = null,
+    val longi: String? = null,
 
     @field:SerializedName("dpt_2")
     val dpt2: String? = null,
@@ -45,23 +45,20 @@ data class Tps(
     @field:SerializedName("suara_tidak_sah")
     val suara_tidak_sah: String? = null,
 
-    @field:SerializedName("difabel_2")
-    val difabel2: String? = null,
-
     @field:SerializedName("foto_blanko")
     val foto_blanko: String? = null,
+
+    @field:SerializedName("foto_blanko_resize")
+    val fotoBlangkoResize: String? = null,
 
     @field:SerializedName("foto_tps")
     val foto_tps: String? = null,
 
-    @field:SerializedName("difabel_1")
-    val difabel1: Any? = null,
-
     @field:SerializedName("lati")
-    val lati: Any? = null,
+    val lati: String? = null,
 
-    @field:SerializedName("dpktb_1")
-    val dpktb1: Any? = null,
+    @field:SerializedName("dpph_1")
+    val dpph1: String? = null,
 
     @field:SerializedName("id")
     val id: String? = null

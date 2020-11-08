@@ -34,5 +34,8 @@ data class User(
     val dateRegistered: Any? = null,
 
     @field:SerializedName("username")
-    val username: String? = null
+    val username: String? = null,
+
+    @field:SerializedName("api_key")
+    val api_key: String? = null
 )
