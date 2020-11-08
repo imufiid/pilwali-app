@@ -1,8 +1,7 @@
 package com.mufiid.pilwali2020.presenters
 
+import android.util.Log
 import com.mufiid.pilwali2020.api.ApiClient
-import com.mufiid.pilwali2020.utils.Constants
-import com.mufiid.pilwali2020.views.ILoadingView
 import com.mufiid.pilwali2020.views.ITpsView
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.disposables.CompositeDisposable
@@ -14,7 +13,7 @@ class TpsPresenter(private val tpsView: ITpsView) {
 
     /**
      * fungsi untuk mengambil data detail tps by ID
-     * 
+     *
      * @author Imam Mufiid
      *
      * @param id_tps => id tps
@@ -37,7 +36,8 @@ class TpsPresenter(private val tpsView: ITpsView) {
             }, {
                 tpsView.failedGetDataTps(it.message)
                 tpsView.hideLoadingTps(1)
-            }))
+            })
+        )
     }
 
     /**
@@ -59,17 +59,19 @@ class TpsPresenter(private val tpsView: ITpsView) {
         fotoTPS: MultipartBody.Part?,
         latitude: RequestBody?,
         longitude: RequestBody?,
-        username: RequestBody?
+        username: RequestBody?,
+        apiKey: RequestBody?
     ) {
         tpsView.isLoadingTps(2)
-        CompositeDisposable().add(ApiClient.instance().inputDataTPS(id_tps, form_page, fotoTPS, latitude, longitude, username)
+        CompositeDisposable().add(ApiClient.instance()
+            .inputDataTPS(id_tps, form_page, fotoTPS, latitude, longitude, username, apiKey)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
                 // code ...
                 when (it.status) {
                     201 -> tpsView.messageSuccess(it.message)
-                    else -> tpsView.messageFailed("Ada masalah")
+                    else -> tpsView.messageFailed(it.message)
                 }
 
                 tpsView.hideLoadingTps(2)
@@ -77,7 +79,8 @@ class TpsPresenter(private val tpsView: ITpsView) {
                 // code ...
                 tpsView.messageFailed(it.message)
                 tpsView.hideLoadingTps(2)
-            }))
+            })
+        )
 
     }
 
@@ -101,23 +104,28 @@ class TpsPresenter(private val tpsView: ITpsView) {
         dpt: Int?,
         dptb: Int?,
         dpk: Int?,
-        dpktb: Int?,
-        difabel: Int?
+        dph: Int?,
+        username: String?,
+        apiKey: String?
     ) {
         tpsView.isLoadingTps(2)
-        CompositeDisposable().add(ApiClient.instance().inputDaftarPemilih(id_tps, form_page, dpt, dptb, dpk, dpktb, difabel)
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe({
-                when(it.status) {
-                    201 -> tpsView.messageSuccess(it.message)
-                    400 -> tpsView.messageFailed(it.message)
-                }
-                tpsView.hideLoadingTps(2)
-            }, {
-                tpsView.messageFailed(it.message)
-                tpsView.hideLoadingTps(2)
-            })
+        CompositeDisposable().add(
+            ApiClient.instance()
+                .inputDaftarPemilih(id_tps, form_page, dpt, dptb, dpk, dph, username, apiKey)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({
+                    Log.d("HALOO", it.toString())
+                    when (it.status) {
+                        201 -> tpsView.messageSuccess(it.message)
+                        400 -> tpsView.messageFailed(it.message)
+                    }
+                    tpsView.hideLoadingTps(2)
+                }, {
+                    it.message?.let { it1 -> Log.d("HALOO", it1) }
+                    tpsView.messageFailed(it.message)
+                    tpsView.hideLoadingTps(2)
+                })
         )
 
     }

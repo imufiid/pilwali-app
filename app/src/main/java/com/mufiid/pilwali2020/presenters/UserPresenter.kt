@@ -49,9 +49,9 @@ class UserPresenter(private val userView: IUserView) {
      * @param passwordNew => password baru user
      *
      * */
-    fun updateUser(id_user: String?, username: String?, nama: String?, passwordNew: String?) {
+    fun updateUser(id_user: String?, username: String?, nama: String?, passwordNew: String?, apiKey: String?) {
         userView.isLoadingUser(2)
-        CompositeDisposable().add(ApiClient.instance().updateProfile(id_user, username, nama, passwordNew)
+        CompositeDisposable().add(ApiClient.instance().updateProfile(id_user, username, nama, passwordNew, apiKey)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({

@@ -63,11 +63,12 @@ class AddVotePresenter(private val paslonView: IPaslonView) {
         id_paslon: List<Int>?,
         suara_sah: List<Int>,
         foto: MultipartBody.Part?,
-        username: RequestBody?
+        username: RequestBody?,
+        apiKey: RequestBody?
     ) {
         paslonView.isLoadingPaslon(2)
         CompositeDisposable().add(ApiClient.instance()
-            .postSuaraPaslon(id_tps, suara_tidak_sah, id_paslon, suara_sah, foto, username)
+            .postSuaraPaslon(id_tps, suara_tidak_sah, id_paslon, suara_sah, foto, username, apiKey)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
