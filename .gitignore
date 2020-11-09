@@ -18,3 +18,4 @@
 /app/build/tmp/*
 /app/build/outputs/logs/*
 /app/build/outputs/apk/debug/output-metadata.json
+/backup/*
