@@ -91,7 +91,7 @@ interface IApiService {
         @Part("suara_sah[]") suara_sah: List<Int>?,
         @Part foto_blanko: MultipartBody.Part?,
         @Part("username") username: RequestBody?,
-        @Field("api_key") api_key: RequestBody?
+        @Part("api_key") api_key: RequestBody?
     ): Observable<MessageResponse>
 
     // UPDATE PROFILE
