@@ -30,12 +30,10 @@ class AuthPresenter(private val authView: IAuthView, private val loading: ILoadi
                         authView.successLogin(it.message, it.data!!)
                     }
                     400 -> {
-                        val msg = "Password anda salah!"
-                        authView.failedLogin(msg)
+                        authView.failedLogin(it.message)
                     }
                     else -> {
-                        val msg = "Username anda tidak ditemukan!"
-                        authView.failedLogin(msg)
+                        authView.failedLogin(it.message)
                     }
                 }
                 loading.hideLoading()
