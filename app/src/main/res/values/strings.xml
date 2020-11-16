@@ -34,6 +34,7 @@
     <string name="download_description">Sedang download file...</string>
     <string name="title_download">Download Blangko</string>
     <string name="success_login">Anda Berhasil Login</string>
+    <string name="username_password_must_not_be_null">Username dan Password harus diisi!</string>
 
     <string name="keluar">Keluar</string>
     <string name="cancel">Cancel</string>

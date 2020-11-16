@@ -12,6 +12,7 @@ import com.mufiid.pilwali2020.R
 import com.mufiid.pilwali2020.models.User
 import com.mufiid.pilwali2020.presenters.AuthPresenter
 import com.mufiid.pilwali2020.utils.Constants
+import com.mufiid.pilwali2020.utils.helpers.CustomView
 import com.mufiid.pilwali2020.views.IAuthView
 import com.mufiid.pilwali2020.views.ILoadingView
 import io.reactivex.rxjava3.disposables.CompositeDisposable
@@ -35,7 +36,7 @@ class LoginActivity : AppCompatActivity(), IAuthView, ILoadingView {
             val username = et_username.text.toString()
             val password = et_password.text.toString()
             if (username == "" || password == "") {
-                showToast("Username dan Password harus diisi!")
+                showToast(getString(R.string.username_password_must_not_be_null))
             } else {
                 presenter?.login(username, password)
             }
@@ -68,7 +69,7 @@ class LoginActivity : AppCompatActivity(), IAuthView, ILoadingView {
     }
 
     override fun isLoading() {
-        progressDialog?.setMessage("Tunggu sebentar")
+        progressDialog?.setMessage(getString(R.string.please_wait))
         progressDialog?.show()
     }
 
@@ -84,9 +85,10 @@ class LoginActivity : AppCompatActivity(), IAuthView, ILoadingView {
     }
 
     private fun showToast(message: String) {
-        Toast.makeText(this, message, Toast.LENGTH_SHORT).apply {
-            setGravity(Gravity.CENTER, 0, 0)
-        }.show()
+        CustomView.customToast(this, message, true)
+//        Toast.makeText(this, message, Toast.LENGTH_SHORT).apply {
+//            setGravity(Gravity.CENTER, 0, 0)
+//        }.show()
 
     }
 }
