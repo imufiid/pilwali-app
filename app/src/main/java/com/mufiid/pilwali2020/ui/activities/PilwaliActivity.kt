@@ -66,7 +66,6 @@ class PilwaliActivity : AppCompatActivity(), ITpsView, IPilwaliView {
     override fun onResume() {
         super.onResume()
         Constants.getIDTps(this)?.let { presenter?.getDataTps(it) }
-        pilwaliPresenter?.getVerification(Constants.getIDTps(this))
     }
 
     override fun onDestroy() {
@@ -118,6 +117,7 @@ class PilwaliActivity : AppCompatActivity(), ITpsView, IPilwaliView {
 
         if(data.dpt2?.toInt()!! > 0) {
             btn_add.visibility = View.VISIBLE
+            pilwaliPresenter?.getVerification(Constants.getIDTps(this))
         }
     }
 
@@ -164,6 +164,6 @@ class PilwaliActivity : AppCompatActivity(), ITpsView, IPilwaliView {
     }
 
     override fun failed(message: String?) {
-        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+        // Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
 }

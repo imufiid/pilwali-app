@@ -34,6 +34,7 @@ import com.mufiid.pilwali2020.views.ITpsView
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.activity_add_vote.*
 import kotlinx.android.synthetic.main.activity_add_vote.open_camera
+import kotlinx.android.synthetic.main.activity_tps.*
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
@@ -52,6 +53,7 @@ class AddVoteActivity : AppCompatActivity(), IPaslonView, ITpsView {
     private var tpsPresenter: TpsPresenter? = null
     private var fotoBlangko: Bitmap? = null
     private var pictPart: MultipartBody.Part? = null
+    private var fotoTpsApi: String? = null
     private var currentPhotoPath: String? = ""
     private val suaraPaslon = mutableListOf<Int>()
     private val idPaslon = mutableListOf<Int>()
@@ -129,11 +131,6 @@ class AddVoteActivity : AppCompatActivity(), IPaslonView, ITpsView {
          * check if user not take picture
          *
          * */
-        if (currentPhotoPath != "") {
-            val pictBlangko = File(currentPhotoPath)
-            val reqFile = pictBlangko.asRequestBody("image/*".toMediaTypeOrNull())
-            pictPart = MultipartBody.Part.createFormData("foto_blanko", pictBlangko.name, reqFile)
-        }
 
         // convert value to Request Body
         val suaraTidakSah = jumlah_suara_tidak_sah.text.toString()
@@ -141,6 +138,21 @@ class AddVoteActivity : AppCompatActivity(), IPaslonView, ITpsView {
         val username = Constants.getUsername(this)?.toRequestBody("text/plain".toMediaTypeOrNull())
         val suara_tidak_sah = suaraTidakSah.toRequestBody("text/plain".toMediaTypeOrNull())
         val apiKey = Constants.getApiKey(this)?.toRequestBody("text/plain".toMediaTypeOrNull())
+
+        if (currentPhotoPath != "") {
+            val pictBlangko = File(currentPhotoPath)
+            val reqFile = pictBlangko.asRequestBody("image/*".toMediaTypeOrNull())
+            pictPart = MultipartBody.Part.createFormData("foto_blanko", pictBlangko.name, reqFile)
+        } else {
+            if (fotoTpsApi.isNullOrEmpty()) {
+                Toast.makeText(
+                    this,
+                    resources.getString(R.string.message_not_upload_image),
+                    Toast.LENGTH_SHORT
+                ).show()
+                return
+            }
+        }
 
         // post data
         presenter?.postDataPerolehanSuara(
@@ -438,6 +450,7 @@ class AddVoteActivity : AppCompatActivity(), IPaslonView, ITpsView {
          * pasang ke imageView
          * */
         if (!data.fotoBlangkoResize.isNullOrEmpty()) {
+            fotoTpsApi = data.fotoBlangkoResize
             val circularProgressDrawable = CircularProgressDrawable(this)
             circularProgressDrawable.centerRadius = 100F
             circularProgressDrawable.start()
@@ -447,6 +460,8 @@ class AddVoteActivity : AppCompatActivity(), IPaslonView, ITpsView {
                 .placeholder(circularProgressDrawable)
                 .centerCrop()
                 .into(image_blangko)
+
+            open_camera.visibility = View.GONE
         } else {
             image_blangko.setImageResource(R.drawable.ic_img_placeholder)
         }
