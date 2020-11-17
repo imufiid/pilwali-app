@@ -238,7 +238,7 @@
             android:layout_below="@id/div2"
             android:layout_marginStart="16dp"
             android:layout_marginBottom="10dp"
-            android:text="Upload Blangko"
+            android:text="@string/upload_blangko"
             android:textColor="@color/colorPrimaryTextIcon"
             android:textSize="16sp"
             android:textStyle="bold" />

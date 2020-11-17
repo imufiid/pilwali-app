@@ -39,9 +39,9 @@
             android:id="@+id/tv_selamatDatang"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Selamat Datang!"
+            android:text="@string/app_name"
             android:textStyle="bold"
-            android:textSize="30sp"
+            android:textSize="26sp"
             android:textColor="@color/colorPrimaryTextIcon"
             />
 
@@ -49,10 +49,10 @@
             android:id="@+id/tv_masuk"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Masuk untuk melanjutkan"
+            android:text="@string/login_to_next"
             android:textStyle="bold"
-            android:textSize="16sp"
-            android:layout_marginTop="8dp"
+            android:textSize="14sp"
+            android:layout_marginTop="4dp"
             />
 
         <LinearLayout
