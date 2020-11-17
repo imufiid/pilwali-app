@@ -40,5 +40,8 @@ data class User(
     var username: String? = null,
 
     @field:SerializedName("api_key")
-    var api_key: String? = null
+    var api_key: String? = null,
+
+    @field:SerializedName("foto")
+    var foto: String? = null
 ): Parcelable

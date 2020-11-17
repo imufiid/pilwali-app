@@ -95,13 +95,14 @@ interface IApiService {
     ): Observable<MessageResponse>
 
     // UPDATE PROFILE
-    @FormUrlEncoded
+    @Multipart
     @POST("user")
     fun updateProfile(
-        @Field("id") id_user: String?,
-        @Field("username") username: String?,
-        @Field("nama") nama: String?,
-        @Field("password") passwdNew: String?,
-        @Field("api_key") api_key: String?
+        @Part("id") id_user: RequestBody?,
+        @Part("username") username: RequestBody?,
+        @Part("nama") nama: RequestBody?,
+        @Part foto: MultipartBody.Part?,
+        @Part("password") passwdNew: RequestBody?,
+        @Part("api_key") api_key: RequestBody?
     ): Observable<MessageResponse>
 }

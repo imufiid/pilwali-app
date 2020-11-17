@@ -9,14 +9,23 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.swiperefreshlayout.widget.CircularProgressDrawable
+import com.bumptech.glide.Glide
 import com.mufiid.pilwali2020.BuildConfig
 import com.mufiid.pilwali2020.R
+import com.mufiid.pilwali2020.models.User
+import com.mufiid.pilwali2020.presenters.UserPresenter
 import com.mufiid.pilwali2020.ui.activities.EditProfileActivity
 import com.mufiid.pilwali2020.ui.activities.LoginActivity
 import com.mufiid.pilwali2020.utils.Constants
+import com.mufiid.pilwali2020.views.IUserView
+import kotlinx.android.synthetic.main.activity_edit_profile.*
+import kotlinx.android.synthetic.main.activity_tps.*
+import kotlinx.android.synthetic.main.fragment_profil.*
 import org.w3c.dom.Text
 
-class ProfilFragment : Fragment() {
+class ProfilFragment : Fragment(), IUserView {
+    private var userPresenter: UserPresenter? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -27,6 +36,7 @@ class ProfilFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        userPresenter = UserPresenter(this)
 
         val editProfile = view.findViewById<LinearLayout>(R.id.editProfile) as LinearLayout
         val logout = view.findViewById<LinearLayout>(R.id.logout) as LinearLayout
@@ -56,5 +66,41 @@ class ProfilFragment : Fragment() {
             }.show()
 
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        Constants.getUserData(context!!)?.id?.let {
+            userPresenter?.getUserByID(it)
+        }
+    }
+
+    override fun isLoadingUser(state: Int?) {
+        // code...
+    }
+
+    override fun hideLoadingUser(state: Int?) {
+        // code ...
+    }
+
+    override fun getDataUser(message: String?, data: User) {
+
+        if (!data.foto.isNullOrEmpty()) {
+            Glide.with(this)
+                .load(data.foto)
+                .placeholder(R.drawable.ic_profile_picture)
+                .centerCrop()
+                .into(profile_picture)
+        }else {
+            image_tps.setImageResource(R.drawable.ic_profile_picture)
+        }
+    }
+
+    override fun failedMessage(message: String?) {
+        // code ..
+    }
+
+    override fun successMessage(message: String?) {
+        // code ...
     }
 }
