@@ -79,7 +79,7 @@ class TpsActivity : AppCompatActivity(), MySimpleLocation.MySimpleLocationCallba
         loading = ProgressDialog(this)
 
         tpsPresenter = TpsPresenter(this)
-        Constants.getIDTps(this)?.let { tpsPresenter?.getDataTps(it) }
+        Constants.getUserData(this)?.idTps?.let { tpsPresenter?.getDataTps(it) }
 
         open_camera.setOnClickListener {
             captureTPS()
@@ -99,14 +99,14 @@ class TpsActivity : AppCompatActivity(), MySimpleLocation.MySimpleLocationCallba
         val lat = RequestBody.create("text/plain".toMediaTypeOrNull(), latitude.text.toString())
         val long = RequestBody.create("text/plain".toMediaTypeOrNull(), longitude.text.toString())
         val username =
-            Constants.getUsername(this)?.let {
-                RequestBody.create(
-                    "text/plain".toMediaTypeOrNull(),
-                    it
-                )
+            Constants.getUserData(this)?.username?.let {
+                    RequestBody.create(
+                        "text/plain".toMediaTypeOrNull(),
+                        it
+                    )
             }
         val id_tps =
-            Constants.getIDTps(this)?.let {
+            Constants.getUserData(this)?.idTps?.let {
                 RequestBody.create(
                     "text/plain".toMediaTypeOrNull(),
                     it
@@ -114,7 +114,7 @@ class TpsActivity : AppCompatActivity(), MySimpleLocation.MySimpleLocationCallba
             }
         val form_page = RequestBody.create("text/plain".toMediaTypeOrNull(), "2")
         val apiKey =
-            Constants.getApiKey(this)?.let {
+            Constants.getUserData(this)?.api_key?.let {
                 RequestBody.create(
                     "text/plain".toMediaTypeOrNull(),
                     it

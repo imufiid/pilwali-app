@@ -46,18 +46,19 @@ class PilwaliActivity : AppCompatActivity(), ITpsView, IPilwaliView {
         val dptb = jumlah_dptb.text.toString()
         val dpk = jumlah_dpk.text.toString()
         val dph = jumlah_dph.text.toString()
+        val userData = Constants.getUserData(this)
         if (dpt.isEmpty() || dptb.isEmpty() || dpk.isEmpty() || dph.isEmpty()) {
             Toast.makeText(this, "Form tidak boleh kosong", Toast.LENGTH_SHORT).show()
         } else {
             presenter?.postJumlahPemilih(
-                Constants.getIDTps(this),
+                userData?.idTps,
                 "1",
                 dpt.toInt(),
                 dptb.toInt(),
                 dpk.toInt(),
                 dph.toInt(),
-                Constants.getUsername(this),
-                Constants.getApiKey(this)
+                userData?.username,
+                userData?.api_key
             )
         }
 
@@ -65,7 +66,7 @@ class PilwaliActivity : AppCompatActivity(), ITpsView, IPilwaliView {
 
     override fun onResume() {
         super.onResume()
-        Constants.getIDTps(this)?.let { presenter?.getDataTps(it) }
+        Constants.getUserData(this)?.idTps?.let { presenter?.getDataTps(it) }
     }
 
     override fun onDestroy() {
@@ -117,7 +118,7 @@ class PilwaliActivity : AppCompatActivity(), ITpsView, IPilwaliView {
 
         if(data.dpt2?.toInt()!! > 0) {
             btn_add.visibility = View.VISIBLE
-            pilwaliPresenter?.getVerification(Constants.getIDTps(this))
+            pilwaliPresenter?.getVerification(Constants.getUserData(this)?.idTps)
         }
     }
 

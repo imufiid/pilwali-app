@@ -50,10 +50,13 @@ class LoginActivity : AppCompatActivity(), IAuthView, ILoadingView {
     }
 
     override fun successLogin(message: String?, user: User) {
-        Constants.setIDUser(this, user.id.toString())
-        Constants.setUsername(this, user.username.toString())
-        Constants.setApiKey(this, user.api_key.toString())
-        Constants.setIDTps(this, user.idTps.toString())
+//        Constants.setIDUser(this, user.id.toString())
+//        Constants.setUsername(this, user.username.toString())
+//        Constants.setApiKey(this, user.api_key.toString())
+//        Constants.setIDTps(this, user.idTps.toString())
+        
+        Constants.setUserData(this, user)
+
         Constants.setISLOGGEDIN(this, true)
 
         showToast(resources.getString(R.string.success_login))

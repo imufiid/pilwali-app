@@ -204,7 +204,7 @@ class BerandaFragment : Fragment(), ITpsView, IConfigView {
 
     override fun onResume() {
         super.onResume()
-        Constants.getIDTps(context!!)?.let {
+        Constants.getUserData(context!!)?.idTps?.let {
             presenter?.getDataTps(it)
         }
     }

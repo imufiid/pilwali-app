@@ -33,12 +33,13 @@ class EditProfileActivity : AppCompatActivity(), IUserView {
         val nama = et_nama.text.toString()
         val passwdNew = et_password_baru.text.toString()
         val passwdOld = et_password_lama.text.toString()
+        val userData = Constants.getUserData(this)
         userPresenter?.updateUser(
-            Constants.getIDUser(this),
-            Constants.getUsername(this),
+            userData?.id,
+            userData?.username,
             nama,
             passwdNew,
-            Constants.getApiKey(this)
+            Constants.getUserData(this)?.api_key
         )
     }
 
@@ -49,7 +50,7 @@ class EditProfileActivity : AppCompatActivity(), IUserView {
 
     override fun onResume() {
         super.onResume()
-        Constants.getIDUser(this)?.let {
+        Constants.getUserData(this)?.id?.let {
             userPresenter?.getUserByID(it)
         }
     }

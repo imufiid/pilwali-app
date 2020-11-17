@@ -89,8 +89,8 @@ class AddVoteActivity : AppCompatActivity(), IPaslonView, ITpsView {
         }
 
         // running function for first time
-        presenter?.getPaslon(Constants.getIDTps(this))
-        Constants.getIDTps(this)?.let {
+        presenter?.getPaslon(Constants.getUserData(this)?.idTps)
+        Constants.getUserData(this)?.idTps?.let {
             tpsPresenter?.getDataTps(it)
         }
         getPermission()
@@ -134,10 +134,10 @@ class AddVoteActivity : AppCompatActivity(), IPaslonView, ITpsView {
 
         // convert value to Request Body
         val suaraTidakSah = jumlah_suara_tidak_sah.text.toString()
-        val idTps = Constants.getIDTps(this)?.toRequestBody("text/plain".toMediaTypeOrNull())
-        val username = Constants.getUsername(this)?.toRequestBody("text/plain".toMediaTypeOrNull())
+        val idTps = Constants.getUserData(this)?.idTps?.toRequestBody("text/plain".toMediaTypeOrNull())
+        val username = Constants.getUserData(this)?.username?.toRequestBody("text/plain".toMediaTypeOrNull())
         val suara_tidak_sah = suaraTidakSah.toRequestBody("text/plain".toMediaTypeOrNull())
-        val apiKey = Constants.getApiKey(this)?.toRequestBody("text/plain".toMediaTypeOrNull())
+        val apiKey = Constants.getUserData(this)?.api_key?.toRequestBody("text/plain".toMediaTypeOrNull())
 
         if (currentPhotoPath != "") {
             val pictBlangko = File(currentPhotoPath)
