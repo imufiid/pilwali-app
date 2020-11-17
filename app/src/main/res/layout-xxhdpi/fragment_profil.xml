@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     tools:context=".ui.fragments.ProfilFragment">
 
@@ -19,10 +19,13 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true">
 
-        <ImageView
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/profile_picture"
             android:layout_width="80dp"
             android:layout_height="80dp"
-            android:src="@drawable/ic_account"/>
+            android:src="@drawable/ic_account"
+            app:civ_border_width="2dp"
+            app:civ_border_color="#C6C6C6"/>
 
         <LinearLayout
             android:layout_width="match_parent"
