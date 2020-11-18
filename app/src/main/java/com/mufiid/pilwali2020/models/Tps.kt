@@ -61,5 +61,8 @@ data class Tps(
     val dpph1: String? = null,
 
     @field:SerializedName("id")
-    val id: String? = null
+    val id: String? = null,
+
+    @field:SerializedName("is_default")
+    val isDefault: String? = null
 )
