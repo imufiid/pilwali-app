@@ -197,7 +197,7 @@
                 android:layout_alignParentStart="true"
                 android:layout_alignParentEnd="true"
                 android:layout_marginHorizontal="24dp"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="8dp"
                 android:orientation="horizontal">
 
                 <TextView
@@ -249,6 +249,21 @@
                     android:textColor="@drawable/edittext_text_color" />
             </LinearLayout>
 
+            <Button
+                android:id="@+id/refresh_location"
+                android:layout_width="wrap_content"
+                android:layout_height="16dp"
+                android:background="@null"
+                android:layout_gravity="start"
+                android:layout_marginTop="8dp"
+                android:layout_marginStart="24dp"
+                style="?android:attr/borderlessButtonStyle"
+                android:text="@string/refresh"
+                android:textColor="@color/colorBlue"
+                android:textAllCaps="false"
+                android:textSize="14sp"
+                android:drawableStart="@drawable/ic_refresh"/>
+
             <com.facebook.shimmer.ShimmerFrameLayout
                 android:id="@+id/mShimmerViewContainer"
                 android:layout_width="match_parent"
@@ -288,24 +303,22 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/layout_image"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="230dp"
             android:layout_below="@id/title_upload_tps"
-            android:layout_centerHorizontal="true"
-            android:layout_marginHorizontal="20dp"
-            android:orientation="vertical"
-            android:padding="10dp">
+            android:layout_marginHorizontal="16dp"
+            android:layout_centerHorizontal="true">
 
             <ImageView
                 android:id="@+id/image_tps"
-                android:layout_width="200dp"
+                android:layout_width="match_parent"
                 android:layout_height="200dp"
-                android:layout_centerInParent="true"
-                android:src="@drawable/ic_img_placeholder"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_centerInParent="true"
+                android:src="@drawable/ic_img_placeholder" />
 
             <ImageButton
                 android:id="@+id/open_camera"
@@ -313,8 +326,9 @@
                 android:layout_height="50dp"
                 android:background="@drawable/round_button"
                 android:src="@drawable/ic_camera"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent" />
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
