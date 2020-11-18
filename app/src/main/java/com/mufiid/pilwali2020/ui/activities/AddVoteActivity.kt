@@ -14,6 +14,7 @@ import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
 import android.view.View
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
@@ -34,7 +35,6 @@ import com.mufiid.pilwali2020.views.ITpsView
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.activity_add_vote.*
 import kotlinx.android.synthetic.main.activity_add_vote.open_camera
-import kotlinx.android.synthetic.main.activity_tps.*
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
@@ -166,10 +166,6 @@ class AddVoteActivity : AppCompatActivity(), IPaslonView, ITpsView {
         )
     }
 
-    override fun onResume() {
-        super.onResume()
-    }
-
     /**
      * function untuk menghidupkan kamera
      *
@@ -230,10 +226,6 @@ class AddVoteActivity : AppCompatActivity(), IPaslonView, ITpsView {
      * */
     private fun rotate(bitmap: Bitmap) {
         val ei = ExifInterface(currentPhotoPath!!)
-        val orientation =
-            ei.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_UNDEFINED)
-        var rotateBitmap: Bitmap? = null
-
         val eiValue = ei.getAttribute(ExifInterface.TAG_ORIENTATION)?.toInt()
         if (Build.VERSION.SDK_INT >= 23) {
             when (eiValue) {
@@ -267,7 +259,10 @@ class AddVoteActivity : AppCompatActivity(), IPaslonView, ITpsView {
         matrix.setRotate(i)
         val img = Bitmap.createBitmap(bitmap, 0, 0, bitmap.width, bitmap.height, matrix, true)
         fotoBlangko = img
-        image_blangko.setImageBitmap(img)
+        image_blangko.apply {
+            scaleType = ImageView.ScaleType.CENTER_CROP
+            setImageBitmap(img)
+        }
     }
 
     /**
@@ -306,9 +301,9 @@ class AddVoteActivity : AppCompatActivity(), IPaslonView, ITpsView {
                 ActivityCompat.requestPermissions(
                     this,
                     arrayOf(
-                        android.Manifest.permission.CAMERA,
-                        android.Manifest.permission.READ_EXTERNAL_STORAGE,
-                        android.Manifest.permission.WRITE_EXTERNAL_STORAGE
+                        Manifest.permission.CAMERA,
+                        Manifest.permission.READ_EXTERNAL_STORAGE,
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE
                     ),
                     1
                 )
@@ -461,7 +456,7 @@ class AddVoteActivity : AppCompatActivity(), IPaslonView, ITpsView {
                 .centerCrop()
                 .into(image_blangko)
 
-            open_camera.visibility = View.GONE
+            // open_camera.visibility = View.GONE
         } else {
             image_blangko.setImageResource(R.drawable.ic_img_placeholder)
         }

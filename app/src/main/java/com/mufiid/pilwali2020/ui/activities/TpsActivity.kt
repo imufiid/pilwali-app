@@ -16,9 +16,9 @@ import android.os.Environment
 import android.os.Looper
 import android.provider.MediaStore
 import android.util.Log
-import android.view.Menu
-import android.view.MenuItem
 import android.view.View
+import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
@@ -42,9 +42,7 @@ import kotlinx.coroutines.launch
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
-import java.io.ByteArrayOutputStream
 import java.io.File
-import java.io.FileOutputStream
 import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.*
@@ -89,6 +87,10 @@ class TpsActivity : AppCompatActivity(), MySimpleLocation.MySimpleLocationCallba
             doSimpan()
         }
 
+        refresh_location.setOnClickListener {
+            getPermissionGps()
+        }
+
         getPermissionTakePhoto()
 
     }
@@ -100,10 +102,10 @@ class TpsActivity : AppCompatActivity(), MySimpleLocation.MySimpleLocationCallba
         val long = RequestBody.create("text/plain".toMediaTypeOrNull(), longitude.text.toString())
         val username =
             Constants.getUserData(this)?.username?.let {
-                    RequestBody.create(
-                        "text/plain".toMediaTypeOrNull(),
-                        it
-                    )
+                RequestBody.create(
+                    "text/plain".toMediaTypeOrNull(),
+                    it
+                )
             }
         val id_tps =
             Constants.getUserData(this)?.idTps?.let {
@@ -185,35 +187,10 @@ class TpsActivity : AppCompatActivity(), MySimpleLocation.MySimpleLocationCallba
         matrix.setRotate(i)
         val img = Bitmap.createBitmap(bitmap, 0, 0, bitmap.width, bitmap.height, matrix, true)
         fotoTPS = img
-        image_tps.setImageBitmap(img)
-    }
-
-    /**
-     * function to create file
-     * @author imam mufiid
-     * @param bitmap => foto TPS
-     *
-     * */
-    private fun createFile(bitmap: Bitmap?): File? {
-        val file = File(
-            getExternalFilesDir(Environment.DIRECTORY_PICTURES)
-            , System.currentTimeMillis().toString() + "_image.jpg"
-        )
-
-        val bos = ByteArrayOutputStream()
-        bitmap?.compress(Bitmap.CompressFormat.JPEG, 100, bos)
-        val bitmapData: ByteArray = bos.toByteArray()
-
-        //write the bytes in file
-        try {
-            val fos = FileOutputStream(file)
-            fos.write(bitmapData)
-            fos.flush()
-            fos.close()
-        } catch (e: IOException) {
-            e.printStackTrace()
+        image_tps.apply {
+            scaleType = ImageView.ScaleType.CENTER_CROP
+            setImageBitmap(img)
         }
-        return file
     }
 
 
@@ -225,24 +202,23 @@ class TpsActivity : AppCompatActivity(), MySimpleLocation.MySimpleLocationCallba
         }
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.menu_refresh_tps, menu)
-        return true
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            R.id.refresh -> {
-                getPermissionGps()
-            }
-        }
-        return super.onOptionsItemSelected(item)
-    }
+//    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+//        menuInflater.inflate(R.menu.menu_refresh_tps, menu)
+//        return true
+//    }
+//
+//    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+//        when (item.itemId) {
+//            R.id.refresh -> {
+//                getPermissionGps()
+//            }
+//        }
+//        return super.onOptionsItemSelected(item)
+//    }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
-//            val imageBitmap = data?.extras?.get("data") as Bitmap
             val imageBitmap = BitmapFactory.decodeFile(currentPhotoPath)
             rotate(imageBitmap)
         }
@@ -286,8 +262,8 @@ class TpsActivity : AppCompatActivity(), MySimpleLocation.MySimpleLocationCallba
                 ActivityCompat.requestPermissions(
                     this,
                     arrayOf(
-                        android.Manifest.permission.ACCESS_FINE_LOCATION,
-                        android.Manifest.permission.ACCESS_COARSE_LOCATION
+                        Manifest.permission.ACCESS_FINE_LOCATION,
+                        Manifest.permission.ACCESS_COARSE_LOCATION
                     ),
                     1
                 )
@@ -331,9 +307,9 @@ class TpsActivity : AppCompatActivity(), MySimpleLocation.MySimpleLocationCallba
                 ActivityCompat.requestPermissions(
                     this,
                     arrayOf(
-                        android.Manifest.permission.CAMERA,
-                        android.Manifest.permission.READ_EXTERNAL_STORAGE,
-                        android.Manifest.permission.WRITE_EXTERNAL_STORAGE
+                        Manifest.permission.CAMERA,
+                        Manifest.permission.READ_EXTERNAL_STORAGE,
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE
                     ),
                     1
                 )
@@ -379,10 +355,10 @@ class TpsActivity : AppCompatActivity(), MySimpleLocation.MySimpleLocationCallba
             2 -> {
                 // post
                 loading?.let {
-                    it?.setMessage(resources.getString(R.string.please_wait))
-                    it?.setCanceledOnTouchOutside(false)
-                    it?.setCancelable(false)
-                    it?.show()
+                    it.setMessage(resources.getString(R.string.please_wait))
+                    it.setCanceledOnTouchOutside(false)
+                    it.setCancelable(false)
+                    it.show()
                 }
             }
         }
@@ -422,7 +398,7 @@ class TpsActivity : AppCompatActivity(), MySimpleLocation.MySimpleLocationCallba
                 .centerCrop()
                 .into(image_tps)
 
-            open_camera.visibility = View.GONE
+            // open_camera.visibility = View.GONE
         } else {
             image_tps.setImageResource(R.drawable.ic_img_placeholder)
         }
@@ -433,6 +409,11 @@ class TpsActivity : AppCompatActivity(), MySimpleLocation.MySimpleLocationCallba
             latitude.setText(data.lati)
             longitude.setText(data.longi)
         }
+
+        if (data.isDefault == "0") {
+            // tidak bisa update
+            refresh_location.visibility = View.GONE
+        }
     }
 
     override fun failedGetDataTps(message: String?) {
@@ -440,7 +421,7 @@ class TpsActivity : AppCompatActivity(), MySimpleLocation.MySimpleLocationCallba
     }
 
     override fun messageSuccess(message: String?) {
-        open_camera.visibility = View.GONE
+        refresh_location.visibility = View.GONE
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
 
