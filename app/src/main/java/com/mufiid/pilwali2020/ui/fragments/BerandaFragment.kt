@@ -58,7 +58,6 @@ class BerandaFragment : Fragment(), ITpsView, IConfigView {
     private var dptb: TextView? = null
     private var dpk: TextView? = null
     private var dph: TextView? = null
-    private var difabel: TextView? = null
     private var tps: TextView? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -78,24 +77,22 @@ class BerandaFragment : Fragment(), ITpsView, IConfigView {
         super.onViewCreated(view, savedInstanceState)
 
         // Inflate the layout for this fragment
-        val btnPilwali = view.findViewById<ImageButton>(R.id.btn_pilwali) as ImageButton
-        val btnTps = view.findViewById<ImageButton>(R.id.btn_tps) as ImageButton
-        val btnMonitoring = view.findViewById<ImageButton>(R.id.btn_monitor) as ImageButton
-        val btnBlangko = view.findViewById<ImageButton>(R.id.btn_blangko) as ImageButton
+        val btnPilwali = view.findViewById(R.id.btn_pilwali) as ImageButton
+        val btnTps = view.findViewById(R.id.btn_tps) as ImageButton
+        val btnMonitoring = view.findViewById(R.id.btn_monitor) as ImageButton
+        val btnBlangko = view.findViewById(R.id.btn_blangko) as ImageButton
         shimmer =
-            view.findViewById<View>(R.id.mShimmerViewContainer) as com.facebook.shimmer.ShimmerFrameLayout
+            view.findViewById<View>(R.id.mShimmerViewContainer) as ShimmerFrameLayout
         shimmerImageSlider =
-            view.findViewById<View>(R.id.shimmer_image_slider_container) as com.facebook.shimmer.ShimmerFrameLayout
-        val jumlahPemilih = view.findViewById<View>(R.id.jumlah_pemilih)
-        val layoutTitle = view.findViewById<LinearLayout>(R.id.layout_title) as LinearLayout
+            view.findViewById<View>(R.id.shimmer_image_slider_container) as ShimmerFrameLayout
         viewPager = view.findViewById(R.id.banner_viewPager) as ViewPager
         indicator = view.findViewById(R.id.indicator) as CirclePageIndicator
 
         // init id jumlah_pemilih
-        dpt = view.findViewById<TextView>(R.id.dpt) as TextView
-        dptb = view.findViewById<TextView>(R.id.dptb) as TextView
-        dpk = view.findViewById<TextView>(R.id.dpk) as TextView
-        dph = view.findViewById<TextView>(R.id.dph) as TextView
+        dpt = view.findViewById(R.id.dpt) as TextView
+        dptb = view.findViewById(R.id.dptb) as TextView
+        dpk = view.findViewById(R.id.dpk) as TextView
+        dph = view.findViewById(R.id.dph) as TextView
         tps = view.findViewById(R.id.subTitle) as TextView
 
         // init presenter
@@ -190,16 +187,6 @@ class BerandaFragment : Fragment(), ITpsView, IConfigView {
                 }
             }
         }
-    }
-
-
-    companion object {
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            BerandaFragment().apply {
-                arguments = Bundle().apply {
-                }
-            }
     }
 
     override fun onResume() {
@@ -376,7 +363,7 @@ class BerandaFragment : Fragment(), ITpsView, IConfigView {
         } else {
             val formatter = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
             val dateConfig = formatter.parse(data.dDay)
-            val diff = ((((dateConfig.time - Date().time) / 1000) / 60) / 60) / 24
+            // val diff = ((((dateConfig.time - Date().time) / 1000) / 60) / 60) / 24
 
             // checking status and date
             if (data.status == "production" && Date() < dateConfig) {

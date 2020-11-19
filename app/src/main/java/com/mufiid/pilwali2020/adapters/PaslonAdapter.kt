@@ -32,7 +32,7 @@ class PaslonAdapter(val data: List<Paslon>) : RecyclerView.Adapter<PaslonAdapter
         return Holder(view)
     }
 
-    override fun getItemCount(): Int = data.size ?: 0
+    override fun getItemCount(): Int = data.size
 
     override fun onBindViewHolder(holder: Holder, position: Int) {
         holder.onBind(data[position])
@@ -75,7 +75,6 @@ class PaslonAdapter(val data: List<Paslon>) : RecyclerView.Adapter<PaslonAdapter
 
                 override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                     // code
-                     val suara_paslon = s.toString()
                     data[adapterPosition].jumlah_suara_di_tps = itemView.et_suara_paslon.text.toString()
                 }
 

@@ -10,26 +10,20 @@ import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
-import android.util.Log
-import android.view.View
 import android.widget.Toast
-import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import com.bumptech.glide.Glide
 import com.mufiid.pilwali2020.R
 import com.mufiid.pilwali2020.models.User
 import com.mufiid.pilwali2020.presenters.UserPresenter
 import com.mufiid.pilwali2020.utils.Constants
 import com.mufiid.pilwali2020.views.IUserView
-import id.zelory.compressor.Compressor
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.activity_edit_profile.*
 import kotlinx.android.synthetic.main.activity_tps.*
-import kotlinx.android.synthetic.main.fragment_profil.*
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import java.io.File
-import kotlin.math.log
 
 @Suppress("DEPRECATION")
 class EditProfileActivity : AppCompatActivity(), IUserView {
@@ -119,7 +113,7 @@ class EditProfileActivity : AppCompatActivity(), IUserView {
             val columnIndex = c?.getColumnIndex(filePath[0])
             val picturePath = c?.getString(columnIndex!!)
             c?.close()
-            var thumbnail = BitmapFactory.decodeFile(picturePath)
+            // var thumbnail = BitmapFactory.decodeFile(picturePath)
             currentPhotoPath = picturePath
             image_profile.setImageURI(path)
         }

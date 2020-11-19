@@ -24,17 +24,9 @@ class AddVotePresenter(private val paslonView: IPaslonView) {
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
                 when (it.status) {
-                    200 -> {
-                        paslonView.getDataPaslon(it.message, it.data!!)
-                    }
-                    400 -> {
-                        val msg = "Password anda salah!"
-                        paslonView.failedGetDataPaslon(it.message)
-                    }
-                    else -> {
-                        val msg = "Username anda tidak ditemukan!"
-                        paslonView.failedGetDataPaslon(it.message)
-                    }
+                    200 -> paslonView.getDataPaslon(it.message, it.data!!)
+                    400 -> paslonView.failedGetDataPaslon(it.message)
+                    else -> paslonView.failedGetDataPaslon(it.message)
                 }
                 paslonView.hideLoadingPaslon(1)
             }, {

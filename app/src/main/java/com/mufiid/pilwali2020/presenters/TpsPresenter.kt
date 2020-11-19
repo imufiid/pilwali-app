@@ -27,10 +27,7 @@ class TpsPresenter(private val tpsView: ITpsView) {
             .subscribe({
                 when (it.status) {
                     200 -> tpsView.getDataTps(it.message, it.data!!)
-                    else -> {
-                        val msg = "Data Tps tidak ditemukan!"
-                        tpsView.failedGetDataTps(it.message)
-                    }
+                    else -> tpsView.failedGetDataTps(it.message)
                 }
                 tpsView.hideLoadingTps(1)
             }, {
