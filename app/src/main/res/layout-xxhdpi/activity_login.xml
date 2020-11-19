@@ -39,9 +39,9 @@
             android:id="@+id/tv_selamatDatang"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/app_name"
+            android:text="@string/app_name_secondary"
             android:textStyle="bold"
-            android:textSize="28sp"
+            android:textSize="17sp"
             android:textColor="@color/colorPrimaryTextIcon"
             />
 
@@ -51,8 +51,8 @@
             android:layout_height="wrap_content"
             android:text="@string/login_to_next"
             android:textStyle="bold"
-            android:textSize="16sp"
-            android:layout_marginTop="4dp"
+            android:textSize="14sp"
+            android:layout_marginTop="24dp"
             />
 
         <LinearLayout
@@ -60,7 +60,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="8dp"
             android:theme="@style/Theme.MaterialComponents.Light">
 
             <com.google.android.material.textfield.TextInputLayout

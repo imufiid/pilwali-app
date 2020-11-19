@@ -43,7 +43,7 @@ class ProfilFragment : Fragment(), IUserView {
         val tvUsername = view.findViewById<TextView>(R.id.username_user) as TextView
         val appVersion = view.findViewById<TextView>(R.id.app_version)
 
-        appVersion.text = "${getString(R.string.app_versions, BuildConfig.VERSION_NAME)} \n ${getString(R.string.copyright)}"
+        appVersion.text = getString(R.string.app_versions, BuildConfig.VERSION_NAME)
 
         editProfile.setOnClickListener {
             startActivity(Intent(context, EditProfileActivity::class.java))
