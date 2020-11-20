@@ -48,7 +48,7 @@ class PilwaliActivity : AppCompatActivity(), ITpsView, IPilwaliView {
         val dph = jumlah_dph.text.toString()
         val userData = Constants.getUserData(this)
         if (dpt.isEmpty() || dptb.isEmpty() || dpk.isEmpty() || dph.isEmpty()) {
-            Toast.makeText(this, "Form tidak boleh kosong", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, getString(R.string.form_is_required), Toast.LENGTH_SHORT).show()
         } else {
             presenter?.postJumlahPemilih(
                 userData?.idTps,
@@ -85,7 +85,7 @@ class PilwaliActivity : AppCompatActivity(), ITpsView, IPilwaliView {
             }
             2 -> {
                 // code ...
-                loading?.setMessage("Mohon tunggu sebentar...")
+                loading?.setMessage(getString(R.string.please_wait))
                 loading?.show()
             }
         }
@@ -103,7 +103,6 @@ class PilwaliActivity : AppCompatActivity(), ITpsView, IPilwaliView {
                 card_status.visibility = View.VISIBLE
             }
             2 -> {
-                // ...
                 loading?.dismiss()
             }
         }
@@ -148,9 +147,8 @@ class PilwaliActivity : AppCompatActivity(), ITpsView, IPilwaliView {
         when(verification) {
             1 -> {
                 ic_verifikasi.setImageResource(R.drawable.ic_verification)
-                tv_verifikasi.text = "Sudah diverifikasi"
+                tv_verifikasi.text = getString(R.string.verification)
                 btn_simpan.visibility = View.GONE
-                // btn_add.visibility = View.GONE
 
                 jumlah_dpt.isEnabled = false
                 jumlah_dptb.isEnabled = false
@@ -159,7 +157,7 @@ class PilwaliActivity : AppCompatActivity(), ITpsView, IPilwaliView {
             }
             else -> {
                 ic_verifikasi.setImageResource(R.drawable.ic_unverification)
-                tv_verifikasi.text = "Belum diverifikasi"
+                tv_verifikasi.text = getString(R.string.not_verification)
             }
         }
     }

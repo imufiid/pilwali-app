@@ -26,6 +26,7 @@
     <string name="monitoring">Monitoring</string>
     <string name="blangko">C1 Plano</string>
     <string name="login_to_next">Masuk untuk melanjutkan</string>
+    <string name="rincian_daftar_pemilih">Rincian Daftar Pemilih</string>
 
     <string name="pesan">pesan</string>
     <string name="sorry">Mohon maaf</string>
@@ -39,6 +40,9 @@
     <string name="confirm_logout">Konfirmasi keluar</string>
     <string name="question_logout">Anda yakin keluar?</string>
     <string name="username_password_must_not_be_null">Username dan Password harus diisi!</string>
+    <string name="verification">Sudah diverifikasi</string>
+    <string name="not_verification">Belum diverifikasi</string>
+    <string name="form_is_required">Form tidak boleh kosong</string>
 
     <string name="keluar">Keluar</string>
     <string name="cancel">Cancel</string>

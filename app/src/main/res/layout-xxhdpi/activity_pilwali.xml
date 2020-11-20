@@ -15,7 +15,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-
             <LinearLayout
                 android:id="@+id/layout_daftar_pemilih"
                 android:layout_width="match_parent"
@@ -30,7 +29,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Rincian Daftar Pemilih"
+                    android:text="@string/rincian_daftar_pemilih"
                     android:textColor="@color/colorPrimaryTextIcon"
                     android:textSize="20sp"
                     android:textStyle="bold" />
