@@ -245,21 +245,6 @@
                     android:textColor="@drawable/edittext_text_color" />
             </LinearLayout>
 
-            <Button
-                android:id="@+id/refresh_location"
-                android:layout_width="wrap_content"
-                android:layout_height="16dp"
-                android:background="@null"
-                android:layout_gravity="start"
-                android:layout_marginTop="8dp"
-                android:layout_marginStart="24dp"
-                style="?android:attr/borderlessButtonStyle"
-                android:text="@string/refresh"
-                android:textColor="@color/colorBlue"
-                android:textAllCaps="false"
-                android:textSize="14sp"
-                android:drawableStart="@drawable/ic_refresh"/>
-
             <com.facebook.shimmer.ShimmerFrameLayout
                 android:id="@+id/mShimmerViewContainer"
                 android:layout_width="match_parent"
@@ -274,6 +259,21 @@
                     layout="@layout/shimmer_latlong" />
 
             </com.facebook.shimmer.ShimmerFrameLayout>
+
+            <Button
+                android:id="@+id/refresh_location"
+                android:layout_width="wrap_content"
+                android:layout_height="16dp"
+                android:background="@null"
+                android:layout_gravity="start"
+                android:layout_marginTop="8dp"
+                android:layout_marginStart="24dp"
+                style="?android:attr/borderlessButtonStyle"
+                android:text="@string/refresh"
+                android:textColor="@color/colorBlue"
+                android:textAllCaps="false"
+                android:textSize="14sp"
+                android:drawableStart="@drawable/ic_refresh"/>
         </LinearLayout>
 
 
