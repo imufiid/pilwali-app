@@ -50,13 +50,7 @@ class LoginActivity : AppCompatActivity(), IAuthView, ILoadingView {
     }
 
     override fun successLogin(message: String?, user: User) {
-//        Constants.setIDUser(this, user.id.toString())
-//        Constants.setUsername(this, user.username.toString())
-//        Constants.setApiKey(this, user.api_key.toString())
-//        Constants.setIDTps(this, user.idTps.toString())
-        
         Constants.setUserData(this, user)
-
         Constants.setISLOGGEDIN(this, true)
 
         showToast(resources.getString(R.string.success_login))
@@ -89,9 +83,5 @@ class LoginActivity : AppCompatActivity(), IAuthView, ILoadingView {
 
     private fun showToast(message: String) {
         CustomView.customToast(this, message, true)
-//        Toast.makeText(this, message, Toast.LENGTH_SHORT).apply {
-//            setGravity(Gravity.CENTER, 0, 0)
-//        }.show()
-
     }
 }
