@@ -14,7 +14,6 @@ class AuthPresenter(private val authView: IAuthView, private val loading: ILoadi
      * fungsi untuk login user
      *
      * @author Imam Mufiid
-     *
      * @param username => username user
      * @param password => password user
      *
@@ -26,19 +25,13 @@ class AuthPresenter(private val authView: IAuthView, private val loading: ILoadi
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
                 when (it.status) {
-                    200 -> {
-                        authView.successLogin(it.message, it.data!!)
-                    }
-                    400 -> {
-                        authView.failedLogin(it.message)
-                    }
-                    else -> {
-                        authView.failedLogin(it.message)
-                    }
+                    200 -> authView.successLogin(it.message, it.data!!)
+                    400 -> authView.failedLogin(it.message)
+                    else -> authView.failedLogin(it.message)
                 }
                 loading.hideLoading()
             },{
-                // code ...
+                authView.failedLogin(it.message)
                 loading.hideLoading()
             }))
     }

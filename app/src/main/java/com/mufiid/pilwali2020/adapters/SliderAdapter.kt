@@ -11,8 +11,7 @@ import com.bumptech.glide.Glide
 import com.mufiid.pilwali2020.R
 
 class SliderAdapter(
-    private val context: Context,
-//  private val stringList: List<String>
+    context: Context,
     private val stringList: List<String?>?
 ) : PagerAdapter() {
 
@@ -37,13 +36,9 @@ class SliderAdapter(
         return imageLayout
     }
 
-    override fun restoreState(state: Parcelable?, loader: ClassLoader? ) {
+    override fun restoreState(state: Parcelable?, loader: ClassLoader? ) {}
 
-    }
-
-    override fun saveState(): Parcelable? {
-        return null
-    }
+    override fun saveState(): Parcelable? = null
 
     override fun isViewFromObject(view: View, `object`: Any) = view == `object`
 

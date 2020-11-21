@@ -25,9 +25,12 @@ class BerandaActivity : AppCompatActivity(), BottomNavigationView.OnNavigationIt
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_beranda)
         supportActionBar?.hide()
+        init()
+    }
+
+    private fun init() {
         loadFragment(BerandaFragment())
         bottomNavigationView.setOnNavigationItemSelectedListener(this)
-
         // check
         checkPermission()
         checkLogin()
@@ -63,7 +66,6 @@ class BerandaActivity : AppCompatActivity(), BottomNavigationView.OnNavigationIt
     private fun loadFragment(fragment: Fragment) {
         supportFragmentManager
             .beginTransaction()
-            // .setCustomAnimations(R.anim.design_bottom_sheet_slide_in, R.anim.design_bottom_sheet_slide_out)
             .replace(R.id.frame_layout, fragment, fragment.javaClass.simpleName)
             .commit()
     }
@@ -89,11 +91,11 @@ class BerandaActivity : AppCompatActivity(), BottomNavigationView.OnNavigationIt
                 ActivityCompat.requestPermissions(
                     this,
                     arrayOf(
-                        android.Manifest.permission.ACCESS_FINE_LOCATION,
-                        android.Manifest.permission.ACCESS_COARSE_LOCATION,
-                        android.Manifest.permission.CAMERA,
-                        android.Manifest.permission.READ_EXTERNAL_STORAGE,
-                        android.Manifest.permission.WRITE_EXTERNAL_STORAGE
+                        Manifest.permission.ACCESS_FINE_LOCATION,
+                        Manifest.permission.ACCESS_COARSE_LOCATION,
+                        Manifest.permission.CAMERA,
+                        Manifest.permission.READ_EXTERNAL_STORAGE,
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE
                     ),
                     1
                 )

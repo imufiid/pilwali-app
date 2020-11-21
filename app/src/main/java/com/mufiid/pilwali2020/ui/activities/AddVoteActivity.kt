@@ -34,7 +34,6 @@ import com.mufiid.pilwali2020.views.IPaslonView
 import com.mufiid.pilwali2020.views.ITpsView
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.activity_add_vote.*
-import kotlinx.android.synthetic.main.activity_add_vote.open_camera
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
@@ -45,7 +44,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 @Suppress("DEPRECATION")
-class AddVoteActivity : AppCompatActivity(), IPaslonView, ITpsView {
+class AddVoteActivity : AppCompatActivity(), IPaslonView, ITpsView, View.OnClickListener {
     private val REQUEST_IMAGE_CAPTURE = 1
     private lateinit var viewManager: RecyclerView.LayoutManager
     private var loading: ProgressDialog? = null
@@ -57,44 +56,37 @@ class AddVoteActivity : AppCompatActivity(), IPaslonView, ITpsView {
     private var currentPhotoPath: String? = ""
     private val suaraPaslon = mutableListOf<Int>()
     private val idPaslon = mutableListOf<Int>()
-    private var verifTps: Int? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_vote)
 
-        // setting for action bar
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        supportActionBar?.title = "Perolehan Suara"
+        setSupportActionBar()
+        init()
+    }
 
-        // setting for recycler view
+    private fun setSupportActionBar() {
+        supportActionBar?.let {
+            it.setDisplayHomeAsUpEnabled(true)
+            it.title = getString(R.string.perolehan_suara)
+        }
+    }
+
+    private fun init() {
+        open_camera.setOnClickListener(this)
+        btn_save.setOnClickListener(this)
         viewManager = LinearLayoutManager(this)
-
-        // check Verification
-        checkVerification()
-
-        // init presenter
         presenter = AddVotePresenter(this)
         tpsPresenter = TpsPresenter(this)
-
-        // init progress dialog
         loading = ProgressDialog(this)
 
-        // event listener
-        open_camera.setOnClickListener {
-            captureBlangko()
-        }
-        btn_save.setOnClickListener {
-            doUpload()
-        }
+        checkVerification()
+        getPermission()
 
-        // running function for first time
         presenter?.getPaslon(Constants.getUserData(this)?.idTps)
         Constants.getUserData(this)?.idTps?.let {
             tpsPresenter?.getDataTps(it)
         }
-        getPermission()
-
     }
 
     override fun onDestroy() {
@@ -134,10 +126,13 @@ class AddVoteActivity : AppCompatActivity(), IPaslonView, ITpsView {
 
         // convert value to Request Body
         val suaraTidakSah = jumlah_suara_tidak_sah.text.toString()
-        val idTps = Constants.getUserData(this)?.idTps?.toRequestBody("text/plain".toMediaTypeOrNull())
-        val username = Constants.getUserData(this)?.username?.toRequestBody("text/plain".toMediaTypeOrNull())
+        val idTps =
+            Constants.getUserData(this)?.idTps?.toRequestBody("text/plain".toMediaTypeOrNull())
+        val username =
+            Constants.getUserData(this)?.username?.toRequestBody("text/plain".toMediaTypeOrNull())
         val suara_tidak_sah = suaraTidakSah.toRequestBody("text/plain".toMediaTypeOrNull())
-        val apiKey = Constants.getUserData(this)?.api_key?.toRequestBody("text/plain".toMediaTypeOrNull())
+        val apiKey =
+            Constants.getUserData(this)?.api_key?.toRequestBody("text/plain".toMediaTypeOrNull())
 
         if (currentPhotoPath != "") {
             val pictBlangko = File(currentPhotoPath)
@@ -172,7 +167,7 @@ class AddVoteActivity : AppCompatActivity(), IPaslonView, ITpsView {
      * @author Imam Mufiid
      *
      * */
-    private fun captureBlangko() {
+    private fun startCaptureBlangko() {
         Intent(MediaStore.ACTION_IMAGE_CAPTURE).also { takePictureIntent ->
             // Ensure that there's a camera activity to handle the intent
             takePictureIntent.resolveActivity(packageManager)?.also {
@@ -493,5 +488,12 @@ class AddVoteActivity : AppCompatActivity(), IPaslonView, ITpsView {
      * */
     override fun messageFailed(message: String?) {
         TODO("Not yet implemented")
+    }
+
+    override fun onClick(v: View?) {
+        when (v?.id) {
+            R.id.open_camera -> startCaptureBlangko()
+            R.id.btn_save -> doUpload()
+        }
     }
 }

@@ -14,7 +14,6 @@ class AddVotePresenter(private val paslonView: IPaslonView) {
 
     /**
      * mengambil data paslon
-     *
      * @author Imam Mufiid
      * */
     fun getPaslon(id_tps: String?) {
@@ -30,7 +29,7 @@ class AddVotePresenter(private val paslonView: IPaslonView) {
                 }
                 paslonView.hideLoadingPaslon(1)
             }, {
-                // code ...
+                paslonView.failedGetDataPaslon(it.message)
                 paslonView.hideLoadingPaslon(1)
             })
         )
@@ -40,7 +39,6 @@ class AddVotePresenter(private val paslonView: IPaslonView) {
      * post data perolehan suara
      *
      * @author Imam Mufiid
-     *
      * @param id_tps => id tps berdasarkan user
      * @param suara_tidak_sah => jumlah suara tidak sah di tps bersangkutan
      * @param id_paslon => id masing-masing paslon
@@ -65,12 +63,8 @@ class AddVotePresenter(private val paslonView: IPaslonView) {
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
                 when (it.status) {
-                    201 -> {
-                        paslonView.failedGetDataPaslon(it.message)
-                    }
-                    400 -> {
-                        paslonView.failedGetDataPaslon(it.message)
-                    }
+                    201 -> paslonView.failedGetDataPaslon(it.message)
+                    400 -> paslonView.failedGetDataPaslon(it.message)
                 }
                 paslonView.hideLoadingPaslon(2)
             }, {

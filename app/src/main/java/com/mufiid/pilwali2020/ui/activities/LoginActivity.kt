@@ -2,12 +2,10 @@ package com.mufiid.pilwali2020.ui.activities
 
 import android.app.ProgressDialog
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
-import android.util.Log
-import android.view.Gravity
-import android.widget.Toast
+import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import com.mufiid.pilwali2020.R
 import com.mufiid.pilwali2020.models.User
 import com.mufiid.pilwali2020.presenters.AuthPresenter
@@ -19,7 +17,7 @@ import io.reactivex.rxjava3.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.activity_login.*
 
 @Suppress("DEPRECATION")
-class LoginActivity : AppCompatActivity(), IAuthView, ILoadingView {
+class LoginActivity : AppCompatActivity(), IAuthView, ILoadingView, View.OnClickListener {
     private var presenter: AuthPresenter? = null
     private var progressDialog: ProgressDialog? = null
 
@@ -28,20 +26,7 @@ class LoginActivity : AppCompatActivity(), IAuthView, ILoadingView {
         setContentView(R.layout.activity_login)
 
         supportActionBar?.hide()
-        progressDialog = ProgressDialog(this)
-        presenter = AuthPresenter(this, this)
-        checkLogin()
-
-        btn_login.setOnClickListener {
-            val username = et_username.text.toString()
-            val password = et_password.text.toString()
-            if (username == "" || password == "") {
-                showToast(getString(R.string.username_password_must_not_be_null))
-            } else {
-                presenter?.login(username, password)
-            }
-
-        }
+        init()
     }
 
     override fun onDestroy() {
@@ -83,5 +68,26 @@ class LoginActivity : AppCompatActivity(), IAuthView, ILoadingView {
 
     private fun showToast(message: String) {
         CustomView.customToast(this, message, true)
+    }
+
+    private fun init() {
+        progressDialog = ProgressDialog(this)
+        presenter = AuthPresenter(this, this)
+        checkLogin()
+        btn_login.setOnClickListener(this)
+    }
+
+    override fun onClick(v: View?) {
+        when (v?.id) {
+            R.id.btn_login -> {
+                val username = et_username.text.toString()
+                val password = et_password.text.toString()
+                if (username == "" || password == "") {
+                    showToast(getString(R.string.username_password_must_not_be_null))
+                } else {
+                    presenter?.login(username, password)
+                }
+            }
+        }
     }
 }

@@ -14,12 +14,8 @@ class ConfigPresenter(private val configView: IConfigView) {
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
                 when(it.status) {
-                    200 -> {
-                        configView.getSuccessConfig(it.message, it.data!!)
-                    }
-                    else -> {
-                        configView.getFailedConfig(it.message)
-                    }
+                    200 -> configView.getSuccessConfig(it.message, it.data!!)
+                    else -> configView.getFailedConfig(it.message)
                 }
                 configView.hideLoadingConfig()
             }, {

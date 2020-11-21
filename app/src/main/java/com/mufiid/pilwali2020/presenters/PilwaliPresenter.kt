@@ -13,7 +13,6 @@ class PilwaliPresenter(private val pilwaliView: IPilwaliView) {
      * atau belum
      *
      * @author Imam Mufiid
-     *
      * @param id_tps => id tps
      *
      * */
@@ -24,12 +23,8 @@ class PilwaliPresenter(private val pilwaliView: IPilwaliView) {
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
                 when(it.status) {
-                    200 -> {
-                        pilwaliView.success(it.message, it.verification)
-                    }
-                    else -> {
-                        pilwaliView.failed(it.message)
-                    }
+                    200 -> pilwaliView.success(it.message, it.verification)
+                    else -> pilwaliView.failed(it.message)
                 }
                 pilwaliView.hideLoadingPilwali()
             }, {

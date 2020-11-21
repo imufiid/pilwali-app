@@ -14,9 +14,7 @@ class UserPresenter(private val userView: IUserView) {
      * fungsi untuk mengambil data user by ID
      *
      * @author Imam Mufiid
-     *
      * @param id_user => id user
-     *
      * */
     fun getUserByID(id_user: String) {
         userView.isLoadingUser(1)
@@ -26,12 +24,8 @@ class UserPresenter(private val userView: IUserView) {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
                     when (it.status) {
-                        200 -> {
-                            userView.getDataUser(it.message, it.data!!)
-                        }
-                        else -> {
-                            userView.failedMessage(it.message)
-                        }
+                        200 -> userView.getDataUser(it.message, it.data!!)
+                        else -> userView.failedMessage(it.message)
                     }
                     userView.hideLoadingUser(1)
                 }, {
@@ -46,12 +40,10 @@ class UserPresenter(private val userView: IUserView) {
      * fungsi untuk update data user by ID
      *
      * @author Imam Mufiid
-     *
      * @param id_user => id user
      * @param username => username user
      * @param nama => nama user
      * @param passwordNew => password baru user
-     *
      * */
     fun updateUser(
         id_user: RequestBody?,
@@ -69,12 +61,8 @@ class UserPresenter(private val userView: IUserView) {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
                     when (it.status) {
-                        201 -> {
-                            userView.successMessage(it.message)
-                        }
-                        400 -> {
-                            userView.failedMessage(it.message)
-                        }
+                        201 -> userView.successMessage(it.message)
+                        400 -> userView.failedMessage(it.message)
                     }
                     userView.hideLoadingUser(2)
                 }, {
@@ -82,6 +70,5 @@ class UserPresenter(private val userView: IUserView) {
                     userView.hideLoadingUser(2)
                 })
         )
-
     }
 }

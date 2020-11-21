@@ -1,7 +1,6 @@
 package com.mufiid.pilwali2020.ui.activities
 
 import android.annotation.SuppressLint
-import android.app.ProgressDialog
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
@@ -24,14 +23,15 @@ class MonitoringActivity : AppCompatActivity() {
         setContentView(R.layout.activity_monitoring)
 
         supportActionBar?.title = resources.getString(R.string.title_monitoring_perhitungan)
-        // set web view
-        wv_monitoring.loadUrl(Constants.URL_WEBVIEW)
-        wv_monitoring.settings.apply {
-            javaScriptEnabled = true
-        }
-        wv_monitoring.webViewClient = WebViewClient()
 
-        // ....
+        wv_monitoring?.let {
+            it.loadUrl(Constants.URL_WEBVIEW)
+            it.settings.apply {
+                javaScriptEnabled = true
+            }
+            it.webViewClient = WebViewClient()
+        }
+
         progressBar = findViewById<View>(R.id.progress_bar) as ProgressBar
         progress_bar?.visibility = View.VISIBLE
     }

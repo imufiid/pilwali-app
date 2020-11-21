@@ -36,7 +36,6 @@ class PaslonAdapter(val data: List<Paslon>) : RecyclerView.Adapter<PaslonAdapter
 
     override fun onBindViewHolder(holder: Holder, position: Int) {
         holder.onBind(data[position])
-        holder.itemView.et_suara_paslon
         when(Constants.getVerification(context)) {
             1 -> {
                 holder.itemView.et_suara_paslon.isEnabled = false
@@ -47,11 +46,8 @@ class PaslonAdapter(val data: List<Paslon>) : RecyclerView.Adapter<PaslonAdapter
     @Suppress("DEPRECATION")
     inner class Holder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         fun onBind(get: Paslon?) {
-            Log.d("GET", get.toString())
             itemView.nama_paslon.text = "${get?.noPeserta}. ${get?.nmPeserta}"
             itemView.et_suara_paslon.setText(get?.jumlah_suara_di_tps.toString())
-
-
 
             // get last item
             if(position == data.size-1) {
@@ -64,12 +60,11 @@ class PaslonAdapter(val data: List<Paslon>) : RecyclerView.Adapter<PaslonAdapter
 
             Glide.with(itemView)
                 .load(get?.foto)
-                .placeholder(circularProgressDrawable )
+                .placeholder(circularProgressDrawable)
                 .into(itemView.img_paslon)
 
             itemView.et_suara_paslon.addTextChangedListener(object : TextWatcher {
-                override fun afterTextChanged(s: Editable?) {
-                }
+                override fun afterTextChanged(s: Editable?) {}
 
                 override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
 

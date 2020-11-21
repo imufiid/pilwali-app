@@ -2,10 +2,10 @@ package com.mufiid.pilwali2020.ui.activities
 
 import android.app.ProgressDialog
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import com.mufiid.pilwali2020.R
 import com.mufiid.pilwali2020.models.Tps
 import com.mufiid.pilwali2020.presenters.PilwaliPresenter
@@ -17,28 +17,25 @@ import io.reactivex.rxjava3.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.activity_pilwali.*
 
 @Suppress("DEPRECATION")
-class PilwaliActivity : AppCompatActivity(), ITpsView, IPilwaliView {
+class PilwaliActivity : AppCompatActivity(), ITpsView, IPilwaliView, View.OnClickListener {
     private var presenter: TpsPresenter? = null
     private var pilwaliPresenter: PilwaliPresenter? = null
-    private var loading : ProgressDialog? = null
+    private var loading: ProgressDialog? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_pilwali)
-
         supportActionBar?.title = resources.getString(R.string.title_pilwali)
+        init()
+    }
 
+    private fun init() {
         presenter = TpsPresenter(this)
         pilwaliPresenter = PilwaliPresenter(this)
         loading = ProgressDialog(this)
-
         btn_add.visibility = View.GONE
-        btn_add.setOnClickListener {
-            startActivity(Intent(this, AddVoteActivity::class.java))
-        }
-
-        btn_simpan.setOnClickListener {
-            postDaftarPemilih()
-        }
+        btn_add.setOnClickListener(this)
+        btn_simpan.setOnClickListener(this)
     }
 
     private fun postDaftarPemilih() {
@@ -75,7 +72,7 @@ class PilwaliActivity : AppCompatActivity(), ITpsView, IPilwaliView {
     }
 
     override fun isLoadingTps(state: Int?) {
-        when(state) {
+        when (state) {
             1 -> {
                 mShimmerViewContainer.startShimmer()
                 mShimmerViewContainer.visibility = View.VISIBLE
@@ -94,7 +91,7 @@ class PilwaliActivity : AppCompatActivity(), ITpsView, IPilwaliView {
     }
 
     override fun hideLoadingTps(state: Int?) {
-        when(state) {
+        when (state) {
             1 -> {
                 mShimmerViewContainer.stopShimmer()
                 mShimmerViewContainer.visibility = View.GONE
@@ -115,7 +112,7 @@ class PilwaliActivity : AppCompatActivity(), ITpsView, IPilwaliView {
         jumlah_dpk.setText(data.dpk2)
         jumlah_dph.setText(data.dpph2)
 
-        if(data.dpt2?.toInt()!! > 0) {
+        if (data.dpt2?.toInt()!! > 0) {
             btn_add.visibility = View.VISIBLE
             pilwaliPresenter?.getVerification(Constants.getUserData(this)?.idTps)
         }
@@ -144,7 +141,7 @@ class PilwaliActivity : AppCompatActivity(), ITpsView, IPilwaliView {
 
     override fun success(message: String?, verification: Int?) {
         Constants.setVerification(this, verification!!)
-        when(verification) {
+        when (verification) {
             1 -> {
                 ic_verifikasi.setImageResource(R.drawable.ic_verification)
                 tv_verifikasi.text = getString(R.string.verification)
@@ -164,5 +161,12 @@ class PilwaliActivity : AppCompatActivity(), ITpsView, IPilwaliView {
 
     override fun failed(message: String?) {
         // Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+    }
+
+    override fun onClick(v: View?) {
+        when (v?.id) {
+            R.id.btn_add -> startActivity(Intent(this, AddVoteActivity::class.java))
+            R.id.btn_simpan -> postDaftarPemilih()
+        }
     }
 }

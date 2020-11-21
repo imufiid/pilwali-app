@@ -18,7 +18,6 @@ import android.provider.MediaStore
 import android.util.Log
 import android.view.View
 import android.widget.ImageView
-import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
@@ -26,7 +25,6 @@ import androidx.core.content.FileProvider
 import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import com.bumptech.glide.Glide
 import com.example.locationbasedservice.MySimpleLocation
-import com.google.android.gms.common.api.GoogleApiClient
 import com.google.android.gms.location.*
 import com.google.android.gms.location.LocationServices.getFusedLocationProviderClient
 import com.mufiid.pilwali2020.R
@@ -48,7 +46,8 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 @Suppress("DEPRECATION")
-class TpsActivity : AppCompatActivity(), MySimpleLocation.MySimpleLocationCallback, ITpsView {
+class TpsActivity : AppCompatActivity(), MySimpleLocation.MySimpleLocationCallback, ITpsView,
+    View.OnClickListener {
     private val REQUEST_IMAGE_CAPTURE = 1
     private var alamat_tps = String
     private var loading: ProgressDialog? = null
@@ -57,7 +56,6 @@ class TpsActivity : AppCompatActivity(), MySimpleLocation.MySimpleLocationCallba
     private var part: MultipartBody.Part? = null
     private var currentPhotoPath: String? = ""
     private var fotoTpsApi: String? = null
-    private lateinit var mGoogleApiClient: GoogleApiClient
     private val UPDATE_INTERVAL = 10 * 1000 /* 10 secs */.toLong()
     private val FASTEST_INTERVAL: Long = 2000 /* 2 sec */
 
@@ -70,34 +68,28 @@ class TpsActivity : AppCompatActivity(), MySimpleLocation.MySimpleLocationCallba
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_tps)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        supportActionBar?.title = resources.getString(R.string.title_detail_tps)
 
-        // init progressbar
-        loading = ProgressDialog(this)
-
-        tpsPresenter = TpsPresenter(this)
+        setSupportActionBar()
+        init()
+        initPermission()
         Constants.getUserData(this)?.idTps?.let { tpsPresenter?.getDataTps(it) }
-
-        open_camera.setOnClickListener {
-            captureTPS()
-        }
-
-        btn_simpan.setOnClickListener {
-            doSimpan()
-        }
-
-        refresh_location.setOnClickListener {
-            getPermissionGps()
-        }
-
-        getPermissionTakePhoto()
 
     }
 
+    private fun setSupportActionBar() {
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.title = resources.getString(R.string.title_detail_tps)
+    }
+
+    private fun init() {
+        loading = ProgressDialog(this)
+        tpsPresenter = TpsPresenter(this)
+        open_camera.setOnClickListener(this)
+        btn_simpan.setOnClickListener (this)
+        refresh_location.setOnClickListener(this)
+    }
 
     private fun doSimpan() {
-
         val lat = RequestBody.create("text/plain".toMediaTypeOrNull(), latitude.text.toString())
         val long = RequestBody.create("text/plain".toMediaTypeOrNull(), longitude.text.toString())
         val username =
@@ -160,7 +152,6 @@ class TpsActivity : AppCompatActivity(), MySimpleLocation.MySimpleLocationCallba
 
     private fun rotate(bitmap: Bitmap) {
         val ei = ExifInterface(currentPhotoPath!!)
-
         val eiValue = ei.getAttribute(ExifInterface.TAG_ORIENTATION)?.toInt()
         if (Build.VERSION.SDK_INT >= 23) {
             when (eiValue) {
@@ -179,7 +170,6 @@ class TpsActivity : AppCompatActivity(), MySimpleLocation.MySimpleLocationCallba
                 0 -> rotateImg(bitmap, 0F)
             }
         }
-
     }
 
     private fun rotateImg(bitmap: Bitmap, i: Float) {
@@ -193,7 +183,6 @@ class TpsActivity : AppCompatActivity(), MySimpleLocation.MySimpleLocationCallba
         }
     }
 
-
     override fun onDestroy() {
         super.onDestroy()
         CompositeDisposable().clear()
@@ -201,20 +190,6 @@ class TpsActivity : AppCompatActivity(), MySimpleLocation.MySimpleLocationCallba
             mFusedLocationProviderClient?.removeLocationUpdates(mLocationCallback)
         }
     }
-
-//    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-//        menuInflater.inflate(R.menu.menu_refresh_tps, menu)
-//        return true
-//    }
-//
-//    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-//        when (item.itemId) {
-//            R.id.refresh -> {
-//                getPermissionGps()
-//            }
-//        }
-//        return super.onOptionsItemSelected(item)
-//    }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
@@ -224,7 +199,7 @@ class TpsActivity : AppCompatActivity(), MySimpleLocation.MySimpleLocationCallba
         }
     }
 
-    private fun captureTPS() {
+    private fun startCaptureTPS() {
         Intent(MediaStore.ACTION_IMAGE_CAPTURE).also { takePictureIntent ->
             // Ensure that there's a camera activity to handle the intent
             takePictureIntent.resolveActivity(packageManager)?.also {
@@ -292,7 +267,7 @@ class TpsActivity : AppCompatActivity(), MySimpleLocation.MySimpleLocationCallba
         }
     }
 
-    private fun getPermissionTakePhoto() {
+    private fun initPermission() {
         if (Build.VERSION.SDK_INT >= 23) {
             if (checkSelfPermission(
                     Manifest.permission.CAMERA
@@ -302,6 +277,12 @@ class TpsActivity : AppCompatActivity(), MySimpleLocation.MySimpleLocationCallba
                 ) != PackageManager.PERMISSION_GRANTED ||
                 checkSelfPermission(
                     Manifest.permission.WRITE_EXTERNAL_STORAGE
+                ) != PackageManager.PERMISSION_GRANTED ||
+                checkSelfPermission(
+                    Manifest.permission.ACCESS_FINE_LOCATION
+                ) != PackageManager.PERMISSION_GRANTED ||
+                checkSelfPermission(
+                    Manifest.permission.ACCESS_COARSE_LOCATION
                 ) != PackageManager.PERMISSION_GRANTED
             ) {
                 ActivityCompat.requestPermissions(
@@ -309,7 +290,9 @@ class TpsActivity : AppCompatActivity(), MySimpleLocation.MySimpleLocationCallba
                     arrayOf(
                         Manifest.permission.CAMERA,
                         Manifest.permission.READ_EXTERNAL_STORAGE,
-                        Manifest.permission.WRITE_EXTERNAL_STORAGE
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                        Manifest.permission.ACCESS_FINE_LOCATION,
+                        Manifest.permission.ACCESS_COARSE_LOCATION
                     ),
                     1
                 )
@@ -541,6 +524,14 @@ class TpsActivity : AppCompatActivity(), MySimpleLocation.MySimpleLocationCallba
                 Log.d("MapDemoActivity", "Error trying to get last GPS location")
                 e.printStackTrace()
             }
+    }
+
+    override fun onClick(v: View?) {
+        when (v?.id) {
+            R.id.open_camera -> startCaptureTPS()
+            R.id.btn_simpan -> doSimpan()
+            R.id.refresh_location -> getPermissionGps()
+        }
     }
 
 }

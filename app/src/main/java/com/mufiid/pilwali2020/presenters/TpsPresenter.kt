@@ -15,9 +15,7 @@ class TpsPresenter(private val tpsView: ITpsView) {
      * fungsi untuk mengambil data detail tps by ID
      *
      * @author Imam Mufiid
-     *
      * @param id_tps => id tps
-     *
      * */
     fun getDataTps(id_tps: String) {
         tpsView.isLoadingTps(1)
@@ -41,7 +39,6 @@ class TpsPresenter(private val tpsView: ITpsView) {
      * fungsi untuk post data lat long dan foto TPS
      *
      * @author Imam Mufiid
-     *
      * @param id_tps => id TPS
      * @param form_page => jenis form page
      * @param fotoTPS => foto TPS
@@ -65,7 +62,6 @@ class TpsPresenter(private val tpsView: ITpsView) {
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
-                // code ...
                 when (it.status) {
                     201 -> tpsView.messageSuccess(it.message)
                     else -> tpsView.messageFailed(it.message)
@@ -73,7 +69,6 @@ class TpsPresenter(private val tpsView: ITpsView) {
 
                 tpsView.hideLoadingTps(2)
             }, {
-                // code ...
                 tpsView.messageFailed(it.message)
                 tpsView.hideLoadingTps(2)
             })
@@ -85,7 +80,6 @@ class TpsPresenter(private val tpsView: ITpsView) {
      * fungsi untuk post jumlah pemilih by TPS
      *
      * @author Imam Mufiid
-     *
      * @param id_tps => id TPS
      * @param form_page => jenis form page
      * @param dpt => jumlah dpt
@@ -93,7 +87,6 @@ class TpsPresenter(private val tpsView: ITpsView) {
      * @param dpk => jumlah dpk
      * @param dpktb => jumlah dpktb
      * @param difabel => jumlah difabel
-     *
      * */
     fun postJumlahPemilih(
         id_tps: String?,
@@ -119,11 +112,9 @@ class TpsPresenter(private val tpsView: ITpsView) {
                     }
                     tpsView.hideLoadingTps(2)
                 }, {
-                    it.message?.let { it1 -> Log.d("HALOO", it1) }
                     tpsView.messageFailed(it.message)
                     tpsView.hideLoadingTps(2)
                 })
         )
-
     }
 }
