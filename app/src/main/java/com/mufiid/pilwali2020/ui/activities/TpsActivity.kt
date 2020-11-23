@@ -16,6 +16,7 @@ import android.os.Environment
 import android.os.Looper
 import android.provider.MediaStore
 import android.util.Log
+import android.view.Gravity
 import android.view.View
 import android.widget.ImageView
 import android.widget.Toast
@@ -31,6 +32,7 @@ import com.mufiid.pilwali2020.R
 import com.mufiid.pilwali2020.models.Tps
 import com.mufiid.pilwali2020.presenters.TpsPresenter
 import com.mufiid.pilwali2020.utils.Constants
+import com.mufiid.pilwali2020.utils.helpers.CustomView
 import com.mufiid.pilwali2020.views.ITpsView
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.activity_tps.*
@@ -85,7 +87,7 @@ class TpsActivity : AppCompatActivity(), MySimpleLocation.MySimpleLocationCallba
         loading = ProgressDialog(this)
         tpsPresenter = TpsPresenter(this)
         open_camera.setOnClickListener(this)
-        btn_simpan.setOnClickListener (this)
+        btn_simpan.setOnClickListener(this)
         refresh_location.setOnClickListener(this)
     }
 
@@ -396,6 +398,12 @@ class TpsActivity : AppCompatActivity(), MySimpleLocation.MySimpleLocationCallba
         if (data.isDefault == "0") {
             // tidak bisa update
             refresh_location.visibility = View.GONE
+        }
+
+        if(data.verified == "1") {
+            btn_simpan.visibility = View.GONE
+            open_camera.visibility = View.GONE
+            CustomView.customToast(this, "Data TPS ${getString(R.string.verification)}", true)
         }
     }
 

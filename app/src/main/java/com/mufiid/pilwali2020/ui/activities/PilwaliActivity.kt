@@ -17,7 +17,7 @@ import io.reactivex.rxjava3.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.activity_pilwali.*
 
 @Suppress("DEPRECATION")
-class PilwaliActivity : AppCompatActivity(), ITpsView, IPilwaliView, View.OnClickListener {
+class PilwaliActivity : AppCompatActivity(), ITpsView, View.OnClickListener {
     private var presenter: TpsPresenter? = null
     private var pilwaliPresenter: PilwaliPresenter? = null
     private var loading: ProgressDialog? = null
@@ -31,7 +31,6 @@ class PilwaliActivity : AppCompatActivity(), ITpsView, IPilwaliView, View.OnClic
 
     private fun init() {
         presenter = TpsPresenter(this)
-        pilwaliPresenter = PilwaliPresenter(this)
         loading = ProgressDialog(this)
         btn_add.visibility = View.GONE
         btn_add.setOnClickListener(this)
@@ -114,35 +113,12 @@ class PilwaliActivity : AppCompatActivity(), ITpsView, IPilwaliView, View.OnClic
 
         if (data.dpt2?.toInt()!! > 0) {
             btn_add.visibility = View.VISIBLE
-            pilwaliPresenter?.getVerification(Constants.getUserData(this)?.idTps)
         }
-    }
 
-    override fun failedGetDataTps(message: String?) {
-        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
-    }
+        data.verified?.toInt()?.let { Constants.setVerification(this, it) }
 
-    override fun messageSuccess(message: String?) {
-        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
-        btn_add.visibility = View.VISIBLE
-    }
-
-    override fun messageFailed(message: String?) {
-        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
-    }
-
-    override fun isLoadingPilwali() {
-        // code ..
-    }
-
-    override fun hideLoadingPilwali() {
-        // code ..
-    }
-
-    override fun success(message: String?, verification: Int?) {
-        Constants.setVerification(this, verification!!)
-        when (verification) {
-            1 -> {
+        when (data.verified) {
+            "1" -> {
                 ic_verifikasi.setImageResource(R.drawable.ic_verification)
                 tv_verifikasi.text = getString(R.string.verification)
                 btn_simpan.visibility = View.GONE
@@ -159,8 +135,17 @@ class PilwaliActivity : AppCompatActivity(), ITpsView, IPilwaliView, View.OnClic
         }
     }
 
-    override fun failed(message: String?) {
-        // Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+    override fun failedGetDataTps(message: String?) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+    }
+
+    override fun messageSuccess(message: String?) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+        btn_add.visibility = View.VISIBLE
+    }
+
+    override fun messageFailed(message: String?) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
 
     override fun onClick(v: View?) {

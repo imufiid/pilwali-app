@@ -64,5 +64,8 @@ data class Tps(
     val id: String? = null,
 
     @field:SerializedName("is_default")
-    val isDefault: String? = null
+    val isDefault: String? = null,
+
+    @field:SerializedName("verified")
+    val verified: String? = null
 )

@@ -19,19 +19,20 @@ class TpsPresenter(private val tpsView: ITpsView) {
      * */
     fun getDataTps(id_tps: String) {
         tpsView.isLoadingTps(1)
-        CompositeDisposable().add(ApiClient.instance().getDataTps(id_tps)
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe({
-                when (it.status) {
-                    200 -> tpsView.getDataTps(it.message, it.data!!)
-                    else -> tpsView.failedGetDataTps(it.message)
-                }
-                tpsView.hideLoadingTps(1)
-            }, {
-                tpsView.failedGetDataTps(it.message)
-                tpsView.hideLoadingTps(1)
-            })
+        CompositeDisposable().add(
+            ApiClient.instance().getDataTps(id_tps)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({
+                    when (it.status) {
+                        200 -> tpsView.getDataTps(it.message, it.data!!)
+                        else -> tpsView.failedGetDataTps(it.message)
+                    }
+                    tpsView.hideLoadingTps(1)
+                }, {
+                    tpsView.failedGetDataTps(it.message)
+                    tpsView.hideLoadingTps(1)
+                })
         )
     }
 
@@ -57,21 +58,22 @@ class TpsPresenter(private val tpsView: ITpsView) {
         apiKey: RequestBody?
     ) {
         tpsView.isLoadingTps(2)
-        CompositeDisposable().add(ApiClient.instance()
-            .inputDataTPS(id_tps, form_page, fotoTPS, latitude, longitude, username, apiKey)
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe({
-                when (it.status) {
-                    201 -> tpsView.messageSuccess(it.message)
-                    else -> tpsView.messageFailed(it.message)
-                }
+        CompositeDisposable().add(
+            ApiClient.instance()
+                .inputDataTPS(id_tps, form_page, fotoTPS, latitude, longitude, username, apiKey)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({
+                    when (it.status) {
+                        201 -> tpsView.messageSuccess(it.message)
+                        else -> tpsView.messageFailed(it.message)
+                    }
 
-                tpsView.hideLoadingTps(2)
-            }, {
-                tpsView.messageFailed(it.message)
-                tpsView.hideLoadingTps(2)
-            })
+                    tpsView.hideLoadingTps(2)
+                }, {
+                    tpsView.messageFailed(it.message)
+                    tpsView.hideLoadingTps(2)
+                })
         )
 
     }

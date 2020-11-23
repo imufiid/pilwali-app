@@ -42,13 +42,18 @@ import java.util.*
 
 
 @Suppress("DEPRECATION")
-class BerandaFragment : Fragment(), ITpsView, IConfigView {
+class BerandaFragment : Fragment(), ITpsView, IConfigView, View.OnClickListener {
     private var shimmer: ShimmerFrameLayout? = null
     private var shimmerImageSlider: ShimmerFrameLayout? = null
     private var presenter: TpsPresenter? = null
     private var configPresenter: ConfigPresenter? = null
     private var viewPager: ViewPager? = null
     private var indicator: CirclePageIndicator? = null
+    private var layoutBtnMonitoring: LinearLayout? = null
+    private var btnPilwali : ImageButton? = null
+    private var btnTps : ImageButton? = null
+    private var btnMonitoring : ImageButton? = null
+    private var btnBlangko : ImageButton? = null
     private var currentPage = 0
     private var numPages = 0
     private var pathFileBlanko: String? = null
@@ -59,12 +64,6 @@ class BerandaFragment : Fragment(), ITpsView, IConfigView {
     private var dpk: TextView? = null
     private var dph: TextView? = null
     private var tps: TextView? = null
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-        }
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -77,12 +76,12 @@ class BerandaFragment : Fragment(), ITpsView, IConfigView {
         super.onViewCreated(view, savedInstanceState)
 
         // Inflate the layout for this fragment
-        val btnPilwali = view.findViewById(R.id.btn_pilwali) as ImageButton
-        val btnTps = view.findViewById(R.id.btn_tps) as ImageButton
-        val btnMonitoring = view.findViewById(R.id.btn_monitor) as ImageButton
-        val btnBlangko = view.findViewById(R.id.btn_blangko) as ImageButton
-        shimmer =
-            view.findViewById<View>(R.id.mShimmerViewContainer) as ShimmerFrameLayout
+        btnPilwali = view.findViewById(R.id.btn_pilwali) as ImageButton
+        btnTps = view.findViewById(R.id.btn_tps) as ImageButton
+        btnMonitoring = view.findViewById(R.id.btn_monitor) as ImageButton
+        btnBlangko = view.findViewById(R.id.btn_blangko) as ImageButton
+        layoutBtnMonitoring = view.findViewById(R.id.layout_button_monitoring) as LinearLayout
+        shimmer = view.findViewById<View>(R.id.mShimmerViewContainer) as ShimmerFrameLayout
         shimmerImageSlider =
             view.findViewById<View>(R.id.shimmer_image_slider_container) as ShimmerFrameLayout
         viewPager = view.findViewById(R.id.banner_viewPager) as ViewPager
@@ -95,30 +94,26 @@ class BerandaFragment : Fragment(), ITpsView, IConfigView {
         dph = view.findViewById(R.id.dph) as TextView
         tps = view.findViewById(R.id.subTitle) as TextView
 
-        // init presenter
-        presenter = TpsPresenter(this)
-        configPresenter = ConfigPresenter(this)
-        configPresenter?.config()
-
-
-        // event listener
-        btnPilwali.setOnClickListener {
-            startActivity(Intent(context, PilwaliActivity::class.java))
-        }
-        btnTps.setOnClickListener {
-            startActivity(Intent(context, TpsActivity::class.java))
-        }
-        btnMonitoring.setOnClickListener {
-            startActivity(Intent(context, MonitoringActivity::class.java))
-        }
-        btnBlangko.setOnClickListener {
-            doDownloadBlangko()
-        }
+        init()
     }
 
     override fun onDestroy() {
         super.onDestroy()
         CompositeDisposable().clear()
+    }
+
+    private fun init() {
+        presenter = TpsPresenter(this)
+        configPresenter = ConfigPresenter(this)
+        configPresenter?.config()
+
+        layoutBtnMonitoring?.visibility = View.GONE
+
+        // event listener
+        btnPilwali?.setOnClickListener(this)
+        btnTps?.setOnClickListener(this)
+        btnMonitoring?.setOnClickListener(this)
+        btnBlangko?.setOnClickListener(this)
     }
 
     private fun doDownloadBlangko() {
@@ -146,7 +141,8 @@ class BerandaFragment : Fragment(), ITpsView, IConfigView {
     }
 
     private fun startDownload() {
-        Toast.makeText(context, resources.getString(R.string.title_download), Toast.LENGTH_SHORT).show()
+        Toast.makeText(context, resources.getString(R.string.title_download), Toast.LENGTH_SHORT)
+            .show()
         val path = URI(pathFileBlanko).path
         val nameFile = path.substring(path.lastIndexOf('/') + 1)
 
@@ -431,4 +427,13 @@ class BerandaFragment : Fragment(), ITpsView, IConfigView {
             }
 
         }
+
+    override fun onClick(v: View?) {
+        when (v?.id) {
+            R.id.btn_pilwali -> startActivity(Intent(context, PilwaliActivity::class.java))
+            R.id.btn_tps -> startActivity(Intent(context, TpsActivity::class.java))
+            R.id.btn_monitor -> startActivity(Intent(context, MonitoringActivity::class.java))
+            R.id.btn_blangko -> doDownloadBlangko()
+        }
+    }
 }
