@@ -9,7 +9,7 @@
 
     <string name="title_beranda">Beranda</string>
     <string name="title_detail_tps">Detail TPS</string>
-    <string name="title_pilwali">Pilwali</string>
+    <string name="title_pilwali">Perhitungan</string>
     <string name="title_monitoring_perhitungan">Monitoring Perhitungan</string>
     <string name="edit_account">Edit Profil</string>
     <string name="perolehan_suara">Perolehan Suara</string>
@@ -22,7 +22,7 @@
     <string name="jumlah_pemilih">Jumlah Pemilih</string>
     <string name="suara_tidak_sah">Suara Tidak Sah</string>
 
-    <string name="pilwali">Pilwali</string>
+    <string name="pilwali">Perhitungan</string>
     <string name="tps">TPS</string>
     <string name="monitoring">Monitoring</string>
     <string name="blangko">C1 Plano</string>
@@ -44,6 +44,7 @@
     <string name="verification">Sudah diverifikasi</string>
     <string name="not_verification">Belum diverifikasi</string>
     <string name="form_is_required">Form tidak boleh kosong</string>
+    <string name="notif_perhitungan">Data TPS harus diisi sebelum mengisi perhitungan</string>
 
     <string name="keluar">Keluar</string>
     <string name="cancel">Cancel</string>

@@ -115,6 +115,11 @@ class PilwaliActivity : AppCompatActivity(), ITpsView, View.OnClickListener {
             btn_add.visibility = View.VISIBLE
         }
 
+        if(data.isDefault == "1") {
+            btn_simpan.visibility = View.GONE
+            Toast.makeText(this, getString(R.string.notif_perhitungan), Toast.LENGTH_SHORT).show()
+        }
+
         data.verified?.toInt()?.let { Constants.setVerification(this, it) }
 
         when (data.verified) {
