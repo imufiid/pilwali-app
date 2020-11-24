@@ -101,6 +101,7 @@
                     android:layout_width="match_parent"
                     android:layout_marginTop="16dp"
                     layout="@layout/jumlah_pemilih"/>
+
                 <com.facebook.shimmer.ShimmerFrameLayout
                     android:id="@+id/mShimmerViewContainer"
                     android:layout_width="match_parent"
@@ -120,13 +121,46 @@
         </RelativeLayout>
 
         <RelativeLayout
+            android:id="@+id/section2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="#FFF"
             android:layout_below="@id/section1"
             android:layout_marginTop="8dp"
-            android:paddingBottom="180dp"
-            android:paddingTop="10dp">
+            android:paddingVertical="16dp">
+
+            <include
+                android:id="@+id/suara_paslon"
+                android:layout_alignParentTop="true"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                layout="@layout/suara_paslon"/>
+
+            <com.facebook.shimmer.ShimmerFrameLayout
+                android:id="@+id/shimmer_suara_paslon"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_alignParentTop="true"
+                shimmer:duration="800"
+                android:visibility="gone">
+
+                <include
+                    android:id="@+id/shimmer_latlong"
+                    layout="@layout/shimmer_suara_paslon"/>
+
+            </com.facebook.shimmer.ShimmerFrameLayout>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#FFF"
+            android:layout_below="@id/section2"
+            android:layout_marginTop="8dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="120dp">
 
             <!-- MENU UTAMA -->
             <RelativeLayout
