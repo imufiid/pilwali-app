@@ -9,6 +9,7 @@ import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
 import android.view.View
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
@@ -72,14 +73,16 @@ class EditProfileActivity : AppCompatActivity(), IUserView, View.OnClickListener
         if (resultCode == Activity.RESULT_OK && requestCode == IMAGE_PICK_CODE) {
             val uri = data?.data
             val filePath = arrayOf(MediaStore.Images.Media.DATA)
-            val c = contentResolver.query(uri!!, filePath, null, null, null)
-            c?.moveToFirst()
-            val columnIndex = c?.getColumnIndex(filePath[0])
-            val picturePath = c?.getString(columnIndex!!)
-            c?.close()
-            // var thumbnail = BitmapFactory.decodeFile(picturePath)
+            val cursor = contentResolver.query(uri!!, filePath, null, null, null)
+            cursor?.moveToFirst()
+            val columnIndex = cursor?.getColumnIndex(filePath[0])
+            val picturePath = cursor?.getString(columnIndex!!)
+            cursor?.close()
             currentPhotoPath = picturePath
-            image_profile.setImageURI(uri)
+            image_profile.apply {
+                scaleType = ImageView.ScaleType.CENTER_CROP
+                setImageURI(uri)
+            }
         }
     }
 

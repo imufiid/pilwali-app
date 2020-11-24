@@ -45,6 +45,9 @@ data class Tps(
     @field:SerializedName("suara_tidak_sah")
     val suara_tidak_sah: String? = null,
 
+    @field:SerializedName("tidak_hadir")
+    val tidakHadir: String? = null,
+
     @field:SerializedName("foto_blanko")
     val foto_blanko: String? = null,
 

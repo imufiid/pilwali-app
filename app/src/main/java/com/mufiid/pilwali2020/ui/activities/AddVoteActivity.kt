@@ -15,6 +15,7 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
+import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.Toast
@@ -127,6 +128,7 @@ class AddVoteActivity : AppCompatActivity(), IPaslonView, ITpsView, View.OnClick
             suaraPaslon.add(PaslonAdapter.dataPaslon!![i].jumlah_suara_di_tps!!.toInt())
             idPaslon.add(PaslonAdapter.dataPaslon!![i].id!!.toInt())
         }
+
 
         /**
          * check if user not take picture

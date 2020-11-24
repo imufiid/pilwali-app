@@ -17,11 +17,14 @@ import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.viewpager.widget.ViewPager
+import com.bumptech.glide.Glide
 import com.facebook.shimmer.ShimmerFrameLayout
 import com.mufiid.pilwali2020.R
 import com.mufiid.pilwali2020.adapters.SliderAdapter
 import com.mufiid.pilwali2020.models.Config
+import com.mufiid.pilwali2020.models.Paslon
 import com.mufiid.pilwali2020.models.Tps
+import com.mufiid.pilwali2020.presenters.AddVotePresenter
 import com.mufiid.pilwali2020.presenters.ConfigPresenter
 import com.mufiid.pilwali2020.presenters.TpsPresenter
 import com.mufiid.pilwali2020.ui.activities.LoginActivity
@@ -30,10 +33,12 @@ import com.mufiid.pilwali2020.ui.activities.PilwaliActivity
 import com.mufiid.pilwali2020.ui.activities.TpsActivity
 import com.mufiid.pilwali2020.utils.Constants
 import com.mufiid.pilwali2020.views.IConfigView
+import com.mufiid.pilwali2020.views.IPaslonView
 import com.mufiid.pilwali2020.views.ITpsView
 import com.viewpagerindicator.CirclePageIndicator
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.fragment_beranda.*
+import kotlinx.android.synthetic.main.suara_paslon.*
 import java.net.URI
 import java.text.SimpleDateFormat
 import java.time.LocalDateTime
@@ -42,11 +47,13 @@ import java.util.*
 
 
 @Suppress("DEPRECATION")
-class BerandaFragment : Fragment(), ITpsView, IConfigView, View.OnClickListener {
+class BerandaFragment : Fragment(), ITpsView, IConfigView, IPaslonView, View.OnClickListener {
     private var shimmer: ShimmerFrameLayout? = null
     private var shimmerImageSlider: ShimmerFrameLayout? = null
+    private var shimmerSuaraPaslon: ShimmerFrameLayout? = null
     private var presenter: TpsPresenter? = null
     private var configPresenter: ConfigPresenter? = null
+    private var paslonPresenter: AddVotePresenter? = null
     private var viewPager: ViewPager? = null
     private var indicator: CirclePageIndicator? = null
     private var layoutBtnMonitoring: LinearLayout? = null
@@ -64,6 +71,8 @@ class BerandaFragment : Fragment(), ITpsView, IConfigView, View.OnClickListener 
     private var dpk: TextView? = null
     private var dph: TextView? = null
     private var tps: TextView? = null
+    private var tidakSah: TextView? = null
+    private var tidakHadir: TextView? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -82,6 +91,7 @@ class BerandaFragment : Fragment(), ITpsView, IConfigView, View.OnClickListener 
         btnBlangko = view.findViewById(R.id.btn_blangko) as ImageButton
         layoutBtnMonitoring = view.findViewById(R.id.layout_button_monitoring) as LinearLayout
         shimmer = view.findViewById<View>(R.id.mShimmerViewContainer) as ShimmerFrameLayout
+        shimmerSuaraPaslon = view.findViewById<View>(R.id.shimmer_suara_paslon) as ShimmerFrameLayout
         shimmerImageSlider =
             view.findViewById<View>(R.id.shimmer_image_slider_container) as ShimmerFrameLayout
         viewPager = view.findViewById(R.id.banner_viewPager) as ViewPager
@@ -93,6 +103,8 @@ class BerandaFragment : Fragment(), ITpsView, IConfigView, View.OnClickListener 
         dpk = view.findViewById(R.id.dpk) as TextView
         dph = view.findViewById(R.id.dph) as TextView
         tps = view.findViewById(R.id.subTitle) as TextView
+        tidakSah = view.findViewById(R.id.tidak_sah) as TextView
+        tidakHadir = view.findViewById(R.id.tidak_hadir) as TextView
 
         init()
     }
@@ -105,6 +117,7 @@ class BerandaFragment : Fragment(), ITpsView, IConfigView, View.OnClickListener 
     private fun init() {
         presenter = TpsPresenter(this)
         configPresenter = ConfigPresenter(this)
+        paslonPresenter = AddVotePresenter(this)
         configPresenter?.config()
 
         layoutBtnMonitoring?.visibility = View.GONE
@@ -187,9 +200,13 @@ class BerandaFragment : Fragment(), ITpsView, IConfigView, View.OnClickListener 
 
     override fun onResume() {
         super.onResume()
-        Constants.getUserData(context!!)?.idTps?.let {
-            presenter?.getDataTps(it)
+        context?.let {
+            Constants.getUserData(it)?.idTps?.let { idTps ->
+                presenter?.getDataTps(idTps)
+                paslonPresenter?.getPaslon(idTps)
+            }
         }
+
     }
 
     /**
@@ -205,6 +222,8 @@ class BerandaFragment : Fragment(), ITpsView, IConfigView, View.OnClickListener 
         dptb?.text = data.dptb2
         dpk?.text = data.dpk2
         dph?.text = data.dpph2
+        tidakSah?.text = data.suara_tidak_sah
+        tidakHadir?.text = data.tidakHadir
     }
 
     /**
@@ -435,5 +454,51 @@ class BerandaFragment : Fragment(), ITpsView, IConfigView, View.OnClickListener 
             R.id.btn_monitor -> startActivity(Intent(context, MonitoringActivity::class.java))
             R.id.btn_blangko -> doDownloadBlangko()
         }
+    }
+
+    override fun isLoadingPaslon(state: Int?) {
+        when(state) {
+            1 -> {
+                shimmerSuaraPaslon?.visibility = View.VISIBLE
+                shimmerSuaraPaslon?.startShimmer()
+                suara_paslon.visibility = View.GONE
+            }
+        }
+
+    }
+
+    override fun hideLoadingPaslon(state: Int?) {
+        when(state) {
+            1 -> {
+                shimmerSuaraPaslon?.stopShimmer()
+                shimmerSuaraPaslon?.visibility = View.GONE
+                suara_paslon.visibility = View.VISIBLE
+            }
+        }
+    }
+
+    override fun getDataPaslon(message: String?, data: List<Paslon>?) {
+        data?.let {
+            // paslon 1
+            Glide.with(this)
+                .load(data[0].foto)
+                .centerCrop()
+                .into(img_paslon1)
+
+            suara_paslon1.text = data[0].jumlah_suara_di_tps
+            nama_paslon1.text = data[0].nmPeserta
+
+            // paslon 2
+            Glide.with(this)
+                .load(data[1].foto)
+                .centerCrop()
+                .into(img_paslon2)
+            suara_paslon2.text = data[1].jumlah_suara_di_tps
+            nama_paslon2.text = data[1].nmPeserta
+        }
+    }
+
+    override fun failedGetDataPaslon(message: String?) {
+        // code ...
     }
 }
