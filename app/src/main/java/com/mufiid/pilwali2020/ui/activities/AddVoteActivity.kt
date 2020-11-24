@@ -1,7 +1,9 @@
 package com.mufiid.pilwali2020.ui.activities
 
 import android.Manifest
+import android.app.AlertDialog
 import android.app.ProgressDialog
+import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
@@ -34,6 +36,8 @@ import com.mufiid.pilwali2020.views.IPaslonView
 import com.mufiid.pilwali2020.views.ITpsView
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.activity_add_vote.*
+import kotlinx.android.synthetic.main.activity_add_vote.open_camera
+import kotlinx.android.synthetic.main.activity_tps.*
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
@@ -45,7 +49,6 @@ import java.util.*
 
 @Suppress("DEPRECATION")
 class AddVoteActivity : AppCompatActivity(), IPaslonView, ITpsView, View.OnClickListener {
-    private val REQUEST_IMAGE_CAPTURE = 1
     private lateinit var viewManager: RecyclerView.LayoutManager
     private var loading: ProgressDialog? = null
     private var presenter: AddVotePresenter? = null
@@ -56,6 +59,12 @@ class AddVoteActivity : AppCompatActivity(), IPaslonView, ITpsView, View.OnClick
     private var currentPhotoPath: String? = ""
     private val suaraPaslon = mutableListOf<Int>()
     private val idPaslon = mutableListOf<Int>()
+
+    companion object {
+        private val IMAGE_PICK_CODE = 1000;
+        private val PERMISSION_CODE = 1001;
+        private val REQUEST_IMAGE_CAPTURE = 1
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -268,9 +277,14 @@ class AddVoteActivity : AppCompatActivity(), IPaslonView, ITpsView, View.OnClick
      * */
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
-            val imageBitmap = BitmapFactory.decodeFile(currentPhotoPath)
-            rotate(imageBitmap)
+        if (resultCode == RESULT_OK) {
+            if(requestCode == REQUEST_IMAGE_CAPTURE) {
+                val imageBitmap = BitmapFactory.decodeFile(currentPhotoPath)
+                rotate(imageBitmap)
+            } else if(requestCode == IMAGE_PICK_CODE) {
+                setImageFromGallery(data)
+            }
+
         }
     }
 
@@ -492,8 +506,64 @@ class AddVoteActivity : AppCompatActivity(), IPaslonView, ITpsView, View.OnClick
 
     override fun onClick(v: View?) {
         when (v?.id) {
-            R.id.open_camera -> startCaptureBlangko()
+            R.id.open_camera -> {
+                val options = resources.getStringArray(R.array.choose_image)
+                AlertDialog.Builder(this).apply {
+                    setItems(options) { _, item ->
+                        when {
+                            options[item] == getString(R.string.take_photo) -> {
+                                startCaptureBlangko()
+                            }
+                            options[item] == getString(R.string.choose_gallery) -> {
+                                startPickImage()
+                            }
+                        }
+                    }
+                }.show()
+            }
             R.id.btn_save -> doUpload()
+        }
+    }
+
+    private fun startPickImage() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) !=
+                PackageManager.PERMISSION_GRANTED
+            ) {
+                ActivityCompat.requestPermissions(
+                    this,
+                    arrayOf(
+                        Manifest.permission.READ_EXTERNAL_STORAGE
+                    ),
+                    1
+                )
+            } else {
+                pickImageFromGallery()
+            }
+        } else {
+            pickImageFromGallery()
+        }
+    }
+
+    private fun pickImageFromGallery() {
+        val intent = Intent(Intent.ACTION_PICK)
+        intent.type = "image/*"
+        startActivityForResult(intent, IMAGE_PICK_CODE)
+    }
+
+    private fun setImageFromGallery(data: Intent?) {
+        val uri = data?.data
+        val filePath = arrayOf(MediaStore.Images.Media.DATA)
+        val c = contentResolver.query(uri!!, filePath, null, null, null)
+        c?.moveToFirst()
+        val columnIndex = c?.getColumnIndex(filePath[0])
+        val picturePath = c?.getString(columnIndex!!)
+        c?.close()
+        // var thumbnail = BitmapFactory.decodeFile(picturePath)
+        currentPhotoPath = picturePath
+        image_blangko.apply {
+            scaleType = ImageView.ScaleType.CENTER_CROP
+            setImageURI(uri)
         }
     }
 }

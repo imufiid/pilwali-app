@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">E-count Pemilu 2020</string>
+    <string name="app_name">Q-count Pilwali 2020</string>
     <string name="app_name_secondary">APLIKASI PENGHITUNGAN SUARA CEPAT\nPILKADA KOTA BLITAR</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
@@ -64,4 +64,14 @@
 
     <string name="title">Title</string>
     <string name="permission_denied">Permission Denied!</string>
+    <string name="galery">Galery</string>
+    <string name="camera">Kamera</string>
+    <string name="choose">Pilih</string>
+    <string name="take_photo">Take Photo</string>
+    <string name="choose_gallery">Choose from Gallery</string>
+
+    <string-array name="choose_image">
+        <item>Take Photo</item>
+        <item>Choose from Gallery</item>
+    </string-array>
 </resources>

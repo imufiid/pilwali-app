@@ -1,6 +1,7 @@
 package com.mufiid.pilwali2020.ui.activities
 
 import android.Manifest
+import android.app.AlertDialog
 import android.app.ProgressDialog
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -16,7 +17,6 @@ import android.os.Environment
 import android.os.Looper
 import android.provider.MediaStore
 import android.util.Log
-import android.view.Gravity
 import android.view.View
 import android.widget.ImageView
 import android.widget.Toast
@@ -50,7 +50,6 @@ import java.util.*
 @Suppress("DEPRECATION")
 class TpsActivity : AppCompatActivity(), MySimpleLocation.MySimpleLocationCallback, ITpsView,
     View.OnClickListener {
-    private val REQUEST_IMAGE_CAPTURE = 1
     private var alamat_tps = String
     private var loading: ProgressDialog? = null
     private var tpsPresenter: TpsPresenter? = null
@@ -64,6 +63,14 @@ class TpsActivity : AppCompatActivity(), MySimpleLocation.MySimpleLocationCallba
     private var mFusedLocationProviderClient: FusedLocationProviderClient? = null
     private var mLocationRequest: LocationRequest? = null
     private var mLocationCallback: LocationCallback? = null
+
+    companion object {
+        //image pick code
+        private val IMAGE_PICK_CODE = 1000;
+        //Permission code
+        private val PERMISSION_CODE = 1001;
+        private val REQUEST_IMAGE_CAPTURE = 1
+    }
 
     // pertama
     private lateinit var mySimpleLocation: MySimpleLocation
@@ -195,9 +202,14 @@ class TpsActivity : AppCompatActivity(), MySimpleLocation.MySimpleLocationCallba
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
-            val imageBitmap = BitmapFactory.decodeFile(currentPhotoPath)
-            rotate(imageBitmap)
+        if ( resultCode == RESULT_OK) {
+            if(requestCode == REQUEST_IMAGE_CAPTURE) {
+                val imageBitmap = BitmapFactory.decodeFile(currentPhotoPath)
+                rotate(imageBitmap)
+            } else if(requestCode == IMAGE_PICK_CODE) {
+                setImageFromGallery(data)
+            }
+
         }
     }
 
@@ -536,9 +548,65 @@ class TpsActivity : AppCompatActivity(), MySimpleLocation.MySimpleLocationCallba
 
     override fun onClick(v: View?) {
         when (v?.id) {
-            R.id.open_camera -> startCaptureTPS()
+            R.id.open_camera -> {
+                val options = resources.getStringArray(R.array.choose_image)
+                AlertDialog.Builder(this).apply {
+                    setItems(options) { _, item ->
+                        when {
+                            options[item] == getString(R.string.take_photo) -> {
+                                startCaptureTPS()
+                            }
+                            options[item] == getString(R.string.choose_gallery) -> {
+                                startPickImage()
+                            }
+                        }
+                    }
+                }.show()
+            }
             R.id.btn_simpan -> doSimpan()
             R.id.refresh_location -> getPermissionGps()
+        }
+    }
+
+    private fun startPickImage() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) !=
+                PackageManager.PERMISSION_GRANTED
+            ) {
+                ActivityCompat.requestPermissions(
+                    this,
+                    arrayOf(
+                        Manifest.permission.READ_EXTERNAL_STORAGE
+                    ),
+                    1
+                )
+            } else {
+                pickImageFromGallery()
+            }
+        } else {
+            pickImageFromGallery()
+        }
+    }
+
+    private fun pickImageFromGallery() {
+        val intent = Intent(Intent.ACTION_PICK)
+        intent.type = "image/*"
+        startActivityForResult(intent, IMAGE_PICK_CODE)
+    }
+
+    private fun setImageFromGallery(data: Intent?) {
+        val uri = data?.data
+        val filePath = arrayOf(MediaStore.Images.Media.DATA)
+        val c = contentResolver.query(uri!!, filePath, null, null, null)
+        c?.moveToFirst()
+        val columnIndex = c?.getColumnIndex(filePath[0])
+        val picturePath = c?.getString(columnIndex!!)
+        c?.close()
+        // var thumbnail = BitmapFactory.decodeFile(picturePath)
+        currentPhotoPath = picturePath
+        image_tps.apply {
+            scaleType = ImageView.ScaleType.CENTER_CROP
+            setImageURI(uri)
         }
     }
 
