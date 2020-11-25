@@ -72,6 +72,7 @@
     <string name="jumlah_tidak_sah">Jumlah Tidak Sah</string>
     <string name="jumlah_tidak_hadir">Jumlah Tidak Hadir</string>
     <string name="nama_paslon">Nama Paslon</string>
+    <string name="suara_tidak_hadir">Suara Tidak Hadir</string>
 
     <string-array name="choose_image">
         <item>Take Photo</item>
