@@ -58,7 +58,7 @@
                     android:layout_alignParentTop="true"
                     shimmer:duration="800"
                     android:layout_marginHorizontal="16dp"
-                    android:visibility="visible">
+                    android:visibility="gone">
 
                     <include
                         android:id="@+id/shimmer_latlong"
@@ -101,6 +101,7 @@
                     android:layout_marginTop="16dp"
                     layout="@layout/jumlah_pemilih"/>
 
+
                 <com.facebook.shimmer.ShimmerFrameLayout
                     android:id="@+id/mShimmerViewContainer"
                     android:layout_width="match_parent"
@@ -120,28 +121,21 @@
             </RelativeLayout>
         </RelativeLayout>
 
-    <RelativeLayout
+    <LinearLayout
         android:id="@+id/section2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#FFF"
         android:layout_below="@id/section1"
         android:layout_marginTop="8dp"
+        android:orientation="vertical"
         android:paddingVertical="16dp">
-
-        <include
-            android:id="@+id/suara_paslon"
-            android:layout_alignParentTop="true"
-            android:layout_height="wrap_content"
-            android:layout_width="match_parent"
-            layout="@layout/suara_paslon"/>
 
         <com.facebook.shimmer.ShimmerFrameLayout
             android:id="@+id/shimmer_suara_paslon"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_alignParentTop="true"
             shimmer:duration="800"
             android:visibility="gone">
 
@@ -151,7 +145,33 @@
 
         </com.facebook.shimmer.ShimmerFrameLayout>
 
-    </RelativeLayout>
+        <include
+            android:id="@+id/suara_paslon"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            layout="@layout/suara_paslon"/>
+
+        <com.facebook.shimmer.ShimmerFrameLayout
+            android:id="@+id/shimmer_suara_tidak_sah_hadir"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            shimmer:duration="800"
+            android:visibility="gone">
+
+            <include
+                android:id="@+id/shimmer_latlong"
+                layout="@layout/shimmer_jumlah_tidak_sah_hadir"/>
+
+        </com.facebook.shimmer.ShimmerFrameLayout>
+        <include
+            android:id="@+id/suara_tidak_sah_hadir"
+            layout="@layout/jumlah_tidak_sah_hadir"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp" />
+
+    </LinearLayout>
 
         <RelativeLayout
             android:layout_width="match_parent"
