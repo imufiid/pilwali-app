@@ -1,8 +1,6 @@
 package com.mufiid.pilwali2020.presenters
 
-import android.util.Log
 import com.mufiid.pilwali2020.api.ApiClient
-import com.mufiid.pilwali2020.views.ILoadingView
 import com.mufiid.pilwali2020.views.IPaslonView
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.disposables.CompositeDisposable
@@ -63,7 +61,7 @@ class AddVotePresenter(private val paslonView: IPaslonView) {
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
                 when (it.status) {
-                    201 -> paslonView.failedGetDataPaslon(it.message)
+                    201 -> paslonView.successPostData(it.message, it.data)
                     400 -> paslonView.failedGetDataPaslon(it.message)
                 }
                 paslonView.hideLoadingPaslon(2)

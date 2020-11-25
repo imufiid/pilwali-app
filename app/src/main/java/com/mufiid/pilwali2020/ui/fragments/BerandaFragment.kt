@@ -492,6 +492,7 @@ class BerandaFragment : Fragment(), ITpsView, IConfigView, IPaslonView, View.OnC
             // paslon 1
             Glide.with(this)
                 .load(data[0].foto)
+
                 .centerCrop()
                 .into(img_paslon1)
 
@@ -510,5 +511,10 @@ class BerandaFragment : Fragment(), ITpsView, IConfigView, IPaslonView, View.OnC
 
     override fun failedGetDataPaslon(message: String?) {
         // code ...
+    }
+
+    override fun successPostData(message: String?, data: Tps?) {
+        // code ...
+
     }
 }

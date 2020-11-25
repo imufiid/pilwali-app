@@ -3,7 +3,6 @@ package com.mufiid.pilwali2020.ui.activities
 import android.Manifest
 import android.app.AlertDialog
 import android.app.ProgressDialog
-import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
@@ -15,7 +14,6 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
-import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.Toast
@@ -38,7 +36,6 @@ import com.mufiid.pilwali2020.views.ITpsView
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.activity_add_vote.*
 import kotlinx.android.synthetic.main.activity_add_vote.open_camera
-import kotlinx.android.synthetic.main.activity_tps.*
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
@@ -128,12 +125,6 @@ class AddVoteActivity : AppCompatActivity(), IPaslonView, ITpsView, View.OnClick
             suaraPaslon.add(PaslonAdapter.dataPaslon!![i].jumlah_suara_di_tps!!.toInt())
             idPaslon.add(PaslonAdapter.dataPaslon!![i].id!!.toInt())
         }
-
-
-        /**
-         * check if user not take picture
-         *
-         * */
 
         // convert value to Request Body
         val suaraTidakSah = jumlah_suara_tidak_sah.text.toString()
@@ -336,11 +327,13 @@ class AddVoteActivity : AppCompatActivity(), IPaslonView, ITpsView, View.OnClick
                 shimmer_container.startShimmer()
                 rv_paslon.visibility = View.GONE
                 title_upload_blangko.visibility = View.GONE
-                div2.visibility = View.GONE
                 layout_img.visibility = View.GONE
                 btn_save.visibility = View.GONE
                 layout_suara_tdk_sah.visibility = View.GONE
+                layout_suara_tdk_hadir.visibility = View.GONE
                 div.visibility = View.GONE
+                div2.visibility = View.GONE
+                div3.visibility = View.GONE
             }
             2 -> {
                 loading?.let {
@@ -369,12 +362,15 @@ class AddVoteActivity : AppCompatActivity(), IPaslonView, ITpsView, View.OnClick
                 title_upload_blangko.visibility = View.VISIBLE
                 rv_paslon.visibility = View.VISIBLE
 
-                div2.visibility = View.VISIBLE
                 layout_img.visibility = View.VISIBLE
                 btn_save.visibility = View.VISIBLE
 
                 layout_suara_tdk_sah.visibility = View.VISIBLE
+                layout_suara_tdk_hadir.visibility = View.VISIBLE
+
                 div.visibility = View.VISIBLE
+                div2.visibility = View.VISIBLE
+                div3.visibility = View.VISIBLE
             }
             2 -> {
                 loading?.dismiss()
@@ -408,6 +404,11 @@ class AddVoteActivity : AppCompatActivity(), IPaslonView, ITpsView, View.OnClick
      * */
     override fun failedGetDataPaslon(message: String?) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+    }
+
+    override fun successPostData(message: String?, data: Tps?) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+        jumlah_suara_tidak_hadir.text = data?.tidakHadir
     }
 
     /**
@@ -450,6 +451,7 @@ class AddVoteActivity : AppCompatActivity(), IPaslonView, ITpsView, View.OnClick
         jumlah_dpk.text = data.dpk2
         jumlah_dph.text = data.dpph2
         jumlah_suara_tidak_sah.setText(data.suara_tidak_sah)
+        jumlah_suara_tidak_hadir.text = data.tidakHadir
 
         /**
          * check image if not null

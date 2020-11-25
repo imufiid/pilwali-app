@@ -92,7 +92,7 @@ interface IApiService {
         @Part foto_blanko: MultipartBody.Part?,
         @Part("username") username: RequestBody?,
         @Part("api_key") api_key: RequestBody?
-    ): Observable<MessageResponse>
+    ): Observable<WrappedResponse<Tps>>
 
     // UPDATE PROFILE
     @Multipart
