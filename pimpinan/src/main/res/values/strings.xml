@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">Monitoring Pilwali 2020</string>
+    <string name="app_name_secondary">MONITORING PILKADA KOTA BLITAR</string>
+    <string name="login_to_next">Masuk untuk melanjutkan</string>
+    <string name="please_wait">Tunggu sebentar...</string>
+    <string name="username_password_must_not_be_null">Username dan Password tidak boleh kosong</string>
+    <string name="success_login">Anda Berhasil Login</string>
+    <string name="logout">Logout</string>
+    <string name="confirm_logout">Konfirmasi keluar</string>
+    <string name="question_logout">Anda yakin keluar?</string>
+    <string name="yes">Iya</string>
+    <string name="no">Tidak</string>
+    <string name="success_logout">Anda Keluar dari Aplikasi</string>
+    <string name="double_back">Tekan kembali lagi untuk keluar!</string>
+</resources>

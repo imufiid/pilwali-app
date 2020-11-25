@@ -519,6 +519,5 @@ class BerandaFragment : Fragment(), ITpsView, IConfigView, IPaslonView, View.OnC
 
     override fun successPostData(message: String?, data: Tps?) {
         // code ...
-
     }
 }

@@ -1,2 +1,3 @@
+include ':pimpinan'
 include ':app'
 rootProject.name = "pilwali2020"
