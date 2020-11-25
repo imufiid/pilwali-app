@@ -261,7 +261,7 @@ class BerandaFragment : Fragment(), ITpsView, IConfigView, IPaslonView, View.OnC
 
         jumlah_pemilih.visibility = View.GONE
         layout_title.visibility = View.GONE
-        suara_tidak_sah_hadir.visibility = View.GONE
+        suara_tidak_sah_hadir?.visibility = View.GONE
     }
 
     /**
@@ -277,7 +277,7 @@ class BerandaFragment : Fragment(), ITpsView, IConfigView, IPaslonView, View.OnC
 
         jumlah_pemilih?.visibility = View.VISIBLE
         layout_title?.visibility = View.VISIBLE
-        suara_tidak_sah_hadir.visibility = View.VISIBLE
+        suara_tidak_sah_hadir?.visibility = View.VISIBLE
     }
 
     /**
@@ -473,7 +473,7 @@ class BerandaFragment : Fragment(), ITpsView, IConfigView, IPaslonView, View.OnC
             1 -> {
                 shimmerSuaraPaslon?.visibility = View.VISIBLE
                 shimmerSuaraPaslon?.startShimmer()
-                suara_paslon.visibility = View.GONE
+                suara_paslon?.visibility = View.GONE
             }
         }
 
@@ -484,7 +484,7 @@ class BerandaFragment : Fragment(), ITpsView, IConfigView, IPaslonView, View.OnC
             1 -> {
                 shimmerSuaraPaslon?.stopShimmer()
                 shimmerSuaraPaslon?.visibility = View.GONE
-                suara_paslon.visibility = View.VISIBLE
+                suara_paslon?.visibility = View.VISIBLE
             }
         }
     }
