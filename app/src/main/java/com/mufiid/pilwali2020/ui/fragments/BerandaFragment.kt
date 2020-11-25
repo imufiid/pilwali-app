@@ -51,6 +51,7 @@ class BerandaFragment : Fragment(), ITpsView, IConfigView, IPaslonView, View.OnC
     private var shimmer: ShimmerFrameLayout? = null
     private var shimmerImageSlider: ShimmerFrameLayout? = null
     private var shimmerSuaraPaslon: ShimmerFrameLayout? = null
+    private var shimmerSuaraTidakSahHadir: ShimmerFrameLayout? = null
     private var presenter: TpsPresenter? = null
     private var configPresenter: ConfigPresenter? = null
     private var paslonPresenter: AddVotePresenter? = null
@@ -92,6 +93,7 @@ class BerandaFragment : Fragment(), ITpsView, IConfigView, IPaslonView, View.OnC
         layoutBtnMonitoring = view.findViewById(R.id.layout_button_monitoring) as LinearLayout
         shimmer = view.findViewById<View>(R.id.mShimmerViewContainer) as ShimmerFrameLayout
         shimmerSuaraPaslon = view.findViewById<View>(R.id.shimmer_suara_paslon) as ShimmerFrameLayout
+        shimmerSuaraTidakSahHadir = view.findViewById<View>(R.id.shimmer_suara_tidak_sah_hadir) as ShimmerFrameLayout
         shimmerImageSlider =
             view.findViewById<View>(R.id.shimmer_image_slider_container) as ShimmerFrameLayout
         viewPager = view.findViewById(R.id.banner_viewPager) as ViewPager
@@ -251,9 +253,13 @@ class BerandaFragment : Fragment(), ITpsView, IConfigView, IPaslonView, View.OnC
      * */
     override fun isLoadingTps(state: Int?) {
         shimmer?.startShimmer()
+        shimmerSuaraTidakSahHadir?.startShimmer()
         shimmer?.visibility = View.VISIBLE
+        shimmerSuaraTidakSahHadir?.visibility = View.VISIBLE
+
         jumlah_pemilih.visibility = View.GONE
         layout_title.visibility = View.GONE
+        suara_tidak_sah_hadir.visibility = View.GONE
     }
 
     /**
@@ -263,9 +269,13 @@ class BerandaFragment : Fragment(), ITpsView, IConfigView, IPaslonView, View.OnC
      * */
     override fun hideLoadingTps(state: Int?) {
         shimmer?.stopShimmer()
+        shimmerSuaraTidakSahHadir?.stopShimmer()
         shimmer?.visibility = View.GONE
+        shimmerSuaraTidakSahHadir?.visibility = View.GONE
+
         jumlah_pemilih?.visibility = View.VISIBLE
         layout_title?.visibility = View.VISIBLE
+        suara_tidak_sah_hadir.visibility = View.VISIBLE
     }
 
     /**
