@@ -16,10 +16,12 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
+import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import androidx.viewpager.widget.ViewPager
 import com.bumptech.glide.Glide
 import com.facebook.shimmer.ShimmerFrameLayout
 import com.mufiid.pilwali2020.R
+import com.mufiid.pilwali2020.adapters.PaslonAdapter
 import com.mufiid.pilwali2020.adapters.SliderAdapter
 import com.mufiid.pilwali2020.models.Config
 import com.mufiid.pilwali2020.models.Paslon
@@ -488,11 +490,12 @@ class BerandaFragment : Fragment(), ITpsView, IConfigView, IPaslonView, View.OnC
     }
 
     override fun getDataPaslon(message: String?, data: List<Paslon>?) {
+
         data?.let {
             // paslon 1
             Glide.with(this)
                 .load(data[0].foto)
-
+                .placeholder(R.drawable.ic_profile_picture)
                 .centerCrop()
                 .into(img_paslon1)
 
@@ -502,6 +505,7 @@ class BerandaFragment : Fragment(), ITpsView, IConfigView, IPaslonView, View.OnC
             // paslon 2
             Glide.with(this)
                 .load(data[1].foto)
+                .placeholder(R.drawable.ic_profile_picture)
                 .centerCrop()
                 .into(img_paslon2)
             suara_paslon2.text = data[1].jumlah_suara_di_tps
