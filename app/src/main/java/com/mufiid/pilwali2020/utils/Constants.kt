@@ -8,12 +8,13 @@ class Constants {
     companion object {
         const val API_ENDPOINT = "http://pilkada2020.blitarkota.go.id/Api/"
         const val URL_WEBVIEW = "http://pilkada2020.blitarkota.go.id/publics/chart_perhitungan"
-//        const val API_ENDPOINT = "http://192.168.1.2/pilwali-2020/Api/"
+//        const val API_ENDPOINT = "http://192.168.1.3/pilwali-2020/Api/"
 //        const val URL_WEBVIEW = "http://192.168.1.2/pilwali-2020/publics/chart_perhitungan"
 
         fun getUserData(context: Context): User? {
             val pref = context.getSharedPreferences("USER", Context.MODE_PRIVATE)
             return User().apply {
+                nama = pref.getString("NAMA", "undefined")
                 id = pref.getString("ID_USER", "undefined")
                 username = pref.getString("USERNAME", "undefined")
                 api_key = pref.getString("APIKEY", "undefined")
@@ -24,6 +25,7 @@ class Constants {
         fun setUserData(context: Context, user: User) {
             val pref = context.getSharedPreferences("USER", Context.MODE_PRIVATE)
             pref.edit {
+                putString("NAMA", user.nama)
                 putString("USERNAME", user.username)
                 putString("APIKEY", user.api_key)
                 putString("ID_USER", user.id)

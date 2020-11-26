@@ -49,7 +49,7 @@ class ProfilFragment : Fragment(), IUserView {
             startActivity(Intent(context, EditProfileActivity::class.java))
         }
 
-        tvUsername.text = Constants.getUserData(context!!)?.username
+        tvUsername.text = Constants.getUserData(context!!)?.nama
 
         logout.setOnClickListener {
             AlertDialog.Builder(context).apply {
