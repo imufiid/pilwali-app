@@ -11,7 +11,6 @@ import com.mufiid.pilwali2020.models.Tps
 import com.mufiid.pilwali2020.presenters.PilwaliPresenter
 import com.mufiid.pilwali2020.presenters.TpsPresenter
 import com.mufiid.pilwali2020.utils.Constants
-import com.mufiid.pilwali2020.views.IPilwaliView
 import com.mufiid.pilwali2020.views.ITpsView
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.activity_pilwali.*
@@ -117,7 +116,7 @@ class PilwaliActivity : AppCompatActivity(), ITpsView, View.OnClickListener {
 
         if(data.isDefault == "1") {
             btn_simpan.visibility = View.GONE
-            Toast.makeText(this, getString(R.string.notif_perhitungan), Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, getString(R.string.notif_perhitungan), Toast.LENGTH_LONG).show()
         }
 
         data.verified?.toInt()?.let { Constants.setVerification(this, it) }
@@ -141,16 +140,16 @@ class PilwaliActivity : AppCompatActivity(), ITpsView, View.OnClickListener {
     }
 
     override fun failedGetDataTps(message: String?) {
-        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+        Toast.makeText(this, message, Toast.LENGTH_LONG).show()
     }
 
     override fun messageSuccess(message: String?) {
-        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+        Toast.makeText(this, message, Toast.LENGTH_LONG).show()
         btn_add.visibility = View.VISIBLE
     }
 
     override fun messageFailed(message: String?) {
-        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+        Toast.makeText(this, message, Toast.LENGTH_LONG).show()
     }
 
     override fun onClick(v: View?) {

@@ -415,21 +415,21 @@ class TpsActivity : AppCompatActivity(), MySimpleLocation.MySimpleLocationCallba
         if(data.verified == "1") {
             btn_simpan.visibility = View.GONE
             open_camera.visibility = View.GONE
-            CustomView.customToast(this, "Data TPS ${getString(R.string.verification)}", true)
+            Toast.makeText(this, "Data TPS ${getString(R.string.verification)}", Toast.LENGTH_LONG).show()
         }
     }
 
     override fun failedGetDataTps(message: String?) {
-        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+        Toast.makeText(this, message, Toast.LENGTH_LONG).show()
     }
 
     override fun messageSuccess(message: String?) {
         refresh_location.visibility = View.GONE
-        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+        Toast.makeText(this, message, Toast.LENGTH_LONG).show()
     }
 
     override fun messageFailed(message: String?) {
-        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+        Toast.makeText(this, message, Toast.LENGTH_LONG).show()
     }
 
     private fun requestLocationUpdate() {

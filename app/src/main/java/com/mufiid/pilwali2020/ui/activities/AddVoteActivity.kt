@@ -403,11 +403,11 @@ class AddVoteActivity : AppCompatActivity(), IPaslonView, ITpsView, View.OnClick
      *
      * */
     override fun failedGetDataPaslon(message: String?) {
-        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+        Toast.makeText(this, message, Toast.LENGTH_LONG).show()
     }
 
     override fun successPostData(message: String?, data: Tps?) {
-        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+        Toast.makeText(this, message, Toast.LENGTH_LONG).show()
         jumlah_suara_tidak_hadir.text = data?.tidakHadir
     }
 
@@ -483,7 +483,7 @@ class AddVoteActivity : AppCompatActivity(), IPaslonView, ITpsView, View.OnClick
      *
      * */
     override fun failedGetDataTps(message: String?) {
-        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+        Toast.makeText(this, message, Toast.LENGTH_LONG).show()
     }
 
     /**
