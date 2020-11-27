@@ -27,7 +27,7 @@ import org.w3c.dom.Text
 
 class ProfilFragment : Fragment(), IUserView {
     private var userPresenter: UserPresenter? = null
-
+    private var tvUsername: TextView? = null
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -41,7 +41,7 @@ class ProfilFragment : Fragment(), IUserView {
 
         val editProfile = view.findViewById<LinearLayout>(R.id.editProfile) as LinearLayout
         val logout = view.findViewById<LinearLayout>(R.id.logout) as LinearLayout
-        val tvUsername = view.findViewById<TextView>(R.id.username_user) as TextView
+        tvUsername = view.findViewById(R.id.username_user) as TextView
         val appVersion = view.findViewById<TextView>(R.id.app_version)
 
         appVersion.text = getString(R.string.app_versions, BuildConfig.VERSION_NAME)
@@ -50,7 +50,7 @@ class ProfilFragment : Fragment(), IUserView {
             startActivity(Intent(context, EditProfileActivity::class.java))
         }
 
-        tvUsername.text = Constants.getUserData(context!!)?.nama
+        tvUsername?.text = Constants.getUserData(context!!)?.nama
 
         logout.setOnClickListener {
             AlertDialog.Builder(context).apply {
@@ -86,6 +86,7 @@ class ProfilFragment : Fragment(), IUserView {
 
     override fun getDataUser(message: String?, data: User) {
 
+        tvUsername?.text = data.nama
         if (!data.foto.isNullOrEmpty()) {
             Glide.with(this)
                 .load(data.foto)
