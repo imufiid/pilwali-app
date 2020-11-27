@@ -7,7 +7,7 @@ import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.schedulers.Schedulers
 
 class PilwaliPresenter(private val pilwaliView: IPilwaliView) {
-
+    private val message = "Ada Gangguan di Server Kami"
     /**
      * fungsi mengambil data tps sudah terverifikasi
      * atau belum
@@ -28,7 +28,7 @@ class PilwaliPresenter(private val pilwaliView: IPilwaliView) {
                 }
                 pilwaliView.hideLoadingPilwali()
             }, {
-                pilwaliView.failed(it.message)
+                pilwaliView.failed(message)
                 pilwaliView.hideLoadingPilwali()
             }))
     }

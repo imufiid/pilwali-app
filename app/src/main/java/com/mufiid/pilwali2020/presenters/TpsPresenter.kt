@@ -10,7 +10,7 @@ import okhttp3.MultipartBody
 import okhttp3.RequestBody
 
 class TpsPresenter(private val tpsView: ITpsView) {
-
+    private val message = "Ada Gangguan di Server Kami"
     /**
      * fungsi untuk mengambil data detail tps by ID
      *
@@ -30,7 +30,7 @@ class TpsPresenter(private val tpsView: ITpsView) {
                     }
                     tpsView.hideLoadingTps(1)
                 }, {
-                    tpsView.failedGetDataTps(it.message)
+                    tpsView.failedGetDataTps(message)
                     tpsView.hideLoadingTps(1)
                 })
         )
@@ -71,7 +71,7 @@ class TpsPresenter(private val tpsView: ITpsView) {
 
                     tpsView.hideLoadingTps(2)
                 }, {
-                    tpsView.messageFailed(it.message)
+                    tpsView.messageFailed(message)
                     tpsView.hideLoadingTps(2)
                 })
         )
@@ -114,7 +114,7 @@ class TpsPresenter(private val tpsView: ITpsView) {
                     }
                     tpsView.hideLoadingTps(2)
                 }, {
-                    tpsView.messageFailed(it.message)
+                    tpsView.messageFailed(message)
                     tpsView.hideLoadingTps(2)
                 })
         )

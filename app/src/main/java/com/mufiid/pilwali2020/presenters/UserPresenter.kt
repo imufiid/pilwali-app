@@ -9,7 +9,7 @@ import okhttp3.MultipartBody
 import okhttp3.RequestBody
 
 class UserPresenter(private val userView: IUserView) {
-
+    private val message = "Ada Gangguan di Server Kami"
     /**
      * fungsi untuk mengambil data user by ID
      *
@@ -29,7 +29,7 @@ class UserPresenter(private val userView: IUserView) {
                     }
                     userView.hideLoadingUser(1)
                 }, {
-                    userView.failedMessage(it.message)
+                    userView.failedMessage(message)
                     userView.hideLoadingUser(1)
                 })
         )
@@ -66,7 +66,7 @@ class UserPresenter(private val userView: IUserView) {
                     }
                     userView.hideLoadingUser(2)
                 }, {
-                    userView.failedMessage(it.message)
+                    userView.failedMessage(message)
                     userView.hideLoadingUser(2)
                 })
         )

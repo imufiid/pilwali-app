@@ -7,6 +7,7 @@ import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.schedulers.Schedulers
 
 class ConfigPresenter(private val configView: IConfigView) {
+    private val message = "Ada Gangguan di Server Kami"
     fun config() {
         configView.isLoadingConfig()
         CompositeDisposable().add(ApiClient.instance().getConfig()
@@ -19,7 +20,7 @@ class ConfigPresenter(private val configView: IConfigView) {
                 }
                 configView.hideLoadingConfig()
             }, {
-                configView.getFailedConfig(it.message)
+                configView.getFailedConfig(message)
                 configView.hideLoadingConfig()
             }))
     }

@@ -9,6 +9,7 @@ import okhttp3.MultipartBody
 import okhttp3.RequestBody
 
 class AddVotePresenter(private val paslonView: IPaslonView) {
+    private val message = "Ada Gangguan di Server Kami"
 
     /**
      * mengambil data paslon
@@ -27,7 +28,7 @@ class AddVotePresenter(private val paslonView: IPaslonView) {
                 }
                 paslonView.hideLoadingPaslon(1)
             }, {
-                paslonView.failedGetDataPaslon(it.message)
+                paslonView.failedGetDataPaslon(message)
                 paslonView.hideLoadingPaslon(1)
             })
         )
@@ -66,7 +67,7 @@ class AddVotePresenter(private val paslonView: IPaslonView) {
                 }
                 paslonView.hideLoadingPaslon(2)
             }, {
-                paslonView.failedGetDataPaslon(it.message)
+                paslonView.failedGetDataPaslon(message)
                 paslonView.hideLoadingPaslon(2)
             })
         )

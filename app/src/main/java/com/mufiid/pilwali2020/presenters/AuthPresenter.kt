@@ -9,7 +9,7 @@ import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.schedulers.Schedulers
 
 class AuthPresenter(private val authView: IAuthView, private val loading: ILoadingView) {
-
+    private val message = "Ada Gangguan di Server Kami"
     /**
      * fungsi untuk login user
      *
@@ -31,7 +31,7 @@ class AuthPresenter(private val authView: IAuthView, private val loading: ILoadi
                 }
                 loading.hideLoading()
             },{
-                authView.failedLogin(it.message)
+                authView.failedLogin(message)
                 loading.hideLoading()
             }))
     }
