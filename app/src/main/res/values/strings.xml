@@ -45,6 +45,7 @@
     <string name="not_verification">Belum diverifikasi</string>
     <string name="form_is_required">Form tidak boleh kosong</string>
     <string name="notif_perhitungan">Data TPS harus diisi sebelum mengisi perhitungan</string>
+    <string name="server_error">Ada Gangguan di Server Kami</string>
 
     <string name="keluar">Keluar</string>
     <string name="cancel">Cancel</string>
