@@ -73,6 +73,7 @@
     <string name="pemilih_tidak_hadir">Pemilih Tidak Hadir</string>
     <string name="nama_paslon">Nama Paslon</string>
     <string name="suara_tidak_hadir">Suara Tidak Hadir</string>
+    <string name="simple_message">simple message</string>
 
     <string-array name="choose_image">
         <item>Take Photo</item>

@@ -16,7 +16,6 @@ import android.os.Environment
 import android.provider.MediaStore
 import android.view.View
 import android.widget.ImageView
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.FileProvider
@@ -31,6 +30,7 @@ import com.mufiid.pilwali2020.models.Tps
 import com.mufiid.pilwali2020.presenters.AddVotePresenter
 import com.mufiid.pilwali2020.presenters.TpsPresenter
 import com.mufiid.pilwali2020.utils.Constants
+import com.mufiid.pilwali2020.utils.helpers.CustomView
 import com.mufiid.pilwali2020.views.IPaslonView
 import com.mufiid.pilwali2020.views.ITpsView
 import io.reactivex.rxjava3.disposables.CompositeDisposable
@@ -142,11 +142,7 @@ class AddVoteActivity : AppCompatActivity(), IPaslonView, ITpsView, View.OnClick
             pictPart = MultipartBody.Part.createFormData("foto_blanko", pictBlangko.name, reqFile)
         } else {
             if (fotoTpsApi.isNullOrEmpty()) {
-                Toast.makeText(
-                    this,
-                    resources.getString(R.string.message_not_upload_image),
-                    Toast.LENGTH_SHORT
-                ).show()
+                CustomView.customToast(this, resources.getString(R.string.message_not_upload_image), true, isSuccess = false)
                 return
             }
         }
@@ -403,11 +399,11 @@ class AddVoteActivity : AppCompatActivity(), IPaslonView, ITpsView, View.OnClick
      *
      * */
     override fun failedGetDataPaslon(message: String?) {
-        Toast.makeText(this, message, Toast.LENGTH_LONG).show()
+        CustomView.customToast(this, message, false, isSuccess = false)
     }
 
     override fun successPostData(message: String?, data: Tps?) {
-        Toast.makeText(this, message, Toast.LENGTH_LONG).show()
+        CustomView.customToast(this, message, false, isSuccess = true)
         jumlah_suara_tidak_hadir.text = data?.tidakHadir
     }
 
@@ -483,7 +479,7 @@ class AddVoteActivity : AppCompatActivity(), IPaslonView, ITpsView, View.OnClick
      *
      * */
     override fun failedGetDataTps(message: String?) {
-        Toast.makeText(this, message, Toast.LENGTH_LONG).show()
+        CustomView.customToast(this, message, false, isSuccess = false)
     }
 
     /**

@@ -11,6 +11,7 @@ import com.mufiid.pilwali2020.models.Tps
 import com.mufiid.pilwali2020.presenters.PilwaliPresenter
 import com.mufiid.pilwali2020.presenters.TpsPresenter
 import com.mufiid.pilwali2020.utils.Constants
+import com.mufiid.pilwali2020.utils.helpers.CustomView
 import com.mufiid.pilwali2020.views.ITpsView
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.activity_pilwali.*
@@ -43,7 +44,7 @@ class PilwaliActivity : AppCompatActivity(), ITpsView, View.OnClickListener {
         val dph = jumlah_dph.text.toString()
         val userData = Constants.getUserData(this)
         if (dpt.isEmpty() || dptb.isEmpty() || dpk.isEmpty() || dph.isEmpty()) {
-            Toast.makeText(this, getString(R.string.form_is_required), Toast.LENGTH_SHORT).show()
+            CustomView.customToast(this, getString(R.string.form_is_required), true, isSuccess = false)
         } else {
             presenter?.postJumlahPemilih(
                 userData?.idTps,
@@ -80,8 +81,12 @@ class PilwaliActivity : AppCompatActivity(), ITpsView, View.OnClickListener {
             }
             2 -> {
                 // code ...
-                loading?.setMessage(getString(R.string.please_wait))
-                loading?.show()
+                loading?.let {
+                    it.setMessage(getString(R.string.please_wait))
+                    it.setCancelable(false)
+                    it.setCanceledOnTouchOutside(false)
+                    it.show()
+                }
             }
         }
 
@@ -114,9 +119,11 @@ class PilwaliActivity : AppCompatActivity(), ITpsView, View.OnClickListener {
             btn_add.visibility = View.VISIBLE
         }
 
-        if(data.isDefault == "1") {
+        if (data.isDefault == "1") {
             btn_simpan.visibility = View.GONE
-            Toast.makeText(this, getString(R.string.notif_perhitungan), Toast.LENGTH_LONG).show()
+            CustomView.customToast(this, getString(R.string.notif_perhitungan), false,
+                isSuccess = false
+            )
         }
 
         data.verified?.toInt()?.let { Constants.setVerification(this, it) }
@@ -140,16 +147,16 @@ class PilwaliActivity : AppCompatActivity(), ITpsView, View.OnClickListener {
     }
 
     override fun failedGetDataTps(message: String?) {
-        Toast.makeText(this, message, Toast.LENGTH_LONG).show()
+        CustomView.customToast(this, message, false, isSuccess = false)
     }
 
     override fun messageSuccess(message: String?) {
-        Toast.makeText(this, message, Toast.LENGTH_LONG).show()
+        CustomView.customToast(this, message, false, isSuccess = true)
         btn_add.visibility = View.VISIBLE
     }
 
     override fun messageFailed(message: String?) {
-        Toast.makeText(this, message, Toast.LENGTH_LONG).show()
+        CustomView.customToast(this, message, false, isSuccess = false)
     }
 
     override fun onClick(v: View?) {

@@ -19,6 +19,7 @@ import com.mufiid.pilwali2020.ui.activities.EditProfileActivity
 import com.mufiid.pilwali2020.ui.activities.LoginActivity
 import com.mufiid.pilwali2020.utils.Constants
 import com.mufiid.pilwali2020.views.IUserView
+import io.reactivex.rxjava3.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.activity_edit_profile.*
 import kotlinx.android.synthetic.main.activity_tps.*
 import kotlinx.android.synthetic.main.fragment_profil.*
@@ -102,5 +103,10 @@ class ProfilFragment : Fragment(), IUserView {
 
     override fun successMessage(message: String?) {
         // code ...
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        CompositeDisposable().clear()
     }
 }

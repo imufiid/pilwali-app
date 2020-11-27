@@ -19,7 +19,6 @@ import android.provider.MediaStore
 import android.util.Log
 import android.view.View
 import android.widget.ImageView
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.FileProvider
@@ -132,11 +131,7 @@ class TpsActivity : AppCompatActivity(), MySimpleLocation.MySimpleLocationCallba
             part = MultipartBody.Part.createFormData("foto_tps", pictFromBitmap.name, reqFile)
         } else {
             if (fotoTpsApi.isNullOrEmpty()) {
-                Toast.makeText(
-                    this,
-                    resources.getString(R.string.message_not_upload_image),
-                    Toast.LENGTH_SHORT
-                ).show()
+                CustomView.customToast(this, resources.getString(R.string.message_not_upload_image), true, isSuccess = false)
                 return
             }
         }
@@ -415,21 +410,21 @@ class TpsActivity : AppCompatActivity(), MySimpleLocation.MySimpleLocationCallba
         if(data.verified == "1") {
             btn_simpan.visibility = View.GONE
             open_camera.visibility = View.GONE
-            Toast.makeText(this, "Data TPS ${getString(R.string.verification)}", Toast.LENGTH_LONG).show()
+            CustomView.customToast(this, "Data TPS ${getString(R.string.verification)}", false, isSuccess = false)
         }
     }
 
     override fun failedGetDataTps(message: String?) {
-        Toast.makeText(this, message, Toast.LENGTH_LONG).show()
+        CustomView.customToast(this, message, false, isSuccess = false)
     }
 
     override fun messageSuccess(message: String?) {
         refresh_location.visibility = View.GONE
-        Toast.makeText(this, message, Toast.LENGTH_LONG).show()
+        CustomView.customToast(this, message, false, isSuccess = true)
     }
 
     override fun messageFailed(message: String?) {
-        Toast.makeText(this, message, Toast.LENGTH_LONG).show()
+        CustomView.customToast(this, message, false, isSuccess = false)
     }
 
     private fun requestLocationUpdate() {

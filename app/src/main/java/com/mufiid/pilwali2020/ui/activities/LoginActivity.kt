@@ -38,7 +38,7 @@ class LoginActivity : AppCompatActivity(), IAuthView, ILoadingView, View.OnClick
         Constants.setUserData(this, user)
         Constants.setISLOGGEDIN(this, true)
 
-        showToast(resources.getString(R.string.success_login))
+        showToast(resources.getString(R.string.success_login), true)
 
         Handler().postDelayed({
             startActivity(Intent(this, BerandaActivity::class.java))
@@ -47,12 +47,15 @@ class LoginActivity : AppCompatActivity(), IAuthView, ILoadingView, View.OnClick
     }
 
     override fun failedLogin(message: String?) {
-        showToast(message!!)
+        showToast(message!!, false)
     }
 
     override fun isLoading() {
-        progressDialog?.setMessage(getString(R.string.please_wait))
-        progressDialog?.show()
+        progressDialog?.let {
+            it.setMessage(getString(R.string.please_wait))
+            it.setCanceledOnTouchOutside(false)
+            it.show()
+        }
     }
 
     override fun hideLoading() {
@@ -66,8 +69,8 @@ class LoginActivity : AppCompatActivity(), IAuthView, ILoadingView, View.OnClick
         }
     }
 
-    private fun showToast(message: String) {
-        CustomView.customToast(this, message, true)
+    private fun showToast(message: String, isSuccess: Boolean?) {
+        CustomView.customToast(this, message, true, isSuccess)
     }
 
     private fun init() {
@@ -83,7 +86,7 @@ class LoginActivity : AppCompatActivity(), IAuthView, ILoadingView, View.OnClick
                 val username = et_username.text.toString()
                 val password = et_password.text.toString()
                 if (username == "" || password == "") {
-                    showToast(getString(R.string.username_password_must_not_be_null))
+                    showToast(getString(R.string.username_password_must_not_be_null), false)
                 } else {
                     presenter?.login(username, password)
                 }
