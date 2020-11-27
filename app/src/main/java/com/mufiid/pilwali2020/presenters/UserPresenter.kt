@@ -29,7 +29,7 @@ class UserPresenter(private val userView: IUserView) {
                     }
                     userView.hideLoadingUser(1)
                 }, {
-                    userView.failedMessage(message)
+                    userView.failedMessage(it.message)
                     userView.hideLoadingUser(1)
                 })
         )
@@ -66,7 +66,7 @@ class UserPresenter(private val userView: IUserView) {
                     }
                     userView.hideLoadingUser(2)
                 }, {
-                    userView.failedMessage(message)
+                    userView.failedMessage(it.message)
                     userView.hideLoadingUser(2)
                 })
         )

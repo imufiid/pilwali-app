@@ -28,7 +28,7 @@ class AddVotePresenter(private val paslonView: IPaslonView) {
                 }
                 paslonView.hideLoadingPaslon(1)
             }, {
-                paslonView.failedGetDataPaslon(message)
+                paslonView.failedGetDataPaslon(it.message)
                 paslonView.hideLoadingPaslon(1)
             })
         )
@@ -67,7 +67,7 @@ class AddVotePresenter(private val paslonView: IPaslonView) {
                 }
                 paslonView.hideLoadingPaslon(2)
             }, {
-                paslonView.failedGetDataPaslon(message)
+                paslonView.failedGetDataPaslon(it.message)
                 paslonView.hideLoadingPaslon(2)
             })
         )

@@ -31,7 +31,7 @@ class AuthPresenter(private val authView: IAuthView, private val loading: ILoadi
                 }
                 loading.hideLoading()
             },{
-                authView.failedLogin(message)
+                authView.failedLogin(it.message)
                 loading.hideLoading()
             }))
     }

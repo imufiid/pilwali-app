@@ -30,7 +30,7 @@ class TpsPresenter(private val tpsView: ITpsView) {
                     }
                     tpsView.hideLoadingTps(1)
                 }, {
-                    tpsView.failedGetDataTps(message)
+                    tpsView.failedGetDataTps(it.message)
                     tpsView.hideLoadingTps(1)
                 })
         )
@@ -71,7 +71,7 @@ class TpsPresenter(private val tpsView: ITpsView) {
 
                     tpsView.hideLoadingTps(2)
                 }, {
-                    tpsView.messageFailed(message)
+                    tpsView.messageFailed(it.message)
                     tpsView.hideLoadingTps(2)
                 })
         )
@@ -114,7 +114,7 @@ class TpsPresenter(private val tpsView: ITpsView) {
                     }
                     tpsView.hideLoadingTps(2)
                 }, {
-                    tpsView.messageFailed(message)
+                    tpsView.messageFailed(it.message)
                     tpsView.hideLoadingTps(2)
                 })
         )

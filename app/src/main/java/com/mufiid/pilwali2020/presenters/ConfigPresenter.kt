@@ -20,7 +20,7 @@ class ConfigPresenter(private val configView: IConfigView) {
                 }
                 configView.hideLoadingConfig()
             }, {
-                configView.getFailedConfig(message)
+                configView.getFailedConfig(it.message)
                 configView.hideLoadingConfig()
             }))
     }

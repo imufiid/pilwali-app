@@ -28,7 +28,7 @@ class PilwaliPresenter(private val pilwaliView: IPilwaliView) {
                 }
                 pilwaliView.hideLoadingPilwali()
             }, {
-                pilwaliView.failed(message)
+                pilwaliView.failed(it.message)
                 pilwaliView.hideLoadingPilwali()
             }))
     }
