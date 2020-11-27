@@ -410,7 +410,7 @@ class TpsActivity : AppCompatActivity(), MySimpleLocation.MySimpleLocationCallba
         if(data.verified == "1") {
             btn_simpan.visibility = View.GONE
             open_camera.visibility = View.GONE
-            CustomView.customToast(this, "Data TPS ${getString(R.string.verification)}", false, isSuccess = false)
+            CustomView.customToast(this, "Data TPS ${getString(R.string.verification)}", false, isSuccess = true)
         }
     }
 

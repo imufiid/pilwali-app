@@ -10,7 +10,6 @@ import android.os.Bundle
 import android.provider.MediaStore
 import android.view.View
 import android.widget.ImageView
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import com.bumptech.glide.Glide
@@ -18,6 +17,7 @@ import com.mufiid.pilwali2020.R
 import com.mufiid.pilwali2020.models.User
 import com.mufiid.pilwali2020.presenters.UserPresenter
 import com.mufiid.pilwali2020.utils.Constants
+import com.mufiid.pilwali2020.utils.helpers.CustomView
 import com.mufiid.pilwali2020.views.IUserView
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.activity_edit_profile.*
@@ -153,11 +153,11 @@ class EditProfileActivity : AppCompatActivity(), IUserView, View.OnClickListener
     }
 
     override fun failedMessage(message: String?) {
-        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+        CustomView.customToast(this, message, true, isSuccess = false)
     }
 
     override fun successMessage(message: String?) {
-        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+        CustomView.customToast(this, message, false, isSuccess = true)
     }
 
     override fun onClick(v: View?) {
