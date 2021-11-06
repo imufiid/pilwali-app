@@ -1,7 +1,7 @@
 package com.mufiid.pilwali2020.presenters
 
 import android.util.Log
-import com.mufiid.pilwali2020.api.ApiClient
+import com.mufiid.pilwali2020.data.remote.api.ApiClient
 import com.mufiid.pilwali2020.views.ITpsView
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.disposables.CompositeDisposable

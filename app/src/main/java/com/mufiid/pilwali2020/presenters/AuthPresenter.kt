@@ -1,7 +1,6 @@
 package com.mufiid.pilwali2020.presenters
 
-import android.util.Log
-import com.mufiid.pilwali2020.api.ApiClient
+import com.mufiid.pilwali2020.data.remote.api.ApiClient
 import com.mufiid.pilwali2020.views.IAuthView
 import com.mufiid.pilwali2020.views.ILoadingView
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers

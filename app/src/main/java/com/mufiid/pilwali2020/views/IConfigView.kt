@@ -1,6 +1,6 @@
 package com.mufiid.pilwali2020.views
 
-import com.mufiid.pilwali2020.models.Config
+import com.mufiid.pilwali2020.data.entity.Config
 
 interface IConfigView {
     fun isLoadingConfig()

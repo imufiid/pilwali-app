@@ -1,7 +1,7 @@
 package com.mufiid.pilwali2020.views
 
-import com.mufiid.pilwali2020.models.Paslon
-import com.mufiid.pilwali2020.models.Tps
+import com.mufiid.pilwali2020.data.entity.Paslon
+import com.mufiid.pilwali2020.data.entity.Tps
 
 interface IPaslonView {
     fun isLoadingPaslon(state: Int?)

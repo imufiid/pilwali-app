@@ -1,6 +1,109 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 buildscript {
     ext.kotlin_version = "1.3.72"
+    ext {
+        // global variables
+        compile_sdk_version = 30
+        min_sdk_version = 23
+
+        def coreKTXVersion = '1.6.0'
+        def appCompatVersion = '1.2.0'
+        def constraintLayoutVersion = '2.0.4'
+        def materialVersion = '1.3.0'
+        def fragmentKTXVersion = '1.1.0'
+        def legacySupportVersion = '1.0.0'
+        def cardViewVersion = '1.0.0'
+        def recyclerViewVersion = '1.2.0-alpha05'
+        def playServiceLocationVersion = '17.0.0'
+        def placeVersion = '2.3.0'
+        def retrofitVersion = '2.9.0'
+        def converterGSONVersion = '2.9.0'
+        def loggingInterceptorVersion = '4.8.1'
+        def lifecycleVersion = '2.3.1'
+        def glideVersion = '4.11.0'
+        def viewPagerIndicatorVersion = '2.4.1'
+        def circleImageVersion = '3.1.0'
+        def kotlinXCoroutine = '1.3.9'
+        def rxJavaVersion = '3.0.0'
+        def adapterRxJavaVersion = '2.9.0'
+        def shimmerVersion = '0.5.0'
+        def daggerVersion = '2.31'
+        def junitVersion = '4.12'
+        def extJunitVersion = '1.1.3'
+        def espressoCoreVersion = '3.4.0'
+        def androidxTestVersion = "1.4.0"
+
+        libraries = [
+                // kotlin stdlib
+                "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version",
+                "androidx.core:core-ktx:$coreKTXVersion",
+
+                // Android UI and appcompat
+                "androidx.appcompat:appcompat:$appCompatVersion",
+                "com.google.android.material:material:$materialVersion",
+                "androidx.constraintlayout:constraintlayout:$constraintLayoutVersion",
+                "androidx.fragment:fragment-ktx:$fragmentKTXVersion",
+                "androidx.legacy:legacy-support-v4:$legacySupportVersion",
+                "androidx.cardview:cardview:$cardViewVersion",
+                "androidx.recyclerview:recyclerview:$recyclerViewVersion",
+                "com.google.android.gms:play-services-location:$playServiceLocationVersion",
+                "com.google.android.libraries.places:places:$placeVersion",
+
+                // network & serialization
+                "com.squareup.retrofit2:converter-gson:$converterGSONVersion",
+                "com.squareup.retrofit2:retrofit:$retrofitVersion",
+                "com.squareup.okhttp3:logging-interceptor:$loggingInterceptorVersion",
+
+                // dagger
+                "com.google.dagger:dagger:$daggerVersion",
+                "com.google.dagger:dagger-android-support:$daggerVersion",
+
+                // image
+                "com.github.bumptech.glide:glide:$glideVersion",
+                "com.github.JakeWharton:ViewPagerIndicator:$viewPagerIndicatorVersion",
+                "de.hdodenhof:circleimageview:$circleImageVersion",
+
+                // coroutine
+                "org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotlinXCoroutine",
+                "org.jetbrains.kotlinx:kotlinx-coroutines-android:$kotlinXCoroutine",
+
+                // animation
+                "com.facebook.shimmer:shimmer:$shimmerVersion",
+
+                // rxJava3
+                "io.reactivex.rxjava3:rxandroid:$rxJavaVersion",
+                "io.reactivex.rxjava3:rxjava:$rxJavaVersion",
+                "com.squareup.retrofit2:adapter-rxjava3:$adapterRxJavaVersion"
+        ]
+
+        arch_libraries = [
+                // view model and live data
+                "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycleVersion",
+                "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycleVersion",
+                "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleVersion"
+        ]
+
+        librariesKapt = [
+                "com.google.dagger:dagger-android-processor:$daggerVersion",
+                "com.google.dagger:dagger-compiler:$daggerVersion"
+        ]
+
+        testLibraries = [
+                "junit:junit:$junitVersion"
+        ]
+
+        librariesAndroidKaptTest = [
+                "com.google.dagger:dagger-compiler:$daggerVersion"
+        ]
+
+        androidTestLibraries = [
+                "androidx.test.ext:junit:$extJunitVersion",
+                "androidx.test.espresso:espresso-core:$espressoCoreVersion",
+                "androidx.test:runner:$androidxTestVersion",
+                "androidx.test:core-ktx:$androidxTestVersion"
+        ]
+    }
+
     repositories {
         google()
         jcenter()

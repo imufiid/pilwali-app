@@ -2,7 +2,7 @@ package com.mufiid.pilwali2020.utils
 
 import android.content.Context
 import androidx.core.content.edit
-import com.mufiid.pilwali2020.models.User
+import com.mufiid.pilwali2020.data.entity.User
 
 class Constants {
     companion object {
