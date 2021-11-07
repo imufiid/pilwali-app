@@ -16,6 +16,7 @@ import retrofit2.http.*
 interface ApiService {
 
     // LOGIN
+    @Deprecated("This function is not supported")
     @FormUrlEncoded
     @POST("user")
     fun login(
@@ -23,17 +24,31 @@ interface ApiService {
         @Field("password") password: String
     ): Observable<WrappedResponse<User>>
 
+    // LOGIN
+    @FormUrlEncoded
+    @POST("user")
+    suspend fun loggedIn(
+        @Field("username") username: String,
+        @Field("password") password: String
+    ): WrappedResponse<User>
+
     // GET Jumlah Pemilih
     @GET("")
     fun getCountVoter(
         @Path("id_tps") id_tps: String?
     ): Observable<WrappedResponse<Tps>>
 
+    @Deprecated("This function is not supported")
     // GET User By Id
     @GET("user")
     fun getUserById(
         @Query("id") id_user: String?
     ): Observable<WrappedResponse<User>>
+
+    @GET("user")
+    fun getUserByID(
+        @Query("id") id_user: String?
+    ): WrappedResponse<User>
 
     // GET Data Paslon
     @GET("paslon")
@@ -98,6 +113,7 @@ interface ApiService {
     ): Observable<WrappedResponse<Tps>>
 
     // UPDATE PROFILE
+    @Deprecated("This function is not supported")
     @Multipart
     @POST("user")
     fun updateProfile(
@@ -108,4 +124,15 @@ interface ApiService {
         @Part("password") passwdNew: RequestBody?,
         @Part("api_key") api_key: RequestBody?
     ): Observable<MessageResponse>
+
+    @Multipart
+    @POST("user")
+    fun updateUser(
+        @Part("id") userID: RequestBody?,
+        @Part("username") userName: RequestBody?,
+        @Part("nama") name: RequestBody?,
+        @Part pict: MultipartBody.Part?,
+        @Part("password") newPassword: RequestBody?,
+        @Part("api_key") apiKey: RequestBody?
+    ): MessageResponse
 }
