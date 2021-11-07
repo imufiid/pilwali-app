@@ -10,7 +10,7 @@ import java.util.concurrent.TimeUnit
 
 object ApiClient {
 
-    fun instance() : IApiService {
+    fun instance() : ApiService {
         val interceptor = HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)
         val httpClient = OkHttpClient.Builder()
             .addInterceptor(interceptor)
@@ -24,6 +24,6 @@ object ApiClient {
             .client(httpClient)
             .build()
 
-        return retrofit.create(IApiService::class.java)
+        return retrofit.create(ApiService::class.java)
     }
 }
