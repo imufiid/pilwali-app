@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName
 
 data class MessageResponse(
     @SerializedName("message")
-    var message: String? = null,
+    var message: String = "",
 
     @SerializedName("status")
     var status: Int? = null
