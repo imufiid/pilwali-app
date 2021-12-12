@@ -6,7 +6,7 @@ import dagger.BindsInstance
 import dagger.Component
 import dagger.Subcomponent
 
-@Component(modules = [ApiModule::class])
+@Component(modules = [ServiceModule::class, RetrofitModule::class])
 interface AppComponent {
     @Component.Factory
     interface Factory {
