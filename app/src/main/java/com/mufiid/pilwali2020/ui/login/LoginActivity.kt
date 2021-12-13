@@ -7,10 +7,12 @@ import android.os.Handler
 import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import com.mufiid.pilwali2020.MyApplication
 import com.mufiid.pilwali2020.R
 import com.mufiid.pilwali2020.data.entity.User
+import com.mufiid.pilwali2020.databinding.ActivityLoginBinding
 import com.mufiid.pilwali2020.presenters.AuthPresenter
 import com.mufiid.pilwali2020.ui.main.BerandaActivity
 import com.mufiid.pilwali2020.utils.Constants
@@ -24,6 +26,7 @@ import javax.inject.Inject
 
 @Suppress("DEPRECATION")
 class LoginActivity : AppCompatActivity(), IAuthView, ILoadingView, View.OnClickListener {
+    private lateinit var _bind: ActivityLoginBinding
     private var presenter: AuthPresenter? = null
     private var progressDialog: ProgressDialog? = null
     @Inject
@@ -33,7 +36,9 @@ class LoginActivity : AppCompatActivity(), IAuthView, ILoadingView, View.OnClick
     override fun onCreate(savedInstanceState: Bundle?) {
         (application as MyApplication).appComponent.inject(this)
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_login)
+        _bind = DataBindingUtil.setContentView(this, R.layout.activity_login)
+        _bind.viewmodel = viewModel
+        _bind.lifecycleOwner = this
 
         supportActionBar?.hide()
         init()
