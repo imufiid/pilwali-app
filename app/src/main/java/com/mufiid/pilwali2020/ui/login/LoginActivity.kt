@@ -5,24 +5,33 @@ import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.view.View
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
+import com.mufiid.pilwali2020.MyApplication
 import com.mufiid.pilwali2020.R
 import com.mufiid.pilwali2020.data.entity.User
 import com.mufiid.pilwali2020.presenters.AuthPresenter
 import com.mufiid.pilwali2020.ui.main.BerandaActivity
 import com.mufiid.pilwali2020.utils.Constants
 import com.mufiid.pilwali2020.utils.helpers.CustomView
+import com.mufiid.pilwali2020.viewmodel.ViewModelFactory
 import com.mufiid.pilwali2020.views.IAuthView
 import com.mufiid.pilwali2020.views.ILoadingView
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.activity_login.*
+import javax.inject.Inject
 
 @Suppress("DEPRECATION")
 class LoginActivity : AppCompatActivity(), IAuthView, ILoadingView, View.OnClickListener {
     private var presenter: AuthPresenter? = null
     private var progressDialog: ProgressDialog? = null
+    @Inject
+    lateinit var viewModelFactory: ViewModelFactory
+    private val viewModel: AuthViewModel by viewModels { viewModelFactory }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        (application as MyApplication).appComponent.inject(this)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
 
@@ -32,7 +41,7 @@ class LoginActivity : AppCompatActivity(), IAuthView, ILoadingView, View.OnClick
 
     override fun onDestroy() {
         super.onDestroy()
-        CompositeDisposable().clear()
+        // CompositeDisposable().clear()
     }
 
     override fun successLogin(message: String?, user: User) {

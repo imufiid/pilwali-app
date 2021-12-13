@@ -5,8 +5,10 @@ import com.mufiid.pilwali2020.ui.login.LoginActivity
 import dagger.BindsInstance
 import dagger.Component
 import dagger.Subcomponent
+import javax.inject.Singleton
 
-@Component(modules = [ServiceModule::class, RetrofitModule::class])
+@Singleton
+@Component(modules = [ServiceModule::class, RetrofitModule::class, RepositoryModule::class, DataSourceModule::class])
 interface AppComponent {
     @Component.Factory
     interface Factory {

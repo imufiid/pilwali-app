@@ -6,8 +6,9 @@ import com.mufiid.pilwali2020.data.entity.User
 import com.mufiid.pilwali2020.data.remote.api.ApiService
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
+import javax.inject.Inject
 
-class AuthRemoteDataSourceImpl(private val apiService: ApiService) : AuthRemoteDataSource {
+class AuthRemoteDataSourceImpl @Inject constructor(private val apiService: ApiService) : AuthRemoteDataSource {
     override suspend fun login(userName: String, password: String): LiveData<User?> {
         val resultResponse = apiService.loggedIn(userName, password)
         val result = MutableLiveData<User?>()
